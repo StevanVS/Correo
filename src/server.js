@@ -1,10 +1,11 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
-const { login } = require('./src/middlewares/login');
+const { login } = require('./middlewares/login');
+const path = require('path');
 
-const router = require('./src/routes/');
-const authRouter = require('./src/routes/auth');
+const router = require('./routes');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -39,15 +40,15 @@ app.use('/img', express.static(__dirname + '/img'));
 
 // endpoints
 app.get('/', login, (req, res, next) => {
-    res.sendFile(__dirname + '/views/');
+    res.sendFile(path.join(__dirname, '../views/index.html'));
 })
 
 app.get('/login', (req, res, next) => {
-    res.sendFile(__dirname + '/views/login.html');
+    res.sendFile(path.join(__dirname, '../views/login.html'));
 });
 
 app.get('/singup', (req, res, next) => {
-    res.sendFile(__dirname + '/views/singup.html');
+    res.sendFile(path.join(__dirname, '../views/singup.html'));
 })
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

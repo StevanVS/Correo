@@ -5,11 +5,11 @@
   --font_color: #202124;
   --color_primary: #ffd800;
   --color_second: #00983d;
-  --color_second-light: #62e998;
-  --color_second-dark: #00983d18;
+  --color_gray: #6e6e6e;
+  --color_second-light: #00983d18;
   --font_shadow-black: #1b1b1d0e;
-  --box-shadow: 0px 0px 5px 1px rgb(0 0 0 / 25%);
-  --border-radius: 0.5rem;
+  --box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.6);
+  --transition: 0.3s ease;
 }
 
 body {
@@ -91,29 +91,51 @@ ul li {
 /*--- Menu lateral ---*/
 
 .nav {
+  position: fixed;
   width: 18em;
-  min-width: 18em;
   height: 100%;
   background: #fff;
   border-right: 1px solid #61616150;
+  z-index: 1;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.nav.active {
+  width: 4.5em;
 }
 
 .btn__redactar {
-  cursor: pointer;
   width: 13.6em;
   height: 3em;
-  border-radius: 2em;
-  border-radius: 0.5em;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  background-color: var(--color_second-dark);
-  /* background-color: white; */
+  background-color: var(--color_second-light);
   border: 1px var(--color_second) solid;
   font-size: 1em;
   font-weight: 500;
   margin: 1.3em 1.5em;
-  box-shadow: var(--box-shadow);
+  box-shadow: 0px 1px 7px 0px rgb(0 0 0 / 52%); /*-11px*/
+  cursor: pointer;
+  transition: var(--transition);
 }
+
+/*----------------------*/
+.btn__redactar.active {
+  width: 3.5em;
+  margin: 1.3em 0.5em;
+  overflow: hidden;
+}
+
+.icon__redactar.active {
+  margin: 0 0.8em 0 0.8em;
+}
+
+.nav__item.active {
+  padding: 0 0.5em 0 1rem;
+}
+/*----------------------*/
 
 .icon__redactar {
   font-size: 1.4em;
@@ -127,10 +149,13 @@ ul li {
 
 .nav__item {
   width: 100%;
+  min-width: 15em;
   height: 2.3em;
   display: flex;
   align-items: center;
   padding: 0 0.5em 0 2rem;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .icon {
@@ -146,7 +171,7 @@ ul li {
 }
 
 .nav__item:hover {
-  background-color: var(--color_second-dark);
+  background-color: var(--color_second-light);
   color: var(--color_second);
 }
 
@@ -154,8 +179,15 @@ ul li {
 
 .emails {
   position: relative;
-  width: 100%;
+  width: calc(100vw - 18em);
+  margin-left: 18em;
   height: 100%;
+  transition: var(--transition);
+}
+
+.emails.active {
+  width: calc(100vw - 4.5em);
+  margin-left: 4.5em;
 }
 
 .emails:before {
@@ -239,27 +271,40 @@ ul li {
   border-bottom-right-radius: var(--border-radius);
 } */
 
-/* ------ MODALS ------ */
-dialog {
-  padding: 0;
-  border: none;
-  margin: 2em auto;
-  width: 75%;
+/*------------------*/
+.email.active {
+  display: flex;
+  background-color: #2b28286c;
+  align-items: center;
+  justify-content: center;
   position: fixed;
-  border-radius: 0.5em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
 }
 
-dialog::backdrop {
-  background-color: #2b28286c;
+.email {
+  display: none;
+  z-index: 50;
+}
+
+.email__modal {
+  background-color: #fff;
+  width: 75%;
+  border-radius: 8px;
+  height: 85%;
 }
 
 .email__modal-encabezado {
   background-color: #000000b6;
+  height: 3em;
   color: #fff;
-  padding: 10px;
+  padding: 10px 1em;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 8px 8px 0 0;
 }
 
 .encabezado__titulo {
@@ -269,10 +314,24 @@ dialog::backdrop {
 
 .encabezado__icons {
   font-size: 0.8em;
+  display: flex;
+}
+
+.content__icon-form {
+  padding: 1px 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+.content__icon-form:hover {
+  background-color: var(--color_gray);
 }
 
 .encabezado__icon {
-  cursor: pointer;
   padding: 2px;
   margin: 3px;
 }
@@ -282,14 +341,62 @@ dialog::backdrop {
   flex-direction: column;
 }
 
+.form__input {
+  border: 0;
+  padding: 0 1em;
+  outline: none;
+}
+
+.email__for,
+.email__affair {
+  width: 100%;
+  height: 2.3em;
+  border-bottom: 1px var(--color_gray) solid;
+}
+
 .email__messege {
-  height: 10em;
+  height: 21em;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .email__btn-enviar {
-  width: 6em;
-  height: 2em;
+  width: 6.5em;
+  height: 2.5em;
+  border-radius: 5px;
+  border: none;
   background-color: var(--color_second);
   color: #fff;
-  margin: 1em 2em;
+  margin: 1em;
 }
+
+.email.minimize {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0);
+  top: auto;
+  left: auto;
+  bottom: 0;
+  right: 2em;
+  width: 20em;
+  height: 3em;
+}
+
+.email__modal.minimize {
+  height: 3em;
+  width: 20em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.email__form.minimize {
+  display: none;
+}
+
+/*
+    height: 3em;
+    width: 20em;
+    position: absolute;
+    bottom: 0;
+    right: 2em;
+*/

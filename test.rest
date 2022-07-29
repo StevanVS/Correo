@@ -1,6 +1,10 @@
 GET http://localhost:8080/api/users HTTP/1.1
 
 ###
+GET http://localhost:8080/api/currentuser
+
+
+###
 POST http://localhost:8080/login 
 Content-Type: application/json
 

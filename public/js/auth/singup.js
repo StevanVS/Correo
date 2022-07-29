@@ -1,8 +1,8 @@
 const singupForm = document.querySelector('[data-singup-form]');
-const nameSingupInput = document.querySelector('[data-name-signup-input]');
-const lastnameSingupInput = document.querySelector('[data-lastname-signup-input]');
-const emailSingupInput = document.querySelector('[data-email-signup-input]');
-const passwordSingupInput = document.querySelector('[data-password-signup-input]');
+const nameSingupInput = document.querySelector('[data-name-singup-input]');
+const lastnameSingupInput = document.querySelector('[data-lastname-singup-input]');
+const emailSingupInput = document.querySelector('[data-email-singup-input]');
+const passwordSingupInput = document.querySelector('[data-password-singup-input]');
 
 singupForm.onsubmit = (e) => {
     e.preventDefault();

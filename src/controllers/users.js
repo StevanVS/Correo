@@ -12,7 +12,7 @@ function getUser(req, res) {
     query('SELECT * FROM users WHERE id = ?', req.params.userId,
         (err, rows) => {
             if (err) console.log(err);
-            res.send(rows);
+            res.send(rows[0]);
         })
 }
 
@@ -51,14 +51,14 @@ async function getCurrentUser(req, res) {
     try {
         userId = req.session.userid;
         if (userId) {
-            const result = await query('SELECT * FROM users WHERE id = ?', userId);
+            const result = await query('SELECT * FROM users WHERE id = ?', req.session.userid);
             const user = await result[0];
             res.send(user)
         }
     } catch (err) {
         httpError(res, err)
     }
-
+    res.end()
 }
 
 module.exports = {

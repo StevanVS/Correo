@@ -1,8 +1,6 @@
 const loginForm = document.querySelector('[data-login-form]');
-const emailInput = document.querySelector('[data-email-input]');
-const passwordInput = document.querySelector('[data-password-input]');
-
-let currentUser;
+const emailInput = document.querySelector('[data-email-login-input]');
+const passwordInput = document.querySelector('[data-password-login-input]');
 
 loginForm.onsubmit = (e) => {
     e.preventDefault();
@@ -17,8 +15,8 @@ loginForm.onsubmit = (e) => {
         
         if (this.responseText) {
             // COSA BUENA
-            console.log(JSON.parse(this.responseText));
-            currentUser = JSON.parse(this.responseText);
+            // console.log(JSON.parse(this.responseText));
+            // currentUser = JSON.parse(this.responseText);
             window.location.href = '/'
         } else {
             //MALO
