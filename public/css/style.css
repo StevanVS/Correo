@@ -1,0 +1,295 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+
+:root {
+  --font_main: "Roboto", sans-serif;
+  --font_color: #202124;
+  --color_primary: #ffd800;
+  --color_second: #00983d;
+  --color_second-light: #62e998;
+  --color_second-dark: #00983d18;
+  --font_shadow-black: #1b1b1d0e;
+  --box-shadow: 0px 0px 5px 1px rgb(0 0 0 / 25%);
+  --border-radius: 0.5rem;
+}
+
+body {
+  font-family: var(--font_main);
+  color: var(--font_color);
+  background-color: #fff;
+  height: calc(100vh - 56px);
+}
+
+a {
+  color: var(--font_color);
+}
+
+ul li {
+  list-style: none;
+}
+
+/*--- Barra Superior ---*/
+
+.header {
+  background-color: var(--color_primary);
+  width: 100%;
+  height: 3.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__left,
+.header__right {
+  margin: 0 2em;
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.5em;
+  border-radius: 50%;
+}
+
+.btn:hover {
+  background-color: var(--font_shadow-black);
+}
+
+.header_index {
+  width: auto;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.header__Logo {
+  width: 9em;
+  padding: 0;
+}
+
+.header__right .btn {
+  margin: 0 0.2em;
+}
+
+.header__user.btn {
+  font-size: 2em;
+}
+
+.header__user.btn:hover {
+  background-color: transparent;
+}
+
+/*--- main ---*/
+
+.main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/*--- Menu lateral ---*/
+
+.nav {
+  width: 18em;
+  min-width: 18em;
+  height: 100%;
+  background: #fff;
+  border-right: 1px solid #61616150;
+}
+
+.btn__redactar {
+  cursor: pointer;
+  width: 13.6em;
+  height: 3em;
+  border-radius: 2em;
+  border-radius: 0.5em;
+  display: flex;
+  align-items: center;
+  background-color: var(--color_second-dark);
+  /* background-color: white; */
+  border: 1px var(--color_second) solid;
+  font-size: 1em;
+  font-weight: 500;
+  margin: 1.3em 1.5em;
+  box-shadow: var(--box-shadow);
+}
+
+.icon__redactar {
+  font-size: 1.4em;
+  margin: 0 1em 0 1em;
+}
+
+.nav__content {
+  width: 100%;
+  padding: 0;
+}
+
+.nav__item {
+  width: 100%;
+  height: 2.3em;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5em 0 2rem;
+}
+
+.icon {
+  width: 44px;
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.nav_list {
+  font-size: 1em;
+  margin-left: 15px;
+  font-weight: 400;
+}
+
+.nav__item:hover {
+  background-color: var(--color_second-dark);
+  color: var(--color_second);
+}
+
+/*--- Email Container---*/
+
+.emails {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.emails:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+  /* background-image: url(../img/Logo_UTM.png); */
+  background-size: 50em;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ------ EMAILS ----- */
+
+.emails-table-container {
+  position: relative;
+  margin: 1em;
+  /* overflow: hidden; */
+}
+
+#emails-table {
+  font-size: 1.1em;
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #00983d;
+  box-shadow: var(--box-shadow);
+  /* border-spacing: 0; */
+  /* border: 1px solid black; */
+  /* border-radius: var(--border-radius); */
+}
+
+#emails-table thead tr {
+  text-align: left;
+  background-color: var(--color_second-light);
+}
+
+#emails-table td,
+#emails-table th {
+  padding: 0.3em 0.5em;
+}
+.snippet {
+  width: 50vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#emails-table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#emails-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+#emails-table tbody tr:hover {
+  cursor: pointer;
+  background-color: rgba(88, 107, 102, 0.067);
+}
+
+/* Bordes redondeados */
+/* #emails-table thead tr th:first-child {
+  border-top-left-radius: var(--border-radius);
+}
+
+#emails-table thead tr th:last-child {
+  border-top-right-radius: var(--border-radius);
+}
+
+#emails-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--border-radius);
+}
+
+#emails-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--border-radius);
+} */
+
+/* ------ MODALS ------ */
+dialog {
+  padding: 0;
+  border: none;
+  margin: 2em auto;
+  width: 75%;
+  position: fixed;
+  border-radius: 0.5em;
+}
+
+dialog::backdrop {
+  background-color: #2b28286c;
+}
+
+.email__modal-encabezado {
+  background-color: #000000b6;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.encabezado__titulo {
+  font-size: 1em;
+  font-weight: 400;
+}
+
+.encabezado__icons {
+  font-size: 0.8em;
+}
+
+.encabezado__icon {
+  cursor: pointer;
+  padding: 2px;
+  margin: 3px;
+}
+
+.email__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.email__messege {
+  height: 10em;
+}
+
+.email__btn-enviar {
+  width: 6em;
+  height: 2em;
+  background-color: var(--color_second);
+  color: #fff;
+  margin: 1em 2em;
+}

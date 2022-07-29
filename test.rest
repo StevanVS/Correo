@@ -1,0 +1,56 @@
+GET http://localhost:8080/api/users HTTP/1.1
+
+###
+POST http://localhost:8080/login 
+Content-Type: application/json
+
+{
+    "email_address": "juan23@email.com",
+    "password": "123"
+}
+
+###
+POST http://localhost:8080/singup HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "PatoSDFSDF",
+    "lastname": "Zambrano",
+    "email_address": "patidddto77@email.com",
+    "password": "contrasena"
+}
+
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "name": "Pato",
+    "lastname": "Zambrano",
+    "email_address": "patito44@email.com",
+    "password": "contrasena"
+}
+
+###
+
+POST http://localhost:8080/api/emails/send
+Content-Type: application/json
+
+{
+    "from_user": 3,
+    "to_user": 2,
+    "subject": "Hola",
+    "message": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque, provident. Necessitatibus dolore vel expedita porro magnam enim velit tempore quas aut voluptas, ducimus, amet aliquid. Dolorum consequuntur dolores facilis iusto."
+}
+###
+GET http://localhost:8080/api/emails/201 HTTP/1.1
+
+###
+PUT http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "id": 2, 
+    "lastname": "Lorenzo"
+}

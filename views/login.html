@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login-singup.css">
+</head>
+
+<body>
+    <div class="maindiv">
+        <img src="img/logo.png" alt="Logo">
+        <h1>Acceder</h1>
+        <form data-login-form>
+            <div class="inputs">
+                <div class="Fields">
+                    <div class="Fieldset">
+                        <input 
+                            type="text" 
+                            class="Before-FS" 
+                            required="" 
+                            autocomplete="off" 
+                            name="email_address"
+                            data-email-input>
+                        <h1 class="Fs-H"><span>Correo</span></h1>
+                        <label class="placeholder">Correo</label>
+                    </div>
+                </div>
+                <div class="Fields">
+                    <div class="Fieldset">
+                        <input 
+                            type="password" 
+                            class="Before-FS" 
+                            required="" 
+                            name="password"
+                            data-password-input>
+                        <h1 class="Fs-H"><span>Contraseña</span></h1>
+                        <label class="placeholder">Contraseña</label>
+
+                    </div>
+                </div>
+            </div>
+            <button>Acceder</button>
+        </form>
+
+        <p>¿No tienes una cuenta?
+            <a class="link" href="/singup">
+                Registrate
+            </a>
+        </p>
+    </div>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

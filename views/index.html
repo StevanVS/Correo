@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Styles Css -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <!--Favicon-->
+    <!-- <link rel="shortcut icon" href="img/favicon-utm.png" type="image/x-icon"> -->
+    <!-- FontAwasome -->
+    <script src="https://kit.fontawesome.com/be736cc148.js" crossorigin="anonymous"></script>
+
+    <!-- <title>UTM - Correo Institucional</title> -->
+    <title>El Correo</title>
+</head>
+
+<body>
+    <header class="header">
+        <!-- Barra superior -->
+        <div class="header__left">
+            <!-- btn izquierda -->
+            <i class="fa-solid fa-bars header__menu btn"></i>
+            <a href="/" class="header_index">
+                <!-- <img src="img/Logo_UTM.png" alt="" class="header__Logo "> -->
+                <h1>EL CORREO</h1>
+            </a>
+        </div>
+        <div class="header__right">
+            <!-- btn derecha -->
+            <i class="fa-solid fa-magnifying-glass header__search btn"></i>
+            <!-- <a href="https://app.utm.edu.ec/sga/" class="header__sga-link" target="_blank">
+                <i class="fa-solid fa-address-book header__sga btn"></i>
+            </a> -->
+
+            <i class="fa-solid fa-circle-question header__medical btn"></i>
+            <i class="fa-solid fa-gear header__config btn"></i>
+
+            <i class="fa-solid fa-circle-user header__user btn"></i>
+
+        </div>
+    </header>
+    <main class="main">
+        <nav class="nav">
+            <!-- Menu lateral -->
+            <div class="btn__redactar" data-new-email-btn>
+                <i class="fa-solid fa-pen icon__redactar"></i>
+                <span>Escribir</span>
+            </div>
+            <ul class="nav__content">
+                <li class="nav__item">
+                    <i class="fa-solid fa-inbox icon"></i>
+                    <span class="nav_list">Bandeja de Entrada</span>
+                </li>
+                <li class="nav__item">
+                    <i class="fa-solid fa-paper-plane icon"></i>
+                    <span class="nav_list">Enviados</span>
+                </li>
+                <li class="nav__item">
+                    <i class="fa-solid fa-star icon"></i>
+                    <span class="nav_list">Favoritos</span>
+                </li>
+                <li class="nav__item">
+                    <i class="fa-solid fa-file icon"></i>
+                    <span class="nav_list">Borrador</span>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="emails">
+            <div class="emails-table-container">
+                <table id="emails-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 18%;">De</th>
+                            <th style="width: 20%;">Asunto</th>
+                            <th>Mensaje</th>
+                        </tr>
+                    </thead>
+                    <tbody data-emails-table-body>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <dialog data-new-email-dialog>
+        <div class="email__modal">
+            <form class="email__form" data-new-email-form>
+                <div class="email__modal-encabezado">
+                    <h2 class="encabezado__titulo">Mensaje nuevo</h2>
+                    <div class="encabezado__icons">
+                        <i class="fa-solid fa-minus encabezado__icon"></i>
+                        <i class="fa-solid fa-down-left-and-up-right-to-center encabezado__icon"></i>
+                        <i class="fa-solid fa-xmark encabezado__icon" data-close-modal></i>
+                    </div>
+                </div>
+                <br>
+                <h4>Para:</h4>
+                <input type="text" name="" id="" placeholder="Para" class="">
+
+                <br>
+                <h4>Asunto:</h4>
+                <input type="text" name="" id="" placeholder="Agregar asunto">
+
+                <br>
+                <h4>Descripción:</h4>
+                <input type="text" name="" id="" placeholder="Descripcion" class="email__messege exit">
+                <button class="email__btn-enviar">Enviar</button>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="js/script.js" type="module"></script>
+</body>
+
+</html>
