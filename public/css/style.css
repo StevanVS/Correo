@@ -10,6 +10,7 @@
   --font_shadow-black: #1b1b1d0e;
   --box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.6);
   --transition: 0.3s ease;
+  --border-radius: 0.5rem;
 }
 
 body {
@@ -206,69 +207,45 @@ ul li {
   background-repeat: no-repeat;
 }
 
-/* ------ EMAILS ----- */
 
-.emails-table-container {
-  position: relative;
-  margin: 1em;
-  /* overflow: hidden; */
+/* ------ EMAILS SIN TABLA -------- */
+.emails-container {
+  font-size: 1.1rem;
 }
 
-#emails-table {
-  font-size: 1.1em;
-  border-collapse: collapse;
-  width: 100%;
-  border: 1px solid #00983d;
-  box-shadow: var(--box-shadow);
-  /* border-spacing: 0; */
-  /* border: 1px solid black; */
-  /* border-radius: var(--border-radius); */
+.email-row, .emails-row-header {
+  background-color: #00983d11;
+  padding: 0.5em 0.8em;
+  border-bottom: 1px solid #0002;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 4fr;
+  gap: 0.5em;
 }
 
-#emails-table thead tr {
-  text-align: left;
-  background-color: var(--color_second-light);
+.emails-row-header {
+  font-weight: bold;
+  background-color: #76ffad;
 }
 
-#emails-table td,
-#emails-table th {
-  padding: 0.3em 0.5em;
+.email-row:hover {
+  cursor: pointer;
+  box-shadow: 0 0 5px 0px grey;
 }
-.snippet {
-  width: 50vw;
+
+.email-row * {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-#emails-table tbody tr {
-  border-bottom: 1px solid #ddd;
+/* 
+.from-field {
 }
 
-#emails-table tbody tr:last-child {
-  border-bottom: none;
+.subject-field {
 }
 
-#emails-table tbody tr:hover {
-  cursor: pointer;
-  background-color: rgba(88, 107, 102, 0.067);
-}
-
-/* Bordes redondeados */
-/* #emails-table thead tr th:first-child {
-  border-top-left-radius: var(--border-radius);
-}
-
-#emails-table thead tr th:last-child {
-  border-top-right-radius: var(--border-radius);
-}
-
-#emails-table tbody tr:last-child td:first-child {
-  border-bottom-left-radius: var(--border-radius);
-}
-
-#emails-table tbody tr:last-child td:last-child {
-  border-bottom-right-radius: var(--border-radius);
+.message-field {
 } */
 
 /*------------------*/

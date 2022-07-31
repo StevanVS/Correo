@@ -37,6 +37,28 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8080/api/emails/drafts
+Content-Type: application/json
+
+{
+    "from_user": 2
+}
+
+###
+PUT http://localhost:8080/api/emails/drafts
+Content-Type: application/json
+
+{
+    "id": 201,
+    "to_user": 3,
+    "subject": "Este es el asunto"
+}
+
+###
+GET http://localhost:8080/api/emails/drafts/from/2
+
+
+###
 
 POST http://localhost:8080/api/emails/send
 Content-Type: application/json

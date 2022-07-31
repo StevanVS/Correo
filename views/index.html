@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,16 +15,20 @@
 
     <title>Correo</title>
 </head>
+
 <body>
-    <header class="header">  <!-- Barra superior -->
-        <div class="header__left"> <!-- btn izquierda -->
+    <header class="header">
+        <!-- Barra superior -->
+        <div class="header__left">
+            <!-- btn izquierda -->
             <i class="fa-solid fa-bars header__menu btn"></i>
             <a href="/" class="header_index">
                 <!-- <img src="./img/Logo_UTM.png" alt="" class="header__Logo "> -->
                 <h1>Correo</h1>
             </a>
         </div>
-        <div class="header__right"> <!-- btn derecha -->
+        <div class="header__right">
+            <!-- btn derecha -->
             <i class="fa-solid fa-magnifying-glass header__search btn"></i>
             <i class="fa-solid fa-circle-question header__medical btn"></i>
             <i class="fa-solid fa-gear header__config btn"></i>
@@ -31,17 +36,18 @@
         </div>
     </header>
     <main class="main">
-        <nav class="nav"> <!-- Menu lateral -->
+        <nav class="nav">
+            <!-- Menu lateral -->
             <div class="btn__redactar" id="open">
                 <i class="fa-solid fa-pen icon__redactar"></i>
                 <span>Escribir</span>
             </div>
             <ul class="nav__content">
-                <li class="nav__item" id="nav__content1">
+                <li class="nav__item" id="nav__content1" data-inbox-label>
                     <i class="fa-solid fa-inbox icon"></i>
                     <span class="nav_list">Bandeja de Entrada</span>
                 </li>
-                <li class="nav__item 2" id="nav__content2">
+                <li class="nav__item 2" id="nav__content2" data-sents-label>
                     <i class="fa-solid fa-paper-plane icon"></i>
                     <span class="nav_list">Enviados</span>
                 </li>
@@ -49,7 +55,7 @@
                     <i class="fa-solid fa-star icon"></i>
                     <span class="nav_list">Favoritos</span>
                 </li>
-                <li class="nav__item 4" id="nav__content4">
+                <li class="nav__item 4" id="nav__content4" data-drafts-label>
                     <i class="fa-solid fa-file icon"></i>
                     <span class="nav_list">Borrador</span>
                 </li>
@@ -57,24 +63,19 @@
         </nav>
 
         <section class="emails">
-            <div class="emails-table-container">
-                <table id="emails-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 18%;">De</th>
-                            <th style="width: 20%;">Asunto</th>
-                            <th>Mensaje</th>
-                        </tr>
-                    </thead>
-                    <tbody data-emails-table-body>
-
-                    </tbody>
-                </table>
+            <div class="emails-container">
+                <div class="emails-row-header">
+                    <div>De</div>
+                    <div>Asunto</div>
+                    <div>Mensaje</div>
+                </div>
+                <div class="emails-rows" data-emails-rows></div>
             </div>
         </section>
 
         <!--Container Email-->
-        <section class="email"> <!--email-->
+        <section class="email">
+            <!--email-->
             <div class="email__modal">
                 <div class="email__modal-encabezado">
                     <h2 class="encabezado__titulo">Mensaje nuevo</h2>
@@ -87,31 +88,38 @@
                         </div>
                     </div>
                 </div>
-                <form class="email__form">
+                <form class="email__form" data-email-form>
                     <input 
                         type="email" 
-                        required name="" 
+                        required 
+                        name="" 
                         id="" 
                         placeholder="Para" 
-                        class="email__for form__input">
+                        class="email__for form__input"
+                        data-to-user-input>
                     <input 
                         type="text" 
                         name="" 
                         id="" 
                         placeholder="Agregar asunto" 
-                        class="email__affair form__input">
+                        class="email__affair form__input"
+                        data-subject-input>
                     <textarea 
                         name="" 
                         id="" 
                         placeholder="Descripcion" 
-                        class="email__messege form__input"></textarea>
-                    <button class="email__btn-enviar">Enviar</button>
+                        class="email__messege form__input"
+                        data-message-input></textarea>
+                    <button 
+                        class="email__btn-enviar"
+                        data-send-email-btn>Enviar</button>
                 </form>
             </div>
         </section>
-        
+
     </main>
     <script src="js/main.js"></script>
     <script src="js/script.js" type="module"></script>
 </body>
+
 </html>

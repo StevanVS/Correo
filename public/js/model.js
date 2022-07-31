@@ -30,4 +30,9 @@ export default class Model {
         const emails = await res.json();
         return emails;
     }
+
+    async getDraftsFrom(userId) {
+        const emails = await fetch(`/api/emails/drafts/from/${userId}`).then(res => res.json());
+        return emails;
+    }
 }

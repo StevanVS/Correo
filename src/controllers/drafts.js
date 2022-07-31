@@ -1,4 +1,5 @@
 const con = require('../connection');
+const { httpError } = require('../helpers/handleError');
 
 function getDrafts(req, res) {
     con.query('SELECT * FROM users', (err, rows) => {
@@ -45,10 +46,23 @@ function deleteDraft(req, res) {
     })
 }
 
+async function getDraftsFrom(req, res) {
+    try {
+        const userId = req.params.userId;
+        const sql = 'SELECT * FROM drafts WHERE from_user = ?';
+        const result = await con.query(sql, userId)
+        res.send(result);
+    } catch (err) {
+        httpError(res, err);
+    }
+    res.end();
+}
+
 module.exports = {
     getDrafts,
     getDraft,
     createDraft,
     editDraft,
     deleteDraft,
+    getDraftsFrom,
 }
