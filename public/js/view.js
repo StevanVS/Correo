@@ -113,20 +113,18 @@ export default class View {
         for (const email of this.emails) {
             let user;
 
-            if (this.currentLabel === 'DRAFT' || this.currentLabel === 'SENT') {
-                if (email.to_user == null) {
-                    user = null;
-                } else {
-                    user = await this.getUser(email.to_user);
-                }
+            if (this.currentLabel === 'DRAFT') {
+                user = email.to_user;
+            } else if (this.currentLabel === 'SENT') {
+                user = await this.getUser(email.to_user);
             } else {
                 user = await this.getUser(email.from_user);
             }
-
+// console.log(user);
             html += this.createRow(email, user);
         }
         container.innerHTML = html;
-        
+
         const rows = [...container.querySelectorAll('.email-row')];
         rows.forEach(row => {
             row.onclick = (e) => {
@@ -139,9 +137,11 @@ export default class View {
 
                 if (draftId) {
                     const draft = this.emails.find(email => email.id == draftId);
-                    
+
                     this.emailModal.setValues(draft);
                     // todo: abrir el modal
+
+                    this.emailModal.modal.classList.toggle("active");
                 } else {
                     // todo: abrir el email
                 }
@@ -177,7 +177,10 @@ export default class View {
     }
 
     createRow(email, emailUser) {
-        const user = emailUser == null ? '(Sin Destinatario)' : `${emailUser.name} ${emailUser.lastname}`;
+        let user;
+        if (typeof emailUser === 'object') {
+            user = emailUser == null ? '(Sin Destinatario)' : `${emailUser.name} ${emailUser.lastname}`;
+        } else user = emailUser;
         const subject = email.subject == null || email.subject.length === 0 ? '(Sin Asunto)' : email.subject;
         const message = email.message == null || email.message.length === 0 ? '(Sin Mensaje)' : email.message;
         const date = this.formatTimestamp(email.date);

@@ -1,5 +1,6 @@
 export default class EmailModal {
     constructor() {
+        this.modal = document.querySelector("[data-email-modal]");
         this.form = document.querySelector('[data-email-form]');
         this.toUser = document.querySelector('[data-to-user-input]');
         this.subject = document.querySelector('[data-subject-input]');
@@ -10,7 +11,7 @@ export default class EmailModal {
 
     setValues(draft) {
         this.draft = draft;
-        this.toUser.value = draft.toUser;
+        this.toUser.value = draft.to_user;
         this.subject.value = draft.subject;
         this.message.value = draft.message;
     }
