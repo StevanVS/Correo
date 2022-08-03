@@ -14,7 +14,7 @@ async function loginControl(req, res) {
             session.userid = user.id;
             // console.log(session);
             // console.log(JSON.stringify(session));
-            query('update session_info set session = ?', JSON.stringify(session));
+            // query('update session_info set session = ?', JSON.stringify(session));
         }
 
         res.send(user);

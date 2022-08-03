@@ -49,7 +49,7 @@ function deleteDraft(req, res) {
 async function getDraftsFrom(req, res) {
     try {
         const userId = req.params.userId;
-        const sql = 'SELECT * FROM drafts WHERE from_user = ?';
+        const sql = 'SELECT * FROM drafts WHERE from_user = ? ORDER BY date DESC';
         const result = await con.query(sql, userId)
         res.send(result);
     } catch (err) {

@@ -51,7 +51,8 @@ Content-Type: application/json
 {
     "id": 201,
     "to_user": 3,
-    "subject": "Este es el asunto"
+    "subject": "",
+    "message": "",
 }
 
 ###
@@ -64,11 +65,13 @@ POST http://localhost:8080/api/emails/send
 Content-Type: application/json
 
 {
-    "from_user": 3,
+    "from_user": 4,
     "to_user": 2,
-    "subject": "Hola",
-    "message": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque, provident. Necessitatibus dolore vel expedita porro magnam enim velit tempore quas aut voluptas, ducimus, amet aliquid. Dolorum consequuntur dolores facilis iusto."
+    "subject": "Hf   sxfa",
+    "message": "sdfaf sadf safdr sfa"
 }
+
+
 ###
 GET http://localhost:8080/api/emails/201 HTTP/1.1
 

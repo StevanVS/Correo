@@ -75,10 +75,18 @@ ul li {
 
 .header__user.btn {
   font-size: 2em;
+  padding-right: 0;
+  margin: 0;
 }
 
 .header__user.btn:hover {
   background-color: transparent;
+}
+
+.header__right .username {
+  padding-left: .5em;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 /*--- main ---*/
@@ -207,30 +215,49 @@ ul li {
   background-repeat: no-repeat;
 }
 
-
 /* ------ EMAILS SIN TABLA -------- */
 .emails-container {
-  font-size: 1.1rem;
+  overflow: auto;
+  height: 100%;
 }
 
-.email-row, .emails-row-header {
-  background-color: #00983d11;
+.email-row,
+.emails-table-header {
+  position: relative;
+  background-color: #00c44e09;
   padding: 0.5em 0.8em;
   border-bottom: 1px solid #0002;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 4fr;
+  grid-template-columns: 1fr 1fr 4fr auto;
   gap: 0.5em;
 }
 
-.emails-row-header {
+.emails-table-header {
   font-weight: bold;
   background-color: #76ffad;
 }
 
 .email-row:hover {
   cursor: pointer;
-  box-shadow: 0 0 5px 0px grey;
+  /* box-shadow: 0 0 5px 0px grey; */
+}
+
+.email-row.unread {
+  /* font-weight: bold; */
+  background-color: #fff;
+}
+
+.email-row .block {
+  position: absolute;
+  height: 100%;
+  width: 6px;
+  background-color: green;
+  visibility: hidden;
+}
+
+.email-row.unread .block {
+  visibility: visible;
 }
 
 .email-row * {
@@ -238,8 +265,10 @@ ul li {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
 /* 
-.from-field {
+.user-field {
 }
 
 .subject-field {
@@ -247,6 +276,10 @@ ul li {
 
 .message-field {
 } */
+
+.date-field {
+  text-align: right;
+}
 
 /*------------------*/
 .email.active {

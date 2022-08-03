@@ -17,8 +17,8 @@ CREATE TABLE `emails` (
     subject text,
     message text,
     -- label_id varchar(25) default null,
-    unread BOOLEAN not null DEFAULT TRUE,
-    send_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    unread BOOLEAN DEFAULT TRUE,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     foreign key (from_user) references users (id),
     foreign key (to_user) references users (id)
 );
@@ -28,14 +28,15 @@ create table drafts (
     from_user int NOT NULL,
     to_user int,
     subject text,
-    message text
+    message text,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-create table session_info(
-	session text
-);
+-- create table session_info(
+-- 	session text
+-- );
 
-insert into session_info value ('placeholder');
+-- insert into session_info value ('placeholder');
 
 alter table `users` auto_increment = 201;
 alter table `emails` auto_increment = 201;
@@ -54,7 +55,7 @@ insert into emails (id, from_user, to_user, subject, message) values
 
 
 -- select * from users;
--- select * from emails order by send_at desc;
+-- select * from emails order by date desc;  
 
 
 /*

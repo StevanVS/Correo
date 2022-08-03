@@ -35,4 +35,21 @@ export default class Model {
         const emails = await fetch(`/api/emails/drafts/from/${userId}`).then(res => res.json());
         return emails;
     }
+
+    async createDraft(currentUserId) {
+        const request = new XMLHttpRequest();
+        request.open('POST', '/api/emails/drafts');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify({ from_user: currentUserId }));
+    }
+
+    async editDraft(id, values) {
+        const request = new XMLHttpRequest();
+        request.open('PUT', '/api/emails/drafts');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify({
+            id: id,
+            ...values
+        }));
+    }
 }

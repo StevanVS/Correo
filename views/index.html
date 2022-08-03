@@ -32,13 +32,14 @@
             <i class="fa-solid fa-magnifying-glass header__search btn"></i>
             <i class="fa-solid fa-circle-question header__medical btn"></i>
             <i class="fa-solid fa-gear header__config btn"></i>
+            <span class="username" data-username></span>
             <i class="fa-solid fa-circle-user header__user btn"></i>
         </div>
     </header>
     <main class="main">
         <nav class="nav">
             <!-- Menu lateral -->
-            <div class="btn__redactar" id="open">
+            <div class="btn__redactar" id="open" data-new-draft-btn>
                 <i class="fa-solid fa-pen icon__redactar"></i>
                 <span>Escribir</span>
             </div>
@@ -64,11 +65,7 @@
 
         <section class="emails">
             <div class="emails-container">
-                <div class="emails-row-header">
-                    <div>De</div>
-                    <div>Asunto</div>
-                    <div>Mensaje</div>
-                </div>
+                <div class="emails-table-header" data-emails-table-header></div>
                 <div class="emails-rows" data-emails-rows></div>
             </div>
         </section>

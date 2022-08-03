@@ -2,7 +2,7 @@ const con = require('../connection');
 
 
 function getEmails(req, res) {
-    const sql = 'SELECT * FROM emails ORDER BY send_at DESC';
+    const sql = 'SELECT * FROM emails ORDER BY date DESC';
 
     con.query(sql, req.params.emailId, (err, rows) => {
         if (err) console.log(err);
@@ -11,7 +11,7 @@ function getEmails(req, res) {
 }
 
 function getEmailsFrom(req, res) {
-    const sql = 'SELECT * FROM emails WHERE from_user = ? ORDER BY send_at DESC';
+    const sql = 'SELECT * FROM emails WHERE from_user = ? ORDER BY date DESC';
 
     con.query(sql, req.params.userId, (err, rows) => {
         if (err) console.log(err);
@@ -20,7 +20,7 @@ function getEmailsFrom(req, res) {
 }
 
 function getEmailsTo(req, res) {
-    const sql = 'SELECT * FROM emails WHERE to_user = ? ORDER BY send_at DESC';
+    const sql = 'SELECT * FROM emails WHERE to_user = ? ORDER BY date DESC';
 
     con.query(sql, req.params.userId, (err, rows) => {
         if (err) console.log(err);

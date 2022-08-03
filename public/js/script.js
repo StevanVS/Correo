@@ -9,3 +9,8 @@ model.setView(view);
 
 view.render();
 
+setInterval(function () {
+    view.render();
+    // console.log('Actualizado');
+}, 5000);
+
