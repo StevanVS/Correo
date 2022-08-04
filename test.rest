@@ -1,7 +1,14 @@
 GET http://localhost:8080/api/users HTTP/1.1
 
+
+###
+GET http://localhost:8080/api/users/4 HTTP/1.1
+
 ###
 GET http://localhost:8080/api/currentuser
+
+###
+GET http://localhost:8080/api/users/email/juan23@email.com
 
 
 ###
@@ -41,7 +48,7 @@ POST http://localhost:8080/api/emails/drafts
 Content-Type: application/json
 
 {
-    "from_user": 2
+    "from_user": 4
 }
 
 ###
@@ -56,7 +63,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/emails/drafts/from/2
+GET http://localhost:8080/api/emails/drafts/from/4
 
 
 ###
@@ -73,7 +80,7 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:8080/api/emails/201 HTTP/1.1
+GET http://localhost:8080/api/emails/to/4 HTTP/1.1
 
 ###
 PUT http://localhost:8080/api/users

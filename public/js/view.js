@@ -16,7 +16,8 @@ export default class View {
 
         document.querySelector('[data-new-draft-btn]').onclick = async () => this.createDraft();
 
-        this.emailModal.onKeyUp((id, values) => this.editDraft(id, values));
+        this.emailModal.onKeyUp((draftId, values) => this.editDraft(draftId, values));
+        this.emailModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
     }
 
     setModel(model) {
@@ -52,6 +53,10 @@ export default class View {
         return await this.model.getUser(userId);
     }
 
+    async getUserByEmail(emailAddress) {
+        return await this.model.getUserByEmail(emailAddress);
+    }
+
     async getEmailsFrom(userId) {
         return this.model.getEmailsFrom(userId);
     }
@@ -68,12 +73,37 @@ export default class View {
         this.model.createDraft(this.currentUser.id);
     }
 
-    async editDraft(id, values) {
-        this.model.editDraft(id, values)
+    async editDraft(draftId, values) {
+        this.model.editDraft(draftId, values)
+    }
+
+    async deleteDraft(draftId) {
+        this.model.deleteDraft(draftId);
+    }
+
+    async sendEmail(draftId, { to_user, subject, message }) {
+        const toUser = await this.getUserByEmail(to_user);
+        if (!toUser || toUser == null) {
+            alert('No existe usuario con el correo: ' + to_user);
+            return false;
+        }
+
+        this.model.sendEmail({
+            from_user: this.currentUser.id,
+            to_user: toUser.id,
+            subject: subject,
+            message: message,
+        })
+
+        this.deleteDraft(draftId);
+
+        alert('Correo Enviado!');
+        return true;
     }
 
     async render() {
         this.currentUser = await this.getCurrentUser();
+        // console.log(this.currentUser);
         document.querySelector('[data-username]').innerText =
             `${this.currentUser.name} ${this.currentUser.lastname}`;
         switch (this.currentLabel) {
@@ -120,7 +150,7 @@ export default class View {
             } else {
                 user = await this.getUser(email.from_user);
             }
-// console.log(user);
+            // console.log(user);
             html += this.createRow(email, user);
         }
         container.innerHTML = html;

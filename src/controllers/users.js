@@ -61,6 +61,20 @@ async function getCurrentUser(req, res) {
     res.end()
 }
 
+
+async function getUserByEmail(req, res) {
+    try {
+        const sql = 'SELECT * FROM users WHERE email_address = ?';
+        const result = await query(sql, req.params.email);
+        const user = await result[0];
+        res.send(user);
+    } catch (err) {
+        httpError(res, err);
+    }
+
+    res.end();
+}
+
 module.exports = {
     getUsers,
     getUser,
@@ -68,4 +82,5 @@ module.exports = {
     editUser,
     deleteUser,
     getCurrentUser,
+    getUserByEmail,
 }

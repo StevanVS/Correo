@@ -5,7 +5,9 @@ export default class EmailModal {
         this.toUser = document.querySelector('[data-to-user-input]');
         this.subject = document.querySelector('[data-subject-input]');
         this.message = document.querySelector('[data-message-input]');
-        // this.btn = document.querySelector('[data-send-email-btn]');
+
+        // this.sendEmailBtn = document.querySelector('[data-send-email-btn]');
+
         this.draft = null;
     }
 
@@ -28,6 +30,25 @@ export default class EmailModal {
     }
 
     onSubmit(callback) {
+        this.form.onsubmit = (e) => {
+            e.preventDefault();
 
+            callback(this.draft.id, {
+                to_user: this.toUser.value, // String
+                subject: this.subject.value,
+                message: this.message.value,
+            }).then(emailSent => {
+                if (emailSent) {
+                    this.modal.classList.toggle('active');
+                    this.emptyValues();
+                }
+            });
+        }
+    }
+
+    emptyValues() {
+        this.toUser.value = null;
+        this.subject.value = null;
+        this.message.value = null;
     }
 }

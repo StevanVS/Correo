@@ -16,7 +16,7 @@ app.use(sessions({
     secret: "misesionsecreta1",
     saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24
+        maxAge: null
     },
     resave: false,
 }));

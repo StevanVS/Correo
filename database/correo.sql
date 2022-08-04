@@ -2,15 +2,15 @@ drop database if exists correo;
 create database correo;
 use correo;
 
-CREATE TABLE `users` (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(50) NOT NULL,
-    `lastname` VARCHAR(50) NOT NULL,
-    `email_address` VARCHAR(100) UNIQUE NOT NULL,
-    `password` VARCHAR(64) NOT NULL
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email_address VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(64) NOT NULL
 );
 
-CREATE TABLE `emails` (
+CREATE TABLE emails (
     id INT AUTO_INCREMENT PRIMARY KEY,
     from_user int NOT NULL,
     to_user int not null,
@@ -26,21 +26,15 @@ CREATE TABLE `emails` (
 create table drafts (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     from_user int NOT NULL,
-    to_user int,
+    to_user varchar(100),
     subject text,
     message text,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- create table session_info(
--- 	session text
--- );
-
--- insert into session_info value ('placeholder');
-
-alter table `users` auto_increment = 201;
-alter table `emails` auto_increment = 201;
-alter table `drafts` auto_increment = 201;
+alter table users auto_increment = 201;
+alter table emails auto_increment = 201;
+alter table drafts auto_increment = 201;
 
 insert into users values 
 	(2, 'Juan', 'Garcia', 'juan23@email.com', '123'),
@@ -53,9 +47,13 @@ insert into emails (id, from_user, to_user, subject, message) values
     (null, 4, 2, 'test3', 'ESte es el cuerpo de3'),
 	(null, 3, 4, 'test3', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium in enim voluptate eaque aperiam labore quaerat eveniet eius, sunt mollitia quos iure consequuntur magnam similique nesciunt, cumque itaque veniam ad.');
 
+insert into drafts (from_user, to_user, subject, message) values
+	(2, 'svelez1@email.com', 'Hola', 'Este es mi mensaje'),
+    (2, 'aa@ff', null, null);	
 
 -- select * from users;
--- select * from emails order by date desc;  
+-- select * from emails order by date desc; 
+
 
 
 /*

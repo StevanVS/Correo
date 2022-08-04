@@ -19,6 +19,13 @@ export default class Model {
         return user;
     }
 
+    async getUserByEmail(emailAddress) {
+        const result = await (await fetch(`/api/users/email/${emailAddress}`)).text();
+        if (!result) return;
+        const user = JSON.parse(result);
+        return user;
+    }
+
     async getEmailsFrom(userId) {
         const res = await fetch(`/api/emails/from/${userId}`);
         const emails = await res.json();
@@ -51,5 +58,18 @@ export default class Model {
             id: id,
             ...values
         }));
+    }
+
+    async deleteDraft(id) {
+        const request = new XMLHttpRequest();
+        request.open('DELETE', `/api/emails/drafts/${id}`);
+        request.send();
+    }
+
+    async sendEmail(values) {
+        const request = new XMLHttpRequest();
+        request.open('POST', '/api/emails/send');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(values));
     }
 }
