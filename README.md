@@ -9,4 +9,4 @@ npm run dev
 
 ## Database
 
-Copy SQL from **/database/db.sql**
+Copiar SQL de **/database/correo.sql**
