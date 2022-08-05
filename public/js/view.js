@@ -7,6 +7,8 @@ export default class View {
         this.emails = null;
         this.header = null;
         this.currentLabel = 'INBOX';
+        this.emailsContainer = document.querySelector('[data-emails-rows]');
+        this.backgroundTextEl = document.querySelector('[data-background-text-content]');
 
         this.emailModal = new EmailModal();
 
@@ -106,6 +108,7 @@ export default class View {
         // console.log(this.currentUser);
         document.querySelector('[data-username]').innerText =
             `${this.currentUser.name} ${this.currentUser.lastname}`;
+
         switch (this.currentLabel) {
             case 'INBOX':
                 this.renderInbox();
@@ -117,7 +120,17 @@ export default class View {
                 this.renderDrafts();
                 break;
         }
+
         // console.log('Renderizado');
+    }
+
+    handleBackgroundText(message) {
+        if (this.emails.length === 0) {
+            this.backgroundTextEl.innerText = message;
+            this.backgroundTextEl.style.visibility = 'visible';
+        } else {
+            this.backgroundTextEl.style.visibility = 'hidden';
+        }
     }
 
     renderHeader() {
@@ -137,8 +150,14 @@ export default class View {
     }
 
     async renderEmails() {
+
+        document.querySelectorAll('.nav__item').forEach(item => item.classList.remove('selected'))
+        document.querySelector(`.nav__item.${this.currentLabel}`).classList.add('selected');
+
+        this.handleBackgroundText('No hay Correos');
+
         this.renderHeader();
-        const container = document.querySelector('[data-emails-rows]');
+
         let html = '';
         for (const email of this.emails) {
             let user;
@@ -153,9 +172,9 @@ export default class View {
             // console.log(user);
             html += this.createRow(email, user);
         }
-        container.innerHTML = html;
+        this.emailsContainer.innerHTML = html;
 
-        const rows = [...container.querySelectorAll('.email-row')];
+        const rows = [...this.emailsContainer.querySelectorAll('.email-row')];
         rows.forEach(row => {
             row.onclick = (e) => {
                 let target = e.target;

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login y Register</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+</head>
+
+<body>
+    <main>
+        <div class="contenedor__todo">
+            <div class="caja__trasera">
+                <div class="caja__trasera-login">
+                    <h3>¿Ya tienes una cuenta?</h3>
+                    <p>Inicia sesión para entrar a Imail.</p>
+                    <button id="btn__iniciar-sesion">Iniciar Sesión</button>
+                </div>
+                <div class="caja__trasera-register">
+                    <h3>¿Aún no tienes una cuenta?</h3>
+                    <p>Regístrate para que puedas iniciar sesion a Imail</p>
+                    <button id="btn__registrarse">Regístrarse</button>
+                </div>
+            </div>
+
+            <!--Formulario de Login y registro-->
+            <div class="contenedor__login-register">
+                <!--Login-->
+                <form class="formulario__login" data-login-form>
+                    <div class="logo_container">
+                        <img id="logo" src="../img/logo.png">
+                    </div>
+                    <h2>Iniciar Sesión</h2>
+                    <h2 id="Ir">Ir a Imail</h2>
+                    <input type="text" placeholder="Correo Electronico" data-email-login-input>
+                    <input type="password" placeholder="Contraseña" data-password-login-input>
+                    <button type="submit">Entrar</button>
+                </form>
+
+                <!--Register-->
+                <form class="formulario__register" data-singup-form>
+                    <div class="logo_container">
+                        <img id="logo" src="../img/logo.png">
+                    </div>
+                    <h2>Regístrarse</h2>
+                    <input type="text" placeholder="Nombre" data-name-singup-input>
+                    <input type="text" placeholder="Apellido" data-lastname-singup-input>
+                    <input type="text" placeholder="Correo Electronico" data-email-singup-input>
+                    <input type="password" placeholder="Contraseña" data-password-singup-input>
+                    <button type="submit">Regístrarse</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../js/auth/animation.js"></script>
+    <script src="../js/auth/index.js"></script>
+</body>
+
+</html>

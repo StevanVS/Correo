@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Styles Css -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/normalize.css">
     <!--Favicon-->
     <!-- <link rel="shortcut icon" href="./img/favicon-utm.png" type="image/x-icon"> -->
     <!-- FontAwasome -->
@@ -22,9 +22,9 @@
         <div class="header__left">
             <!-- btn izquierda -->
             <i class="fa-solid fa-bars header__menu btn"></i>
-            <a href="/" class="header_index">
-                <!-- <img src="./img/Logo_UTM.png" alt="" class="header__Logo "> -->
-                <h1>Correo</h1>
+            <a href="/" class="header_index"  style="text-decoration: none;">
+                <img src="/img/Logo.png" alt="" class="header__Logo ">
+                <!-- <h1>Correo</h1> -->
             </a>
         </div>
         <div class="header__right">
@@ -44,19 +44,19 @@
                 <span>Escribir</span>
             </div>
             <ul class="nav__content">
-                <li class="nav__item" id="nav__content1" data-inbox-label>
+                <li class="nav__item INBOX" id="nav__content1" data-inbox-label>
                     <i class="fa-solid fa-inbox icon"></i>
                     <span class="nav_list">Bandeja de Entrada</span>
                 </li>
-                <li class="nav__item 2" id="nav__content2" data-sents-label>
+                <li class="nav__item 2 SENT" id="nav__content2" data-sents-label>
                     <i class="fa-solid fa-paper-plane icon"></i>
                     <span class="nav_list">Enviados</span>
                 </li>
-                <li class="nav__item 3" id="nav__content3">
+                <!-- <li class="nav__item 3" id="nav__content3">
                     <i class="fa-solid fa-star icon"></i>
                     <span class="nav_list">Favoritos</span>
-                </li>
-                <li class="nav__item 4" id="nav__content4" data-drafts-label>
+                </li> -->
+                <li class="nav__item 4 DRAFT" id="nav__content4" data-drafts-label>
                     <i class="fa-solid fa-file icon"></i>
                     <span class="nav_list">Borrador</span>
                 </li>
@@ -64,6 +64,9 @@
         </nav>
 
         <section class="emails">
+            <div class="background-text">
+                <span data-background-text-content></span>
+            </div>
             <div class="emails-container">
                 <div class="emails-table-header" data-emails-table-header></div>
                 <div class="emails-rows" data-emails-rows></div>
@@ -115,8 +118,8 @@
         </section>
 
     </main>
-    <script src="js/main.js"></script>
-    <script src="js/script.js" type="module"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/index.js" type="module"></script>
 </body>
 
 </html>

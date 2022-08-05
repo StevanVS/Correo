@@ -10,10 +10,10 @@
     const nav = document.querySelector(".nav");
     const btn__redactar = document.querySelector(".btn__redactar");
     const icon__redactar = document.querySelector(".icon__redactar");
-    const nav__item1 = document.querySelector("#nav__content1");
-    const nav__item2 = document.querySelector("#nav__content2");
-    const nav__item3 = document.querySelector("#nav__content3");
-    const nav__item4 = document.querySelector("#nav__content4");
+    // const nav__item1 = document.querySelector("#nav__content1");
+    // const nav__item2 = document.querySelector("#nav__content2");
+    // const nav__item3 = document.querySelector("#nav__content3");
+    // const nav__item4 = document.querySelector("#nav__content4");
     const emails = document.querySelector(".emails");
 
 
@@ -36,10 +36,14 @@
         nav.classList.toggle("active");
         btn__redactar.classList.toggle("active");
         icon__redactar.classList.toggle("active");
-        nav__item1.classList.toggle("active");
-        nav__item2.classList.toggle("active");
-        nav__item3.classList.toggle("active");
-        nav__item4.classList.toggle("active");
+
+        // nav__item1.classList.toggle("active");
+        // nav__item2.classList.toggle("active");
+        // // nav__item3.classList.toggle("active");
+        // nav__item4.classList.toggle("active");
+
+        document.querySelectorAll('.nav__item').forEach(item => item.classList.toggle('active'))
+
         emails.classList.toggle("active");
 
     });

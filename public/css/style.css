@@ -3,10 +3,11 @@
 :root {
   --font_main: "Roboto", sans-serif;
   --font_color: #202124;
-  --color_primary: #ffd800;
-  --color_second: #00983d;
+  --color-bright: rgb(11, 53, 179);
+  --color_primary: #3ca5d5;
+  --color_second: #30589e;
   --color_gray: #6e6e6e;
-  --color_second-light: #00983d18;
+  --color_second-light: #eef5ff;
   --font_shadow-black: #1b1b1d0e;
   --box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.6);
   --transition: 0.3s ease;
@@ -37,6 +38,10 @@ ul li {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  background-color: var(--color_second-light);
+  border-bottom: 1px solid #aaa;
+  color: #3d3d3d;
 }
 
 .header__left,
@@ -84,7 +89,7 @@ ul li {
 }
 
 .header__right .username {
-  padding-left: .5em;
+  padding-left: 0.5em;
   font-weight: bold;
   font-size: 1.2rem;
 }
@@ -103,7 +108,6 @@ ul li {
   position: fixed;
   width: 18em;
   height: 100%;
-  background: #fff;
   border-right: 1px solid #61616150;
   z-index: 1;
   overflow: hidden;
@@ -125,9 +129,12 @@ ul li {
   font-size: 1em;
   font-weight: 500;
   margin: 1.3em 1.5em;
-  box-shadow: 0px 1px 7px 0px rgb(0 0 0 / 52%); /*-11px*/
   cursor: pointer;
   transition: var(--transition);
+}
+
+.btn__redactar:hover {
+  box-shadow: 0px 1px 7px 0px rgb(0 0 0 / 52%); /*-11px*/
 }
 
 /*----------------------*/
@@ -179,7 +186,8 @@ ul li {
   font-weight: 400;
 }
 
-.nav__item:hover {
+.nav__item:hover,
+.nav__item.selected {
   background-color: var(--color_second-light);
   color: var(--color_second);
 }
@@ -209,10 +217,23 @@ ul li {
   height: 100%;
   z-index: -1;
   opacity: 0.5;
-  /* background-image: url(../img/Logo_UTM.png); */
-  background-size: 50em;
-  background-position: center;
+  background-image: url(../img/wallpaper.png);
+  /* background-size: 70em; */
+  background-position: bottom;
   background-repeat: no-repeat;
+}
+
+.background-text {
+  user-select: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* color: #6e6e6e; */
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 /* ------ EMAILS SIN TABLA -------- */
@@ -225,6 +246,7 @@ ul li {
 .emails-table-header {
   position: relative;
   background-color: #00c44e09;
+  background-color: var(--color_second-light);
   padding: 0.5em 0.8em;
   border-bottom: 1px solid #0002;
 
@@ -234,8 +256,12 @@ ul li {
 }
 
 .emails-table-header {
+  /* color: #fff; */
   font-weight: bold;
-  background-color: #76ffad;
+
+  background-color: var(--color_second);
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 128, 255, 0.5);
 }
 
 .email-row:hover {
@@ -252,7 +278,7 @@ ul li {
   position: absolute;
   height: 100%;
   width: 6px;
-  background-color: green;
+  background-color: var(--color-bright);
   visibility: hidden;
 }
 
@@ -265,7 +291,6 @@ ul li {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 /* 
 .user-field {
@@ -368,6 +393,7 @@ ul li {
   height: 21em;
   padding-top: 10px;
   padding-bottom: 10px;
+  resize: none;
 }
 
 .email__btn-enviar {
@@ -378,6 +404,10 @@ ul li {
   background-color: var(--color_second);
   color: #fff;
   margin: 1em;
+}
+
+.email__btn-enviar:hover {
+  cursor: pointer;
 }
 
 .email.minimize {
