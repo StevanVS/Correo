@@ -4,7 +4,7 @@ function login(req, res, next) {
     // todo
 
     if (!req.session.userid) {
-        res.redirect('/login');
+        res.redirect('/login-singup');
     } else {
         next();
     }

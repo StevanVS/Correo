@@ -1,6 +1,11 @@
 const { query } = require('../connection');
 const { httpError } = require('../helpers/handleError');
 
+async function authControl(req, res) {
+    if (req.body.type === 'login') loginControl(req, res);
+    if (req.body.type === 'singup') singupControl(req, res);
+}
+
 async function loginControl(req, res) {
     try {
         const { email_address, password } = req.body;
@@ -41,5 +46,6 @@ async function singupControl(req, res) {
 
 module.exports = {
     loginControl,
-    singupControl
+    singupControl,
+    authControl,
 }

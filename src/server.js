@@ -34,21 +34,21 @@ app.use(cookieParser());
 
 // configurar archivos publicos
 app.use(express.static('public'));
-app.use('/css', express.static(__dirname + '/css'));
-app.use('/js', express.static(__dirname + '/js'));
-app.use('/img', express.static(__dirname + '/img'));
+// app.use('/css', express.static(__dirname + '/css'));
+// app.use('/js', express.static(__dirname + '/js'));
+// app.use('/img', express.static(__dirname + '/img'));
 
 // endpoints
 app.get('/', login, (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../views/index.html'));
+    res.sendFile(path.join(__dirname, '../public/html/index.html'));
 })
 
-app.get('/login', (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../views/login.html'));
+app.get('/login-singup', (req, res, next) => {
+    res.sendFile(path.join(__dirname, '../public/html/login-singup.html'));
 });
 
-app.get('/singup', (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../views/singup.html'));
-})
+// app.get('/singup', (req, res, next) => {
+//     res.sendFile(path.join(__dirname, '../views/singup.html'));
+// })
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));
