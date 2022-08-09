@@ -3,7 +3,7 @@
 :root {
   --font_main: "Roboto", sans-serif;
   --font_color: #202124;
-  --color-bright: rgb(11, 53, 179);
+  --color-bright: #4900c2;
   --color_primary: #3ca5d5;
   --color_second: #30589e;
   --color_gray: #6e6e6e;
@@ -19,6 +19,16 @@ body {
   color: var(--font_color);
   background-color: #fff;
   height: calc(100vh - 56px);
+}
+
+.wallpaper {
+  position: fixed;
+  z-index: -10;
+
+  /* width: 100vw; */
+  height: 100vh;
+  opacity: .7;
+  filter: blur(10px);
 }
 
 a {
@@ -40,6 +50,7 @@ ul li {
   justify-content: space-between;
 
   background-color: var(--color_second-light);
+  background-color: #fff;
   border-bottom: 1px solid #aaa;
   color: #3d3d3d;
 }
@@ -112,6 +123,9 @@ ul li {
   z-index: 1;
   overflow: hidden;
   transition: var(--transition);
+
+  background-color: #fffa;
+  backdrop-filter: blur(10px);
 }
 
 .nav.active {
@@ -217,7 +231,7 @@ ul li {
   height: 100%;
   z-index: -1;
   opacity: 0.5;
-  background-image: url(../img/wallpaper.png);
+  /* background-image: url(../img/wallpaper.png); */
   /* background-size: 70em; */
   background-position: bottom;
   background-repeat: no-repeat;
@@ -234,6 +248,8 @@ ul li {
   /* color: #6e6e6e; */
   font-weight: bold;
   font-size: 2rem;
+
+  display: none;
 }
 
 /* ------ EMAILS SIN TABLA -------- */
@@ -256,12 +272,10 @@ ul li {
 }
 
 .emails-table-header {
-  /* color: #fff; */
+  color: #000;
   font-weight: bold;
-
-  background-color: var(--color_second);
-  backdrop-filter: blur(10px);
-  background-color: rgba(0, 128, 255, 0.5);
+  background-color: #eee;
+  border-bottom: 2px solid #aaa;
 }
 
 .email-row:hover {
@@ -302,9 +316,78 @@ ul li {
 .message-field {
 } */
 
-.date-field {
-  text-align: right;
+/* .date-field {
+} */
+
+/* -------- CONTENIDO DE EMAIL ------------------- */
+
+.email-content {
+  font-size: 1.1rem;
+  background-color: #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  padding: .5rem 2rem;
+  display: none;
 }
+
+/* .email-header, .buttons, .subject, .user-info, .email-body {
+  border: 1px solid black;
+} */
+
+.email-header {
+  border-bottom: 2px solid #888;
+  padding-bottom: .8rem;
+}
+
+.email-header .buttons {
+  font-size: 1.5rem;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.email-header .buttons div * {
+  padding: .3rem;
+  border-radius: .5rem;
+  transition: var(--transition);
+}
+
+.email-header .buttons div *:hover {
+   cursor: pointer;
+   background-color: #ddd;
+}
+
+.email-header .subject {
+  font-size: 1.7rem;
+  margin: .5rem 0;
+}
+
+.email-header .from-user-info {
+  padding-top: .3rem;
+  display: flex;
+  margin-bottom: .7rem;
+}
+
+.email-header .from-user-info i {
+  font-size: 2.6rem;
+  margin-right: .7rem;
+}
+
+.email-header .from-user-info .address-date {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.email-body {
+  margin-top: 1em;
+}
+
 
 /*------------------*/
 .email.active {
@@ -440,3 +523,11 @@ ul li {
     bottom: 0;
     right: 2em;
 */
+
+@media only screen and (max-width: 768px) {
+  .emails {
+    width: calc(100vw - 4.5em);
+    margin-left: 4.5em;
+  }
+  
+}
