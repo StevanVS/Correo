@@ -1,3 +1,4 @@
+import Calendar from "./components/calendar.js";
 import formatTimestamp from "./components/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
 import EmailContent from "./components/emailContent.js";
@@ -41,6 +42,12 @@ export default class View {
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
 
         this.handleWindowResize();
+
+        this.calendar = new Calendar();
+        this.calendar.render();
+        this.calendar.updateSizeOnTransitionEnd(document.querySelector('.nav'));
+        this.calendar.updateSizeOnTransitionEnd(document.querySelector('.emails'));
+
     }
 
     setModel(model) {
@@ -62,7 +69,7 @@ export default class View {
         const emptyDraft = drafts.find(draft => (
             !draft.subject && !draft.message && !draft.to_user
         ))
-        
+
         if (!emptyDraft) {
             this.draftModal.emptyValues();
             this.model.createDraft(this.currentUser.id);
@@ -190,7 +197,7 @@ export default class View {
                     const fromUser = await this.getUser(email.from_user);
                     const toUser = await this.getUser(email.to_user);
                     this.emailContent.setValues(email, fromUser, toUser);
-                    
+
                     // todo: abrir el email
                     this.emailContent.openEmail();
                 }
@@ -231,15 +238,22 @@ export default class View {
     }
 
     handleWindowResize() {
+        let isWitdhShort = false;
+
         const initialWidth = window.innerWidth;
-        if (initialWidth < 768) menuBtnEvent('add');
+        if (initialWidth < 768) {
+            menuBtnEvent('add');
+            isWitdhShort = true;
+        }
 
         window.onresize = () => {
             const width = window.innerWidth;
             if (width < 768) {
-                menuBtnEvent('add');
+                if (!isWitdhShort) menuBtnEvent('add');
+                isWitdhShort = true;
             } else {
-                menuBtnEvent('remove');
+                if (isWitdhShort) menuBtnEvent('remove');
+                isWitdhShort = false;
             }
         }
     }

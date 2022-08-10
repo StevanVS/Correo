@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FullCalendar -->
+    <link rel="stylesheet" href="../libs/fullcalendar/main.min.css">
+    <script src="../libs/fullcalendar/main.min.js"></script>
     <!-- Styles Css -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/normalize.css">
     <!--Favicon-->
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <!-- FontAwasome -->
-    <script src="https://kit.fontawesome.com/be736cc148.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css">
 
     <title>Imail</title>
 </head>
@@ -38,7 +41,7 @@
     </header>
     <main class="main">
         <nav class="nav">
-            <img class="wallpaper" src="../img/wallpaper.png">
+            <img class="wallpaper" src="../img/bg3.jpg">
 
             <!-- Menu lateral -->
             <div class="btn__redactar" id="open" data-new-draft-btn>
@@ -50,7 +53,7 @@
                     <i class="fa-solid fa-inbox icon"></i>
                     <span class="nav_list">Bandeja de Entrada</span>
                 </li>
-                <li class="nav__item 2 SENT" id="nav__content2" data-sents-label>
+                <li class="nav__item SENT" id="nav__content2" data-sents-label>
                     <i class="fa-solid fa-paper-plane icon"></i>
                     <span class="nav_list">Enviados</span>
                 </li>
@@ -58,7 +61,7 @@
                     <i class="fa-solid fa-star icon"></i>
                     <span class="nav_list">Favoritos</span>
                 </li> -->
-                <li class="nav__item 4 DRAFT" id="nav__content4" data-drafts-label>
+                <li class="nav__item DRAFT" id="nav__content4" data-drafts-label>
                     <i class="fa-solid fa-file icon"></i>
                     <span class="nav_list">Borrador</span>
                 </li>
@@ -70,9 +73,11 @@
                 <span data-background-text-content></span>
             </div>
 
-            <div class="emails-container">
-                <div class="emails-table-header" data-emails-table-header></div>
-                <div class="emails-rows" data-emails-rows></div>
+            <div class="emails-table-header" data-emails-table-header></div>
+            <div class="emails-rows" data-emails-rows></div>
+
+            <div class="calendar-container">
+                <div id="calendar"></div>    
             </div>
 
             <div class="email-content" data-email-content>

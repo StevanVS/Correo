@@ -24,10 +24,11 @@ body {
 .wallpaper {
   position: fixed;
   z-index: -10;
+  right: 0;
 
   /* width: 100vw; */
   height: 100vh;
-  opacity: .7;
+  opacity: 0.7;
   filter: blur(10px);
 }
 
@@ -50,7 +51,7 @@ ul li {
   justify-content: space-between;
 
   background-color: var(--color_second-light);
-  background-color: #fff;
+  background-color: rgb(246, 254, 255);
   border-bottom: 1px solid #aaa;
   color: #3d3d3d;
 }
@@ -214,6 +215,9 @@ ul li {
   margin-left: 18em;
   height: 100%;
   transition: var(--transition);
+
+  display: flex;
+  flex-direction: column;
 }
 
 .emails.active {
@@ -253,10 +257,6 @@ ul li {
 }
 
 /* ------ EMAILS SIN TABLA -------- */
-.emails-container {
-  overflow: auto;
-  height: 100%;
-}
 
 .email-row,
 .emails-table-header {
@@ -276,6 +276,11 @@ ul li {
   font-weight: bold;
   background-color: #eee;
   border-bottom: 2px solid #aaa;
+}
+
+.emails-rows {
+  height: 100%;
+  overflow: auto;
 }
 
 .email-row:hover {
@@ -319,6 +324,36 @@ ul li {
 /* .date-field {
 } */
 
+/* ------------ CALENDARIO ----------------------------- */
+.calendar-container {
+  --fc-today-bg-color: rgba(73, 0, 194, 0.13);
+
+  --fc-button-bg-color: #006891;
+  --fc-button-border-color: #003a52;
+
+  --fc-button-hover-bg-color: #003f58;
+  --fc-button-hover-border-color: #002635;
+
+  z-index: 0;
+  padding: 0.5em 0;
+  /* padding-top: 1em; */
+  border-top: 10px solid grey;
+}
+
+
+.fc .fc-toolbar.fc-header-toolbar {
+  padding: 0 1em;
+  margin-bottom: .6em;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1.5em;
+}
+
+.fc .fc-button {
+  padding: .2em .5em;
+}
+
 /* -------- CONTENIDO DE EMAIL ------------------- */
 
 .email-content {
@@ -331,7 +366,7 @@ ul li {
   height: 100%;
   overflow: auto;
 
-  padding: .5rem 2rem;
+  padding: 0.5rem 2rem;
   display: none;
 }
 
@@ -341,7 +376,7 @@ ul li {
 
 .email-header {
   border-bottom: 2px solid #888;
-  padding-bottom: .8rem;
+  padding-bottom: 0.8rem;
 }
 
 .email-header .buttons {
@@ -352,30 +387,30 @@ ul li {
 }
 
 .email-header .buttons div * {
-  padding: .3rem;
-  border-radius: .5rem;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
   transition: var(--transition);
 }
 
 .email-header .buttons div *:hover {
-   cursor: pointer;
-   background-color: #ddd;
+  cursor: pointer;
+  background-color: #ddd;
 }
 
 .email-header .subject {
   font-size: 1.7rem;
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 
 .email-header .from-user-info {
-  padding-top: .3rem;
+  padding-top: 0.3rem;
   display: flex;
-  margin-bottom: .7rem;
+  margin-bottom: 0.7rem;
 }
 
 .email-header .from-user-info i {
   font-size: 2.6rem;
-  margin-right: .7rem;
+  margin-right: 0.7rem;
 }
 
 .email-header .from-user-info .address-date {
@@ -387,7 +422,6 @@ ul li {
 .email-body {
   margin-top: 1em;
 }
-
 
 /*------------------*/
 .email.active {
@@ -529,5 +563,4 @@ ul li {
     width: calc(100vw - 4.5em);
     margin-left: 4.5em;
   }
-  
 }
