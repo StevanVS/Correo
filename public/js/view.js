@@ -12,10 +12,9 @@ export default class View {
         this.emails = null;
         this.header = null;
 
-
         this.labels = LabelsHandler.labels;
-
         this.currentLabel = this.labels.inbox.name;
+
         this.emailsContainer = document.querySelector('[data-emails-rows]');
         this.backgroundTextEl = document.querySelector('[data-background-text-content]');
 
@@ -45,9 +44,6 @@ export default class View {
 
         this.calendar = new Calendar();
         this.calendar.render();
-        this.calendar.updateSizeOnTransitionEnd(document.querySelector('.nav'));
-        this.calendar.updateSizeOnTransitionEnd(document.querySelector('.emails'));
-
     }
 
     setModel(model) {

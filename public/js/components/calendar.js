@@ -1,11 +1,19 @@
 export default class Calendar {
     constructor(events) {
+        this.container = document.querySelector('.calendar-container');
         this.calendarEl = document.getElementById('calendar');
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
             initialView: 'dayGridWeek',
             locale: 'es',
             height: '200px',
         });
+
+        
+        this.container.parentElement.ontransitionend = e => {
+            if (e.propertyName === "width") {
+                this.calendar.updateSize();
+            };
+        };
     }
 
     setProperty(name, value) {
@@ -14,14 +22,6 @@ export default class Calendar {
 
     getProperty(name) {
         return this.calendar.getOption(name);
-    }
-
-    updateSizeOnTransitionEnd(element) {
-        element.ontransitionend = e => {
-            if (e.target === element) {
-                this.calendar.updateSize();
-            };
-        };
     }
 
     render() {
