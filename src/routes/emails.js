@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-    getEmails, getEmailsFrom, getEmailsTo, getEmail, sendEmail, deleteEmail
+    getEmails, getEmailsFrom, getEmailsTo, getEmail, sendEmail, deleteEmail, getUserEmails
 } = require('../controllers/emails');
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.get('/emails/:emailId', getEmail);
 router.post('/emails/send', sendEmail);
 router.delete('/emails/:emailId', deleteEmail);
 
+router.get('/users/:userId/emails', getUserEmails)
 
 module.exports = router;
