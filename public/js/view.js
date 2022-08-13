@@ -9,11 +9,13 @@ export default class View {
     constructor() {
         this.model = null;
         this.currentUser = null;
+        this.historyId = null;
         this.emails = null;
         this.header = null;
 
         this.labels = LabelsHandler.labels;
         this.currentLabel = this.labels.inbox.name;
+        this.currentLabelId = 'INBOX'
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
         this.backgroundTextEl = document.querySelector('[data-background-text-content]');
@@ -44,20 +46,12 @@ export default class View {
 
         this.calendar = new Calendar();
         this.calendar.render();
+
     }
 
     setModel(model) {
         this.model = model;
 
-        LabelsHandler.asignFunctions([
-            [this.labels.inbox, this.model.getEmailsTo],
-            [this.labels.sent, this.model.getEmailsFrom],
-            [this.labels.draft, this.model.getDraftsFrom],
-        ]);
-    }
-
-    async getUser(userId) {
-        return await this.model.getUser(userId);
     }
 
     async createDraft() {
@@ -107,26 +101,21 @@ export default class View {
         return true;
     }
 
+    async handleRefresh() {
+        const newHistoryId = await this.model.getHistoryId();
+        if (newHistoryId !== this.historyId) {
+            this.historyId = newHistoryId;
+            this.render();
+        }
+    }
+
     async render() {
         this.currentUser = await this.model.getCurrentUser();
         document.querySelector('[data-username]').innerText = `${this.currentUser.name} ${this.currentUser.lastname}`;
 
-        const { headers, fn } = Object.values(this.labels).find(label => label.name === this.currentLabel);
-
-        this.header = headers;
-        this.emails = await fn(this.currentUser.id);
-
-        this.renderEmails();
+        this.emails = await this.model.getUserEmails([this.currentLabelId]);
+        console.log(this.emails);
     }
-
-    // handleBackgroundText(message) {
-    //     if (this.emails.length === 0) {
-    //         this.backgroundTextEl.innerText = message;
-    //         this.backgroundTextEl.style.display = 'none';
-    //     } else {
-    //         this.backgroundTextEl.style.display = '';
-    //     }
-    // }
 
     renderHeader() {
         const headerEl = document.querySelector('[data-emails-table-header]');
@@ -146,81 +135,14 @@ export default class View {
 
     async renderEmails() {
 
-        // this.handleBackgroundText('No hay Correos');
-
-        this.renderHeader();
-
-        document.querySelectorAll('.nav__item').forEach(item => item.classList.remove('selected'))
-        document.querySelector(`.nav__item.${this.currentLabel}`).classList.add('selected');
-
-        let html = '';
-        for (const email of this.emails) {
-            let user;
-
-            if (this.currentLabel === 'DRAFT') {
-                user = email.to_user; //String
-            } else if (this.currentLabel === 'SENT') {
-                user = await this.getUser(email.to_user);
-            } else {
-                user = await this.getUser(email.from_user);
-            }
-            html += this.createRow(email, user);
-        }
-        this.emailsContainer.innerHTML = html;
-
-        this.handleEvents();
     }
 
     handleEvents() {
-        const rows = [...this.emailsContainer.querySelectorAll('.email-row')];
-        rows.forEach(row => {
-            row.onclick = async (e) => {
-                let target = e.target;
-                while (!target.classList.contains('email-row')) {
-                    target = target.parentElement;
-                }
-                const emailId = target.getAttribute('email-id');
-                const draftId = target.getAttribute('draft-id');
-
-                if (draftId) {
-                    const draft = this.emails.find(draft => draft.id == draftId);
-
-                    // todo: abrir el modal
-                    this.draftModal.setValues(draft);
-                    this.draftModal.modal.classList.toggle("active");
-                } else {
-                    const email = this.emails.find(email => email.id == emailId);
-                    const fromUser = await this.getUser(email.from_user);
-                    const toUser = await this.getUser(email.to_user);
-                    this.emailContent.setValues(email, fromUser, toUser);
-
-                    // todo: abrir el email
-                    this.emailContent.openEmail();
-                }
-            }
-        })
+        
     }
 
-    createRow(email, emailUser) {
-        let user;
-
-        if (emailUser) {
-            user = typeof emailUser === 'object' ? `${emailUser.name} ${emailUser.lastname}` : emailUser;
-        } else user = '(Sin Destinatario)';
-
-
-        const subject = !email.subject ? '(Sin Asunto)' : email.subject;
-        const message = !email.message ? '(Sin Mensaje)' : email.message;
-        const date = formatTimestamp(email.date);
-
-        const unread = !email.unread || this.currentLabel === 'SENT' ? '' : 'unread';
-
-        let rowId = '';
-        if (this.currentLabel === 'DRAFT')
-            rowId = `draft-id="${email.id}"`;
-        else
-            rowId = `email-id="${email.id}"`;
-
+    createRow() {
+        
         return `
             <div class="email-row ${unread}" ${rowId}">
                 <div class="block"></div>
@@ -237,14 +159,14 @@ export default class View {
         let isWitdhShort = false;
 
         const initialWidth = window.innerWidth;
-        if (initialWidth < 768) {
+        if (initialWidth < 992) {
             menuBtnEvent('add');
             isWitdhShort = true;
         }
 
         window.onresize = () => {
             const width = window.innerWidth;
-            if (width < 768) {
+            if (width < 992) {
                 if (!isWitdhShort) menuBtnEvent('add');
                 isWitdhShort = true;
             } else {

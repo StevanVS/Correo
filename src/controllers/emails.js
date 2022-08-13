@@ -60,9 +60,25 @@ function deleteEmail(req, res) {
     })
 }
 
+function getUserId(req) {
+    return (req.params.userId === 'me' && req.session.userid) ? req.session.userid : req.params.userId;
+}
+
+async function getHistoryId(req, res) {
+    try {
+        const userId = getUserId(req);
+
+        const historyId = await query('select max(id) as id from history where user_id = ?', userId)
+            .then(r => r[0]);
+        res.send(historyId)
+    } catch (err) {
+        httpError(res, err);
+    }
+}
+
 async function getUserEmails(req, res) {
     try {
-        const userId = (req.params.userId === 'me' && req.session.userid) ? req.session.userid : req.params.userId;
+        const userId = getUserId(req);
 
         let userEmails = await query('select * from user_emails where user_id = ?', userId);
 
@@ -73,7 +89,6 @@ async function getUserEmails(req, res) {
                 .filter(userEmail => labelIds
                     .some(labelId => labelId === userEmail.label_id));
         }
-
 
         let emails = [];
 
@@ -107,4 +122,5 @@ module.exports = {
     sendEmail,
     deleteEmail,
     getUserEmails,
+    getHistoryId
 }
