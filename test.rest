@@ -2,6 +2,16 @@ GET http://localhost:8080/api/users HTTP/1.1
 
 
 ###
+GET http://localhost:8080/api/users/4/emails HTTP/1.1
+
+
+###
+GET http://localhost:8080/api/users/4/emails?labelId=INBOX HTTP/1.1
+
+###
+GET http://localhost:8080/api/users/4/emails?labelId=SENT HTTP/1.1
+
+###
 GET http://localhost:8080/api/users/4 HTTP/1.1
 
 ###
