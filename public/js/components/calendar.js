@@ -15,7 +15,7 @@ export default class Calendar {
                 this.calendar.updateSize();
             };
         };
-
+        
 
         document.querySelector('[data-calendar-handle]').onclick = e => {
             this.container.classList.toggle('close');
@@ -37,7 +37,6 @@ export default class Calendar {
             this.calendar.next();
             this.refreshTitle();
         };
-
     }
 
     refreshTitle() {
