@@ -9,9 +9,7 @@ model.setView(view);
 
 view.render();
 
-setInterval(function () {
-    // view.chekUpdate();
-    view.render();
-    // console.log('Actualizado');
+setInterval(() => {
+    view.handleRefresh();
 }, 5000);
 

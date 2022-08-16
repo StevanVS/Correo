@@ -49,9 +49,9 @@ function deleteUser(req, res) {
 
 async function getCurrentUser(req, res) {
     try {
-        userId = req.session.userid;
+        userId = req.session.userId;
         if (userId) {
-            const result = await query('SELECT * FROM users WHERE id = ?', req.session.userid);
+            const result = await query('SELECT * FROM users WHERE id = ?', req.session.userId);
             const user = await result[0];
             res.send(user)
         }

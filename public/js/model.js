@@ -43,6 +43,24 @@ export default class Model {
         return emails;
     }
 
+    async getHistoryId() {
+        const historyId = await fetch('api/users/me/historyId').then(r => r.json());
+        return historyId.id;
+    }
+
+    async getUserEmails(labelIds) {
+        let url = '/api/users/me/emails?';
+
+        if (labelIds) {
+            labelIds.forEach(labelId => {
+                url += `&labelId=${labelId}`
+            });
+        }
+        
+        const emails = await fetch(url).then(r => r.json());
+        return emails;
+    }
+
     async createDraft(currentUserId) {
         const request = new XMLHttpRequest();
         request.open('POST', '/api/emails/drafts');

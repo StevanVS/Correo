@@ -1,9 +1,9 @@
 function login(req, res, next) {
     // todo: eliminar al final
-    req.session.userid = 2;
+    req.session.userId = 2;
     // todo
 
-    if (!req.session.userid) {
+    if (!req.session.userId) {
         res.redirect('/login-singup');
     } else {
         next();

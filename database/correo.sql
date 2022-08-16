@@ -16,7 +16,6 @@ CREATE TABLE emails (
     to_user int not null,
     subject text,
     message text,
-    -- label_id varchar(25) default null,
     unread BOOLEAN DEFAULT TRUE,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     foreign key (from_user) references users (id),
@@ -32,9 +31,48 @@ create table drafts (
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-alter table users auto_increment = 201;
-alter table emails auto_increment = 201;
-alter table drafts auto_increment = 201;
+create table labels (
+	id varchar(50) primary key,
+    name varchar(50) not null
+);
+
+insert into labels values 
+	('INBOX', 'INBOX'),
+    ('SENT', 'SENT'),
+    ('DRAFT', 'DRAFT');
+
+create table user_emails (
+	user_id int,
+    label_id varchar(50),
+    email_id int,
+    primary key (user_id, label_id, email_id),
+    foreign key (user_id) references users(id),
+    foreign key (label_id) references labels(id),
+    foreign key (email_id) references emails(id)
+);
+
+delimiter //
+create trigger assign_email_label
+after insert on emails
+for each row
+begin
+	insert into user_emails values (new.to_user, 'INBOX', new.id);
+    insert into user_emails values (new.from_user, 'SENT', new.id);
+end//
+
+create trigger assign_draft_label
+after insert on drafts
+for each row
+begin
+    insert into user_emails values (new.from_user, 'DRAFT', new.id);
+end//
+
+
+create procedure get_emails (in userId int) 
+
+
+delimiter ;
+
 
 insert into users values 
 	(2, 'Juan', 'Garcia', 'juan23@email.com', '123'),
@@ -47,22 +85,5 @@ insert into emails (id, from_user, to_user, subject, message) values
     (null, 4, 2, 'test3', 'ESte es el cuerpo de3'),
 	(null, 3, 4, 'test3', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium in enim voluptate eaque aperiam labore quaerat eveniet eius, sunt mollitia quos iure consequuntur magnam similique nesciunt, cumque itaque veniam ad.');
 
-insert into drafts (from_user, to_user, subject, message) values
-	(2, 'svelez1@email.com', 'Hola', 'Este es mi mensaje'),
-    (2, 'aa@ff', null, null);	
-
--- select * from users;
--- select * from emails order by date desc; 
-
-
-
-/*
--- INBOX
-select * from emails where to_user = 2;
-
--- SENT
-select * from emails where from_user = 2;
-
--- DRAFT
-select * from drafts where from_user = 2;
-
+insert into emails (from_user, to_user, subject, message, unread) values
+	(3, 2, 'Mi Asunto', 'Mi mensaje', 0);
