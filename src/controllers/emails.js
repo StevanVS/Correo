@@ -61,7 +61,7 @@ function deleteEmail(req, res) {
 }
 
 function getUserId(req) {
-    return (req.params.userId === 'me' && req.session.userid) ? req.session.userid : req.params.userId;
+    return (req.params.userId === 'me' && req.session.userId) ? req.session.userId : req.params.userId;
 }
 
 async function getHistoryId(req, res) {
@@ -93,13 +93,20 @@ async function getUserEmails(req, res) {
         let emails = [];
 
         for (const userEmail of userEmails) {
-            const email = await query('select * from emails where id = ?', userEmail.email_id)
-                .then(r => r[0]);
+            let email;
+
+            if (userEmail.email_id > 0 || userEmail.label_id !== 'DRAFT') {
+                email = await query('select * from emails where id = ?', userEmail.email_id)
+                    .then(r => r[0]);
+
+                email.to_user = await query('select * from users where id = ?', email.to_user)
+                    .then(r => r[0]);
+            } else {
+                email = await query('select * from drafts where id = ?', userEmail.draft_id)
+                    .then(r => r[0]);
+            }
 
             email.from_user = await query('select * from users where id = ?', email.from_user)
-                .then(r => r[0]);
-
-            email.to_user = await query('select * from users where id = ?', email.to_user)
                 .then(r => r[0]);
 
             email.label = await query('select * from labels where id = ?', userEmail.label_id)

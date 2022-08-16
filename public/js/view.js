@@ -2,7 +2,6 @@ import Calendar from "./components/calendar.js";
 import formatTimestamp from "./components/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
 import EmailContent from "./components/emailContent.js";
-import LabelsHandler from "./components/labelsHandler.js";
 import { menuBtnEvent } from "./main.js";
 
 export default class View {
@@ -13,8 +12,6 @@ export default class View {
         this.emails = null;
         this.header = null;
 
-        this.labels = LabelsHandler.labels;
-        this.currentLabel = this.labels.inbox.name;
         this.currentLabelId = 'INBOX'
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
@@ -25,21 +22,21 @@ export default class View {
         this.draftModal = new DraftModal();
 
         document.querySelector('[data-inbox-label]').onclick = () => {
-            this.currentLabel = this.labels.inbox.name;
+            this.currentLabelId = 'INBOX';
             this.render();
         };
         document.querySelector('[data-sents-label]').onclick = () => {
-            this.currentLabel = this.labels.sent.name;
+            this.currentLabelId = 'SENT';
             this.render();
         };
         document.querySelector('[data-drafts-label]').onclick = () => {
-            this.currentLabel = this.labels.draft.name;
+            this.currentLabelId = 'DRAFT';
             this.render();
         };
 
         document.querySelector('[data-new-draft-btn]').onclick = async () => this.createDraft();
 
-        this.draftModal.onKeyUp(async (draftId, values) => this.editDraft(draftId, values));
+        this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
 
         this.handleWindowResize();
@@ -51,11 +48,10 @@ export default class View {
 
     setModel(model) {
         this.model = model;
-
     }
 
     async createDraft() {
-        const drafts = await this.model.getDraftsFrom(this.currentUser.id);
+        const drafts = await this.model.getUserEmails(['DRAFT']);
         const emptyDraft = drafts.find(draft => (
             !draft.subject && !draft.message && !draft.to_user
         ))
@@ -72,12 +68,7 @@ export default class View {
 
     async editDraft(draftId, values) {
         await this.model.editDraft(draftId, values)
-        if (this.currentLabel === this.labels.draft.name) this.render();
-    }
-
-    async deleteDraft(draftId) {
-        this.model.deleteDraft(draftId);
-        this.render();
+        if (this.currentLabelId === 'DRAFT') this.render();
     }
 
     async sendEmail(draftId, { to_user, subject, message }) {
@@ -94,7 +85,7 @@ export default class View {
             message: message,
         })
 
-        this.deleteDraft(draftId);
+        this.model.deleteDraft(draftId);
 
         alert('Correo Enviado!');
         this.render();
@@ -115,45 +106,78 @@ export default class View {
 
         this.emails = await this.model.getUserEmails([this.currentLabelId]);
         console.log(this.emails);
-    }
 
-    renderHeader() {
-        const headerEl = document.querySelector('[data-emails-table-header]');
-        headerEl.innerHTML = '';
+        document.querySelectorAll('.nav__item').forEach(item => item.classList.remove('selected'))
+        document.querySelector(`.nav__item.${this.currentLabelId}`).classList.add('selected');
 
-        if (this.emails.length === 0) {
-            headerEl.style.visibility = 'hidden';
-        } else {
-            headerEl.style.visibility = '';
-            for (const headerItem of this.header) {
-                const divEl = document.createElement('div');
-                divEl.innerText = headerItem;
-                headerEl.appendChild(divEl);
-            }
-        }
+        this.renderEmails();
     }
 
     async renderEmails() {
-
+        this.emailsContainer.innerHTML = ''
+        this.emails.forEach(email => {
+            this.emailsContainer.appendChild(this.createEmailRow(email));
+        })
     }
 
-    handleEvents() {
-        
-    }
+    createEmailRow(email) {
+        const row = document.createElement('div');
+        row.classList.add('email-row');
 
-    createRow() {
-        
-        return `
-            <div class="email-row ${unread}" ${rowId}">
-                <div class="block"></div>
-                <div class="user-field">${user}</div>
-                <div class="subject-col">${subject}</div>
-                <div class="message-field">${message}</div>
-                <div class="date-field">${date}</div>
+        if (email.unread) row.classList.add('unread');
+
+        row.innerHTML = `
+            <div class="block"></div>
+            <div class="user-icon-field">
+                <i class="fa-solid fa-circle-user"></i>
             </div>
+            <div class="field-group">
+                <div class="user-field">
+                    <span class="draft-indicator">[Borrador]</span>
+                </div>
+                <div class="subject-field"></div>
+                <div class="message-field"></div>
+            </div>
+            <div class="date-field"></div>
         `;
 
+        const fieldGroup = row.children[2];
+
+        // Campo del usuario
+        const userField = fieldGroup.children[0];
+
+        userField.innerHTML = email.label.id === 'DRAFT' ? userField.innerHTML : '';
+
+        const user = this.currentLabelId === 'SENT' || this.currentLabelId === 'DRAFT' ? email.to_user : email.from_user;
+        if (user)
+            userField.innerHTML += email.label.id !== 'DRAFT' ? `${user.name} ${user.lastname}` : user;
+        else
+            userField.innerHTML += '(Sin Destinatario)'
+
+
+        // Campo del asunto
+        const subjectField = fieldGroup.children[1];
+        subjectField.textContent = !email.subject ? '(Sin Asunto)' : email.subject;
+
+        // Campo del mensaje
+        const messageField = fieldGroup.children[2];
+        messageField.textContent = !email.message ? '(Sin Mensaje)' : email.message;
+
+        // Campo de la fecha
+        const dateField = row.children[3];
+        dateField.textContent = formatTimestamp(email.date);
+
+        row.onclick = e => {
+            if (email.label.id === 'DRAFT') {
+                this.draftModal.openModal(email);
+            } else {
+                this.emailContent.openEmail(email);
+            }
+        }
+
+        return row;
     }
+
 
     handleWindowResize() {
         let isWitdhShort = false;

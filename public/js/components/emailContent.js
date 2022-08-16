@@ -10,24 +10,32 @@ export default class EmailContent {
         this.message = document.querySelector('[data-email-message]');
 
         this.closeEmailBtn = document.querySelector('[data-close-email-btn]');
+        this.deleteEmailBtn = document.querySelector('[data-delete-email-btn]');
 
         this.email = null;
 
         this.closeEmailBtn.onclick = () => this.closeEmail();
     }
 
-    setValues(emailObj, fromUserObj, toUserObj) {
-        this.subject.innerText = emailObj.subject;
-        this.fromUserInfo.innerText = `De: ${fromUserObj.name} <${fromUserObj.email_address}>`;
-        this.date.innerText = formatTimestamp(emailObj.date);
-        this.toUserInfo.innerText = `Para: ${toUserObj.email_address}`;
-        this.message.innerText = emailObj.message;
+    setValues(email) {
+        this.email = email;
+
+        this.fromUserInfo.textContent = `De: ${email.from_user.name} <${email.from_user.email_address}>`;
+        this.toUserInfo.textContent = `Para: ${email.to_user.email_address}`;
+        this.subject.textContent = email.subject;
+        this.message.textContent = email.message;
+        this.date.textContent = formatTimestamp(email.date);
     }
 
-    openEmail() {
+    onDelete(callback) {
+        callback(this.email);
+    }
+
+    openEmail(email) {
+        this.setValues(email);
         this.container.style.display = 'block';
     }
-    
+
     closeEmail() {
         this.container.style.display = 'none';
     }

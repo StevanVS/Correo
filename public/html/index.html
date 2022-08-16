@@ -27,9 +27,9 @@
         <!-- Barra superior -->
         <div class="header__left">
             <!-- btn izquierda -->
-            <i class="fa-solid fa-bars header__menu btn"></i>
+            <i class="fa-solid fa-bars header__menu btn" title="Expandir la barra lateral"></i>
             <a href="/" class="header_index">
-                <img src="/img/Logo.png" alt="" class="header__Logo ">
+                <img src="/img/Logo.png" alt="Logo Principal" class="header__Logo ">
                 <!-- <h1>Correo</h1> -->
             </a>
         </div>
@@ -37,9 +37,9 @@
             <!-- btn derecha -->
             <!-- <i class="fa-solid fa-magnifying-glass header__search btn"></i> -->
             <!-- <i class="fa-solid fa-circle-question header__medical btn"></i> -->
-            <i class="fa-solid fa-gear header__config btn"></i>
+            <i class="fa-solid fa-gear header__config btn" title="Configuración"></i>
             <span class="username" data-username></span>
-            <i class="fa-solid fa-circle-user header__user btn"></i>
+            <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i>
         </div>
     </header>
     <main class="main">
@@ -47,7 +47,7 @@
             <img class="wallpaper" src="../img/bg3.jpg">
 
             <!-- Menu lateral -->
-            <div class="btn__redactar" id="open" data-new-draft-btn>
+            <div class="btn__redactar" id="open" title="Redactar Nuevo Correo" data-new-draft-btn>
                 <i class="fa-solid fa-pen icon__redactar"></i>
                 <span>Escribir</span>
             </div>
@@ -79,19 +79,43 @@
             <!-- <div class="emails-table-header" data-emails-table-header></div> -->
             <div class="emails-rows" data-emails-rows></div>
 
-            <div class="calendar-container">
-                <div id="calendar"></div>    
+            <div class="calendar-container close">
+                <div class="calendar-handle" title="Mostrar y Esconder calendrio">
+                    <i class="fa-solid fa-angle-up"></i>
+                    <i class="fa-solid fa-angle-down"></i>
+                    <span>Calendario</span>
+                </div>
+                <div class="calendar-header">
+                    <div class="title">
+                        <span data-calendar-title>14-20 agosss 2022</span>
+                    </div>
+                    <div class="buttons">
+                        <!-- <div class="today-btn " data-calendar-today-btn> -->
+                            <i class="fa-solid fa-calendar-day btn"></i>
+                        <!-- </div> -->
+                        <div class="btn-group">
+                            <!-- <div class="prev-btn " data-calendar-prev-btn> -->
+                                <i class="fa-solid fa-angle-left btn"></i>
+                            <!-- </div> -->
+                            <!-- <div class="next-btn "> -->
+                                <i class="fa-solid fa-angle-right next-btn btn"></i>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div id="calendar"></div>
             </div>
 
             <div class="email-content" data-email-content>
                 <div class="email-header">
                     <div class="buttons">
-                        <div>
+                        <div class="btn-group">
                             <i class="fa-solid fa-arrow-left" data-close-email-btn></i>
+                            <i class="fa-solid fa-calendar-plus" data-new-calendar-event-btn></i>
                         </div>
-                        <div>
+                        <div class="btn-group">
                             <!-- <i class="fa-solid fa-reply"></i> -->
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-trash" data-delete-email-btn></i>
                         </div>
                     </div>
                     <div class="subject" data-email-subject>

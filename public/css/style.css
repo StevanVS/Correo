@@ -20,6 +20,7 @@ body {
   color: var(--font_color);
   background-color: #fff;
   height: calc(100vh - 56px);
+  overflow: hidden;
 }
 
 .loader-wrapper {
@@ -80,7 +81,6 @@ ul li {
   align-items: center;
 }
 
-
 .btn {
   font-size: 1.3rem;
   cursor: pointer;
@@ -90,6 +90,10 @@ ul li {
 
 .btn:hover {
   background-color: var(--font_shadow-black);
+}
+
+.header__menu.btn {
+  margin-left: 1rem;
 }
 
 .header_index {
@@ -278,8 +282,7 @@ ul li {
 
 /* ------ CONTENEDOR DE EMAILS -------- */
 
-.email-row,
-.emails-table-header {
+.email-row {
   position: relative;
   background-color: #00c44e09;
   background-color: var(--color_second-light);
@@ -291,13 +294,6 @@ ul li {
   gap: 0.5em;
 }
 
-.emails-table-header {
-  color: #000;
-  font-weight: bold;
-  background-color: #eee;
-  border-bottom: 2px solid #aaa;
-}
-
 .emails-rows {
   height: 100%;
   overflow: auto;
@@ -306,6 +302,10 @@ ul li {
 .email-row:hover {
   cursor: pointer;
   /* box-shadow: 0 0 5px 0px grey; */
+}
+
+.email-row .draft-indicator {
+  color: #e00;
 }
 
 .email-row.unread {
@@ -327,17 +327,20 @@ ul li {
 .field-group {
   display: grid;
   gap: 0.1em;
+  align-items: center;
 }
 
 .email-row .field-group * {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  height: min-content;
 }
 
 .user-icon-field {
   margin-left: 0.2em;
   font-size: 2em;
+  height: min-content;
 }
 
 /* .user-field {
@@ -361,29 +364,97 @@ ul li {
 .calendar-container {
   --fc-today-bg-color: rgba(73, 0, 194, 0.13);
 
-  --fc-button-bg-color: #006891;
+  /* --fc-button-bg-color: #006891;
   --fc-button-border-color: #003a52;
 
   --fc-button-hover-bg-color: #003f58;
-  --fc-button-hover-border-color: #002635;
+  --fc-button-hover-border-color: #002635; */
 
   z-index: 0;
-  padding: 0.5em 0;
+  /* padding: 0.5em 0; */
   /* padding-top: 1em; */
-  border-top: 10px solid grey;
+  border-top: 3px solid grey;
 }
 
-.fc .fc-toolbar.fc-header-toolbar {
-  padding: 0 1em;
-  margin-bottom: 0.6em;
+.calendar-container.close {
+  height: max-content;
 }
 
-.fc .fc-toolbar-title {
-  font-size: 1.5em;
+
+.calendar-container.close .calendar-handle {
+box-shadow: none;
 }
 
-.fc .fc-button {
-  padding: 0.2em 0.5em;
+.calendar-container.close .calendar-header {
+  transform: scaleY(0);
+  position: absolute;
+}
+
+.calendar-container.close #calendar {
+  transform: scaleY(0);
+  position: absolute;
+}
+
+.calendar-handle {
+  background-color: var(--color_second-light);
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  padding: 0.2rem;
+
+  box-shadow: 0 1px 3px 0 #0005;
+}
+
+.calendar-handle span {
+  margin-left: 0.4rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 1.6em;
+  font-weight: bold;
+
+  padding: 0 1rem;
+  margin: 0.4rem 0;
+}
+
+.calendar-header .title {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-header .buttons {
+  display: flex;
+}
+
+.calendar-header .btn {
+  border-radius: 0.5rem;
+}
+
+/* .calendar-header .btn {
+  cursor: pointer;
+  height: 1.6em;
+  width: 1.6em;
+  padding: 0.2em;
+  font-size: 1em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+/* .calendar-header .btn:hover {
+  background-color: #eee;
+  border-radius: 0.3rem;
+} */
+
+.calendar-header .btn-group {
+  display: flex;
+  margin-left: 0.5em;
 }
 
 /* -------- CONTENIDO DE EMAIL ------------------- */
@@ -391,6 +462,7 @@ ul li {
 .email-content {
   font-size: 1.1rem;
   background-color: #eee;
+  background-color: #fff;
   position: absolute;
   top: 0;
   left: 0;
@@ -412,19 +484,24 @@ ul li {
 }
 
 .email-header .buttons {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 
   display: flex;
   justify-content: space-between;
 }
 
-.email-header .buttons div * {
+.email-header .buttons .btn-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.email-header .buttons .btn-group * {
   padding: 0.3rem;
   border-radius: 0.5rem;
   transition: var(--transition);
 }
 
-.email-header .buttons div *:hover {
+.email-header .buttons .btn-group *:hover {
   cursor: pointer;
   background-color: #ddd;
 }

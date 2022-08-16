@@ -6,10 +6,7 @@ export default class DraftModal {
         this.subject = document.querySelector('[data-draft-subject-input]');
         this.message = document.querySelector('[data-draft-message-input]');
 
-        // this.sendEmailBtn = document.querySelector('[data-send-email-btn]');
-
         this.draft = null;
-
     }
 
     setValues(draft) {
@@ -25,10 +22,10 @@ export default class DraftModal {
         this.message.value = null;
     }
 
-    onKeyUp(callback) {
+    onEdit(callback) {
         const inputs = [this.toUser, this.subject, this.message];
         inputs.forEach(intputEl => {
-            intputEl.onkeyup = (e) => callback(this.draft.id, {
+            intputEl.onblur = (e) => callback(this.draft.id, {
                 to_user: this.toUser.value,
                 subject: this.subject.value,
                 message: this.message.value,
@@ -46,11 +43,20 @@ export default class DraftModal {
                 message: this.message.value,
             }).then(emailSent => {
                 if (emailSent) {
-                    this.modal.classList.toggle('active');
+                    this.closeModal();
                     this.emptyValues();
                 }
             });
         }
+    }
+
+    openModal(draft) {
+        this.setValues(draft);
+        this.modal.classList.add("active");
+    }
+
+    closeModal() {
+        this.modal.classList.remove('active');
     }
 
 }

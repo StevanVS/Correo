@@ -53,7 +53,7 @@ export default class Model {
 
         if (labelIds) {
             labelIds.forEach(labelId => {
-                url += `labelId=${labelId}&`
+                url += `&labelId=${labelId}`
             });
         }
         

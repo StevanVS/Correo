@@ -5,7 +5,8 @@ export default class Calendar {
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
             initialView: 'dayGridWeek',
             locale: 'es',
-            height: '200px',
+            height: '180px',
+            headerToolbar: false,
         });
 
         
@@ -14,6 +15,22 @@ export default class Calendar {
                 this.calendar.updateSize();
             };
         };
+    }
+
+    prevDate() {
+        this.calendar.prev();
+    }
+
+    nextDate() {
+        this.calendar.next();
+    }
+
+    today() {
+        this.calendar.today();
+    }
+
+    getTitle() {
+        return this.calendar.currentData.viewTitle;
     }
 
     setProperty(name, value) {
