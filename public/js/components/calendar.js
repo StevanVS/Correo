@@ -2,6 +2,7 @@ export default class Calendar {
     constructor(events) {
         this.container = document.querySelector('.calendar-container');
         this.calendarEl = document.getElementById('calendar');
+
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
             initialView: 'dayGridWeek',
             locale: 'es',
@@ -9,28 +10,38 @@ export default class Calendar {
             headerToolbar: false,
         });
 
-        
         this.container.parentElement.ontransitionend = e => {
             if (e.propertyName === "width") {
                 this.calendar.updateSize();
             };
         };
+
+
+        document.querySelector('[data-calendar-handle]').onclick = e => {
+            this.container.classList.toggle('close');
+        }
+
+        this.refreshTitle();
+
+        document.querySelector('[data-calendar-today-btn]').onclick = e => {
+            this.calendar.today();
+            this.refreshTitle();
+        };
+        
+        document.querySelector('[data-calendar-prev-btn]').onclick = e => {
+            this.calendar.prev();
+            this.refreshTitle();
+        };
+        
+        document.querySelector('[data-calendar-next-btn]').onclick = e => {
+            this.calendar.next();
+            this.refreshTitle();
+        };
+
     }
 
-    prevDate() {
-        this.calendar.prev();
-    }
-
-    nextDate() {
-        this.calendar.next();
-    }
-
-    today() {
-        this.calendar.today();
-    }
-
-    getTitle() {
-        return this.calendar.currentData.viewTitle;
+    refreshTitle() {
+        document.querySelector('[data-calendar-title]').textContent = this.calendar.currentData.viewTitle;
     }
 
     setProperty(name, value) {

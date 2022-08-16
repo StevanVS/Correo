@@ -79,61 +79,68 @@
             <!-- <div class="emails-table-header" data-emails-table-header></div> -->
             <div class="emails-rows" data-emails-rows></div>
 
-            <div class="calendar-container close">
-                <div class="calendar-handle" title="Mostrar y Esconder calendrio">
+            <div class="calendar-container">
+                <div class="calendar-handle" title="Mostrar y Esconder calendrio" data-calendar-handle>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-angle-down"></i>
                     <span>Calendario</span>
                 </div>
-                <div class="calendar-header">
-                    <div class="title">
-                        <span data-calendar-title>14-20 agosss 2022</span>
-                    </div>
-                    <div class="buttons">
-                        <!-- <div class="today-btn " data-calendar-today-btn> -->
-                            <i class="fa-solid fa-calendar-day btn"></i>
-                        <!-- </div> -->
-                        <div class="btn-group">
-                            <!-- <div class="prev-btn " data-calendar-prev-btn> -->
-                                <i class="fa-solid fa-angle-left btn"></i>
-                            <!-- </div> -->
-                            <!-- <div class="next-btn "> -->
-                                <i class="fa-solid fa-angle-right next-btn btn"></i>
-                            <!-- </div> -->
+
+                <div class="calendar-content">
+                    <div class="calendar-header">
+                        <div class="chunk">
+                            <span data-calendar-title>14-20 agosss 2022</span>
+                        </div>
+                        <div class="chunk"></div>
+                        <div class="chunk">
+                            <button class="btn-icon" title="Mostrar esta semana" data-calendar-today-btn>
+                                <i class="fa-solid fa-calendar-day"></i>
+                            </button>
+                            <div class="btn-group">
+                                <button class="btn-icon" title="Mostrar la semana anterior" data-calendar-prev-btn>
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <button class="btn-icon" title="Mostrar la semana siguiente" data-calendar-next-btn>
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <div id="calendar" class="calendar"></div>
                 </div>
-                <div id="calendar"></div>
             </div>
 
             <div class="email-content" data-email-content>
-                <div class="email-header">
-                    <div class="buttons">
-                        <div class="btn-group">
-                            <i class="fa-solid fa-arrow-left" data-close-email-btn></i>
-                            <i class="fa-solid fa-calendar-plus" data-new-calendar-event-btn></i>
-                        </div>
-                        <div class="btn-group">
-                            <!-- <i class="fa-solid fa-reply"></i> -->
-                            <i class="fa-solid fa-trash" data-delete-email-btn></i>
-                        </div>
+                <div class="buttons">
+                    <div class="btn-group">
+                        <button class="btn-icon"><i class="fa-solid fa-arrow-left" data-close-email-btn></i></button>
+                        <button class="btn-icon"><i class="fa-solid fa-calendar-plus"
+                                data-new-calendar-event-btn></i></button>
                     </div>
-                    <div class="subject" data-email-subject>
-                        Asunto
-                    </div>
-                    <div class="from-user-info">
-                        <i class="fa-solid fa-circle-user"></i>
-                        <div class="address-date">
-                            <span data-email-from-user-info>De: Stevan <.stevan@imail.com></span>
-                            <span data-email-date>8/3/2022 10:41 PM</span>
-                        </div>
-                    </div>
-                    <div class="to-user-info" data-email-to-user-info>
-                        Para: juan@imail.com
+                    <div class="btn-group">
+                        <!-- <i class="fa-solid fa-reply"></i> -->
+                        <button class="btn-icon"><i class="fa-solid fa-trash" data-delete-email-btn></i></button>
                     </div>
                 </div>
-                <div class="email-body">
-                    <p data-email-message>Cuerpo del mensaje</p>
+                <div class="email-payload">
+                    <div class="email-header">
+                        <div class="subject" data-email-subject>
+                            Asunto
+                        </div>
+                        <div class="from-user-info">
+                            <i class="fa-solid fa-circle-user"></i>
+                            <div class="address-date">
+                                <span data-email-from-user-info>De: Stevan <.stevan@imail.com></span>
+                                <span data-email-date>8/3/2022 10:41 PM</span>
+                            </div>
+                        </div>
+                        <div class="to-user-info" data-email-to-user-info>
+                            Para: juan@imail.com
+                        </div>
+                    </div>
+                    <div class="email-body">
+                        <p data-email-message>Cuerpo del mensaje</p>
+                    </div>
                 </div>
             </div>
         </section>
