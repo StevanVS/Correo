@@ -5,6 +5,7 @@ export default class Calendar {
 
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
             initialView: 'dayGridWeek',
+            duration: null,
             locale: 'es',
             height: '180px',
             headerToolbar: false,
@@ -15,7 +16,7 @@ export default class Calendar {
                 this.calendar.updateSize();
             };
         };
-        
+
 
         document.querySelector('[data-calendar-handle]').onclick = e => {
             this.container.classList.toggle('close');
@@ -27,12 +28,12 @@ export default class Calendar {
             this.calendar.today();
             this.refreshTitle();
         };
-        
+
         document.querySelector('[data-calendar-prev-btn]').onclick = e => {
             this.calendar.prev();
             this.refreshTitle();
         };
-        
+
         document.querySelector('[data-calendar-next-btn]').onclick = e => {
             this.calendar.next();
             this.refreshTitle();
@@ -41,6 +42,16 @@ export default class Calendar {
 
     refreshTitle() {
         document.querySelector('[data-calendar-title]').textContent = this.calendar.currentData.viewTitle;
+    }
+
+    changeNumberOfDays(number) {
+        this.calendar.changeView('dayGrid')
+        this.setProperty('duration', { days: number })
+    }
+    
+    resetNumberOfDays() {
+        this.calendar.changeView('dayGridWeek')
+        this.setProperty('duration', null)
     }
 
     setProperty(name, value) {

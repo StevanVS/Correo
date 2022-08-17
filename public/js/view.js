@@ -39,11 +39,11 @@ export default class View {
         this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
 
-        this.handleWindowResize();
 
         this.calendar = new Calendar();
         this.calendar.render();
 
+        this.handleWindowResize();
     }
 
     setModel(model) {
@@ -124,7 +124,8 @@ export default class View {
         const row = document.createElement('div');
         row.classList.add('email-row');
 
-        if (email.unread) row.classList.add('unread');
+        if (email.unread && this.currentLabelId !== 'SENT')
+            row.classList.add('unread');
 
         row.innerHTML = `
             <div class="block"></div>
@@ -146,7 +147,7 @@ export default class View {
         // Campo del usuario
         const userField = fieldGroup.children[0];
 
-        userField.innerHTML = email.label.id === 'DRAFT' ? userField.innerHTML : '';
+        if (email.label.id !== 'DRAFT') userField.innerHTML = '';
 
         const user = this.currentLabelId === 'SENT' || this.currentLabelId === 'DRAFT' ? email.to_user : email.from_user;
         if (user)
@@ -186,6 +187,7 @@ export default class View {
         if (initialWidth < 992) {
             menuBtnEvent('add');
             isWitdhShort = true;
+            this.calendar.changeNumberOfDays(3);
         }
 
         window.onresize = () => {
@@ -193,9 +195,11 @@ export default class View {
             if (width < 992) {
                 if (!isWitdhShort) menuBtnEvent('add');
                 isWitdhShort = true;
+                this.calendar.changeNumberOfDays(3);
             } else {
                 if (isWitdhShort) menuBtnEvent('remove');
                 isWitdhShort = false;
+                this.calendar.resetNumberOfDays();
             }
         }
     }
