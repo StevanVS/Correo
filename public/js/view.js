@@ -41,7 +41,11 @@ export default class View {
 
 
         this.calendar = new Calendar();
-        this.calendar.render();
+        this.calendar.onEventChange((id, values) => {
+            this.model.editEvent(id, values);
+        })
+        //todo: poner controladores y rutas para editar eventos
+        //todo: metodos para acceder a la BD en el model
 
         this.handleWindowResize();
     }

@@ -1,5 +1,6 @@
 const con = require('../connection');
 const { query } = require('../connection');
+const { getUserId } = require('../helpers/getUserId')
 const { httpError } = require('../helpers/handleError');
 
 
@@ -58,10 +59,6 @@ function deleteEmail(req, res) {
         else
             res.status(404).send('Email not Found');
     })
-}
-
-function getUserId(req) {
-    return (req.params.userId === 'me' && req.session.userId) ? req.session.userId : req.params.userId;
 }
 
 async function getHistoryId(req, res) {
