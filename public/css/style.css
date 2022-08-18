@@ -5,9 +5,10 @@
   --font_color: #202124;
   --color-bright: #4900c2;
   --color_primary: #3ca5d5;
-  --color_second: #30589e;
+  --color_second: hsl(218, 53%, 40%);
+  --color_second-dark: hsl(218, 53%, 30%);
   --color_gray: #6e6e6e;
-  --color_second-light: #eef5ff;
+  --color_second-light: #f0f6ff;
   --font_shadow-black: #1b1b1d0e;
   --box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.6);
   --transition: 0.3s ease;
@@ -50,6 +51,22 @@ body {
   filter: blur(10px);
 }
 
+dialog {
+  margin: auto;
+  padding: 0;
+  border: none;
+
+  background-color: #fff;
+  width: 75vw;
+  height: 85vh;
+
+  border-radius: 8px;
+}
+
+dialog::backdrop {
+  background-color: #2b28286c;
+}
+
 a {
   color: var(--font_color);
 }
@@ -58,12 +75,18 @@ ul li {
   list-style: none;
 }
 
+textarea {
+  resize: none;
+}
+
 .btn-icon {
+  color: inherit;
+  font-size: inherit;
   cursor: pointer;
   background-color: #fff0;
   border: none;
-  border-radius: .2rem;
-  padding: .2rem .5rem;
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.5rem;
 }
 
 .btn-icon:hover {
@@ -434,7 +457,7 @@ ul li {
   width: 100%;
   height: 100%;
   overflow: auto;
-  
+
   padding: 0.5rem 1rem;
   display: none;
 }
@@ -454,7 +477,6 @@ ul li {
   border-bottom: 2px solid #888;
   padding-bottom: 0.8rem;
 }
-
 
 .email-header .subject {
   font-size: 1.7rem;
@@ -573,6 +595,7 @@ ul li {
 }
 
 .email__btn-enviar {
+  cursor: pointer;
   width: 6.5em;
   height: 2.5em;
   border-radius: 5px;
@@ -583,7 +606,7 @@ ul li {
 }
 
 .email__btn-enviar:hover {
-  cursor: pointer;
+  background-color: rgba(0, 0, 0, .2);
 }
 
 .email.minimize {
@@ -609,13 +632,77 @@ ul li {
   display: none;
 }
 
-/*
-    height: 3em;
-    width: 20em;
-    position: absolute;
-    bottom: 0;
-    right: 2em;
-*/
+/* --------- EVENT DIALOG ---------- */
+
+.dialog-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-header {
+  position: relative;
+  background-color: #000000b6;
+  color: #fff;
+  padding: 10px 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-header .btn-icon:hover {
+  background-color: var(--color_gray);
+}
+
+.dialog-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+/* 
+.input-group {
+  
+  display: flex;
+  flex-direction: column;
+} */
+
+.dialog-input {
+  border: 0;
+  padding: 0.5rem 1rem;
+  outline: none;
+  border-bottom: 1px var(--color_gray) solid;
+}
+
+/* .dialog-input {
+
+} */
+
+textarea.dialog-input {
+  flex: 1;
+  /* height: 21em; */
+  /* border-bottom: none; */
+}
+
+.dialog-btn {
+  cursor: pointer;
+  width: 6.5em;
+  height: 2.5em;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--color_second);
+  color: #fff;
+  margin: 1em;
+}
+
+.dialog-btn:hover {
+  background-color: var(--color_second-dark);
+}
+
+/* ---- MEDIA QUERYS -------- */
 
 @media only screen and (max-width: 992px) {
   .emails {

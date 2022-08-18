@@ -93,8 +93,9 @@
                         </div>
                         <div class="chunk"></div>
                         <div class="chunk">
-                            <button class="btn-icon"><i class="fa-solid fa-calendar-plus"
-                                    data-new-calendar-event-btn></i></button>
+                            <button class="btn-icon" data-new-calendar-event-btn>
+                                <i class="fa-solid fa-calendar-plus"></i>
+                            </button>
                             <button class="btn-icon" title="Mostrar esta semana" data-calendar-today-btn>
                                 <i class="fa-solid fa-calendar-day"></i>
                             </button>
@@ -115,13 +116,18 @@
             <div class="email-content" data-email-content>
                 <div class="buttons">
                     <div class="btn-group">
-                        <button class="btn-icon"><i class="fa-solid fa-arrow-left" data-close-email-btn></i></button>
-                        <button class="btn-icon"><i class="fa-solid fa-calendar-plus"
-                                data-new-calendar-event-btn></i></button>
+                        <button class="btn-icon" data-close-email-btn>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button class="btn-icon" data-new-calendar-event-btn>
+                            <i class="fa-solid fa-calendar-plus"></i>
+                        </button>
                     </div>
                     <div class="btn-group">
                         <!-- <i class="fa-solid fa-reply"></i> -->
-                        <button class="btn-icon"><i class="fa-solid fa-trash" data-delete-email-btn></i></button>
+                        <button class="btn-icon" data-delete-email-btn>
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="email-payload">
@@ -174,8 +180,24 @@
             </div>
         </section>
 
-        <dialog data-new-event-dialog>
-            
+        <dialog data-event-dialog>
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <span data-event-dialog-title>Evento Nuevo</span>
+                    <button class="btn-icon" data-close-event-dialog-btn>
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="dialog-form" method="dialog" data-event-form>
+                    <!-- <div class="input-group"> -->
+                        <input class="dialog-input" type="text" placeholder="Titulo">
+                        <input class="dialog-input" type="datetime-local" placeholder="Fecha de Inicio">
+                        <input class="dialog-input" type="datetime-local" placeholder="Fecha de Fin">
+                        <textarea class="dialog-input" placeholder="Descripción"></textarea>
+                    <!-- </div> -->
+                    <button type="submit" class="dialog-btn">Guardar</button>
+                </form>
+            </div>
         </dialog>
 
     </main>
@@ -203,6 +225,7 @@
 
     <script src="../libs/tippy/popper.min.js"></script>
     <script src="../libs/tippy/tippy-bundle.umd.js"></script>
+
 
     <script src="../js/main.js" type="module" defer></script>
     <script src="../js/index.js" type="module" defer></script>

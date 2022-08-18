@@ -1,7 +1,10 @@
+import EventDialog from "./eventDialog.js";
 import Tooltip from "./tooltip.js";
 
 export default class Calendar {
-    constructor(events) {
+    constructor() {
+        this.eventDialog = new EventDialog();
+        this.eventDialog.show();
         this.container = document.querySelector('.calendar-container');
         this.calendarEl = document.getElementById('calendar');
 
@@ -104,7 +107,8 @@ export default class Calendar {
 
         document.querySelectorAll('[data-new-calendar-event-btn]').forEach(btn => {
             btn.onclick = e => {
-                this.createEvent('hola', null, Date.now(), null)
+                // this.createEvent('hola', null, Date.now(), null)
+                this.eventDialog.show();
             }
         })
     }
