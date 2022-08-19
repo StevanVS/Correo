@@ -41,11 +41,23 @@ export default class View {
 
 
         this.calendar = new Calendar();
+
         this.calendar.onEventChange((id, values) => {
             this.model.editEvent(id, values);
+        });
+
+        this.calendar.onCreateEvent(values => {
+            console.log(values);
+            this.model.createEvent(values);
+            this.calendar.refresh();
+        });
+
+        this.calendar.onEditEvent(event => {
+            const { id, ...values } = event;
+            console.log(event);
+            this.model.editEvent(id, values);
+            this.calendar.refresh();
         })
-        //todo: poner controladores y rutas para editar eventos
-        //todo: metodos para acceder a la BD en el model
 
         this.handleWindowResize();
     }
@@ -191,7 +203,7 @@ export default class View {
         if (initialWidth < 992) {
             menuBtnEvent('add');
             isWitdhShort = true;
-            this.calendar.changeNumberOfDays(3);
+            this.calendar.changeNumberOfDays(4);
         }
 
         window.onresize = () => {
@@ -199,7 +211,7 @@ export default class View {
             if (width < 992) {
                 if (!isWitdhShort) menuBtnEvent('add');
                 isWitdhShort = true;
-                this.calendar.changeNumberOfDays(3);
+                this.calendar.changeNumberOfDays(4);
             } else {
                 if (isWitdhShort) menuBtnEvent('remove');
                 isWitdhShort = false;

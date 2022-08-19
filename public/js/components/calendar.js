@@ -1,10 +1,11 @@
 import EventDialog from "./eventDialog.js";
-import Tooltip from "./tooltip.js";
+import PreviewEventModal from "./previewEventModal.js";
 
 export default class Calendar {
     constructor() {
-        this.eventDialog = new EventDialog();
-        this.eventDialog.show();
+        this.eventDialog = new EventDialog('Evento Nuevo');
+        this.previewEventModal = new PreviewEventModal();
+
         this.container = document.querySelector('.calendar-container');
         this.calendarEl = document.getElementById('calendar');
 
@@ -19,14 +20,13 @@ export default class Calendar {
                 hour: '2-digit',
                 minute: '2-digit',
             },
-            eventDidMount(info) {
-                if (info.event.extendedProps.description)
-                    new Tooltip(info.el, info.event.extendedProps.description);
-            },
             editable: true,
+            displayEventEnd: true,
         });
 
-        this.setEvents();
+        this.createEventCallback = null;
+
+        this.#setEventListeners();
         this.refreshTitle();
         this.render();
     }
@@ -45,16 +45,13 @@ export default class Calendar {
         })
     }
 
-    createEvent(title, description, start, end) {
-        this.calendar.addEvent({
-            id: `event-${Date.now()}`,
-            title: title,
-            start: start,
-            end: end,
-            extendedProps: {
-                description: description,
-            }
-        });
+    onCreateEvent(callback) {
+        // this.eventDialog.onSubmit(callback);
+        this.createEventCallback = callback;
+    }
+
+    onEditEvent(callback) {
+        this.previewEventModal.onEditEvent(callback)
     }
 
     refreshTitle() {
@@ -62,13 +59,15 @@ export default class Calendar {
     }
 
     changeNumberOfDays(number) {
-        this.calendar.changeView('dayGrid')
-        this.setProperty('duration', { days: number })
+        this.calendar.changeView('dayGrid');
+        this.setProperty('duration', { days: number });
+        this.refreshTitle();
     }
 
     resetNumberOfDays() {
         this.calendar.changeView('dayGridWeek')
         this.setProperty('duration', null)
+        this.refreshTitle();
     }
 
     setProperty(name, value) {
@@ -79,7 +78,7 @@ export default class Calendar {
         return this.calendar.getOption(name);
     }
 
-    setEvents() {
+    #setEventListeners() {
         this.container.parentElement.ontransitionend = e => {
             if (e.propertyName === "width") {
                 this.calendar.updateSize();
@@ -107,13 +106,24 @@ export default class Calendar {
 
         document.querySelectorAll('[data-new-calendar-event-btn]').forEach(btn => {
             btn.onclick = e => {
-                // this.createEvent('hola', null, Date.now(), null)
+                this.eventDialog.emptyValues();
+                this.eventDialog.setTitle('Evento Nuevo');
+                this.eventDialog.onSubmit(this.createEventCallback);
                 this.eventDialog.show();
             }
-        })
+        });
+
+        this.calendar.setOption('eventClick', (eventClickInfo) => {
+            this.previewEventModal.setValues(eventClickInfo.event)
+            this.previewEventModal.show(eventClickInfo.el.getBoundingClientRect());
+        });
     }
 
     render() {
         this.calendar.render();
+    }
+
+    refresh() {
+        this.calendar.refetchEvents();
     }
 }

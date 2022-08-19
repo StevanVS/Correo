@@ -52,19 +52,34 @@ body {
 }
 
 dialog {
-  margin: auto;
+  /* margin: auto; */
   padding: 0;
   border: none;
-
   background-color: #fff;
-  width: 75vw;
-  height: 85vh;
-
   border-radius: 8px;
+  transition: var(--transition);
+  top: 100vh;
 }
 
-dialog::backdrop {
+.big-modal {
+  width: 75vw;
+  height: 85vh;
+}
+
+.big-modal::backdrop {
   background-color: #2b28286c;
+}
+
+.mini-modal {
+  margin: 0;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  max-width: 30ch;
+  top: 100vh;
+  left: auto;
+}
+
+.mini-modal::backdrop {
+  background-color: #0000;
 }
 
 a {
@@ -91,6 +106,11 @@ textarea {
 
 .btn-icon:hover {
   background-color: rgba(0, 0, 0, 6%);
+}
+
+.btn-group {
+  display: flex;
+  margin-left: 0.5em;
 }
 
 /*--- Barra Superior ---*/
@@ -416,8 +436,12 @@ textarea {
   box-shadow: 0 1px 3px 0 #0005;
 }
 
-.calendar-handle span {
+.calendar-handle .calendar-handle-text {
   margin-left: 0.4rem;
+}
+
+.calendar-handle:hover {
+  background-color: hsl(216, 100%, 95%);
 }
 
 .calendar-header {
@@ -436,14 +460,18 @@ textarea {
   align-items: center;
 }
 
-.calendar-header .btn-group {
-  display: flex;
-  margin-left: 0.5em;
-}
-
 .calendar-container.close .calendar-content {
   position: absolute;
   transform: translateY(100%);
+}
+
+.calendar-container .open-calendar,
+.calendar-container.close .close-calendar {
+  display: none;
+}
+.calendar-container .close-calendar,
+.calendar-container.close .open-calendar {
+  display: inline;
 }
 
 /* -------- CONTENIDO DE EMAIL ------------------- */
@@ -606,7 +634,7 @@ textarea {
 }
 
 .email__btn-enviar:hover {
-  background-color: rgba(0, 0, 0, .2);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .email.minimize {
@@ -645,7 +673,7 @@ textarea {
 
 .dialog-header {
   position: relative;
-  background-color: #000000b6;
+  background-color: #494949;
   color: #fff;
   padding: 10px 1em;
   display: flex;
@@ -661,16 +689,11 @@ textarea {
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
 }
-/* 
-.input-group {
-  
-  display: flex;
-  flex-direction: column;
-} */
 
 .dialog-input {
+  width: 100%;
+  background-color: #0000;
   border: 0;
   padding: 0.5rem 1rem;
   outline: none;
@@ -685,6 +708,15 @@ textarea.dialog-input {
   flex: 1;
   /* height: 21em; */
   /* border-bottom: none; */
+}
+
+label.dialog-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+input[type="datetime-local"] {
+  flex: 1;
 }
 
 .dialog-btn {
@@ -702,7 +734,46 @@ textarea.dialog-input {
   background-color: var(--color_second-dark);
 }
 
+/* ---- MINI MODAL ----- */
+
+.mini-modal .dialog-header {
+  padding: .25rem 0.6rem;
+}
+
+.mini-modal .dialog-content {
+  padding: 0.6rem;
+  padding-top: .45rem;
+  gap: .5rem;
+}
+
+.mini-modal .dialog-field {
+  display: flex;
+  justify-content: space-between;
+  gap: .3rem;
+}
+
+.mini-modal .dialog-field span {
+  text-align: end;
+}
+
+.mini-modal .event-title {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.mini-modal .event-description {
+  margin-top: .5rem;
+}
+
+
+
 /* ---- MEDIA QUERYS -------- */
+
+@media only screen and (max-width: 425px) {
+  dialog {
+    width: 90vw;
+  }
+}
 
 @media only screen and (max-width: 992px) {
   .emails {

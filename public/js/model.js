@@ -91,10 +91,21 @@ export default class Model {
         request.send(JSON.stringify(values));
     }
 
+    createEvent(values) {
+        this.sendJsonRequest('POST', '/api/users/me/events', values);
+    }
+
     async editEvent(id, values) {
         const request = new XMLHttpRequest();
         request.open('PUT', `/api/users/me/events/${id}`);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify(values));
+    }
+
+    sendJsonRequest(method, url, values) {
+        const request = new XMLHttpRequest();
+        request.open(method, url);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(values))
     }
 }

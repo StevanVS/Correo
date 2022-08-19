@@ -31,6 +31,22 @@ async function getUserEvents(req, res) {
     }
 }
 
+async function createEvent(req, res) {
+    try {
+        const userId = getUserId(req);
+        const values = {
+            user_id: userId,
+            ...req.body,
+        }
+
+        const sql = 'insert into calendar_events set ?';
+        const result = await query(sql, values);
+        res.send(result)
+    } catch (err) {
+        httpError(res, err);
+    }
+}
+
 //PUT /api/users/:userId/events/:eventId
 async function editEvent(req, res) {
     try {
@@ -49,5 +65,6 @@ async function editEvent(req, res) {
 
 module.exports = {
     getUserEvents,
+    createEvent,
     editEvent,
 }
