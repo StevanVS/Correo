@@ -51,7 +51,11 @@ export default class Calendar {
     }
 
     onEditEvent(callback) {
-        this.previewEventModal.onEditEvent(callback)
+        this.previewEventModal.onEditEvent(callback);
+    }
+
+    onDeleteEvent(callback) {
+        this.previewEventModal.onDeleteEvent(callback);
     }
 
     refreshTitle() {

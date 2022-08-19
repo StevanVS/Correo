@@ -159,7 +159,7 @@ textarea {
 }
 
 .header__Logo {
-  width: 9em;
+  width: 8.6em;
   padding: 0;
 }
 
@@ -182,7 +182,7 @@ textarea {
   font-weight: bold;
   font-size: 1.2rem;
   text-align: right;
-  width: min-content;
+  /* width: min-content; */
 }
 
 /*--- main ---*/
@@ -497,6 +497,10 @@ textarea {
   justify-content: space-between;
 }
 
+.email-content .btn-group {
+  gap: .5rem;
+}
+
 .email-payload {
   padding: 0 1rem;
 }
@@ -507,6 +511,7 @@ textarea {
 }
 
 .email-header .subject {
+  font-weight: bold;
   font-size: 1.7rem;
   margin: 0.5rem 0;
 }
@@ -717,6 +722,8 @@ label.dialog-input {
 }
 input[type="datetime-local"] {
   flex: 1;
+  border: none;
+  outline: none;
 }
 
 .dialog-btn {

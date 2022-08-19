@@ -27,6 +27,13 @@ export default class PreviewEventModal extends Modal {
         this.editEventCallback = callback;
     }
 
+    onDeleteEvent(callback) {
+        this.deleteEventBtn.onclick = e => {
+            callback(this.event.id);
+            this.close();
+        }
+    }
+
     show(elBoundingRect) {
         super.show();
 
@@ -71,5 +78,6 @@ export default class PreviewEventModal extends Modal {
             this.editEventModal.show();
             this.close()
         }
+
     }
 }

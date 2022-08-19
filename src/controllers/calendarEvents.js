@@ -63,8 +63,25 @@ async function editEvent(req, res) {
     }
 }
 
+//DELETE /api/users/:userId/events/:eventId
+async function deleteEvent(req, res) {
+    try {
+        const userId = getUserId(req);
+        const { eventId } = req.params;
+
+        const sql = 'delete from calendar_events where id = ? and user_id = ?';
+        const result = await query(sql, [eventId, userId]);
+
+        res.send(result);
+    } catch (err) {
+        httpError(res, err);
+    }
+}
+
+
 module.exports = {
     getUserEvents,
     createEvent,
     editEvent,
+    deleteEvent,
 }

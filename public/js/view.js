@@ -19,20 +19,20 @@ export default class View {
 
 
         this.emailContent = new EmailContent();
+
+        this.emailContent.onDelete((values, newLabelId) => {
+            this.model.changeEmailLabel({values, newLabelId});
+            this.render()
+        })
+
         this.draftModal = new DraftModal();
 
-        document.querySelector('[data-inbox-label]').onclick = () => {
-            this.currentLabelId = 'INBOX';
-            this.render();
-        };
-        document.querySelector('[data-sents-label]').onclick = () => {
-            this.currentLabelId = 'SENT';
-            this.render();
-        };
-        document.querySelector('[data-drafts-label]').onclick = () => {
-            this.currentLabelId = 'DRAFT';
-            this.render();
-        };
+        document.querySelectorAll('[data-label]').forEach(labelEl => {
+            labelEl.onclick = e => {
+                this.currentLabelId = labelEl.getAttribute('label-id');
+                this.render();
+            }
+        })
 
         document.querySelector('[data-new-draft-btn]').onclick = async () => this.createDraft();
 
@@ -42,23 +42,7 @@ export default class View {
 
         this.calendar = new Calendar();
 
-        this.calendar.onEventChange((id, values) => {
-            this.model.editEvent(id, values);
-        });
-
-        this.calendar.onCreateEvent(values => {
-            console.log(values);
-            this.model.createEvent(values);
-            this.calendar.refresh();
-        });
-
-        this.calendar.onEditEvent(event => {
-            const { id, ...values } = event;
-            console.log(event);
-            this.model.editEvent(id, values);
-            this.calendar.refresh();
-        })
-
+        this.#setCalendarEventListeners();
         this.handleWindowResize();
     }
 
@@ -123,8 +107,8 @@ export default class View {
         this.emails = await this.model.getUserEmails([this.currentLabelId]);
         console.log(this.emails);
 
-        document.querySelectorAll('.nav__item').forEach(item => item.classList.remove('selected'))
-        document.querySelector(`.nav__item.${this.currentLabelId}`).classList.add('selected');
+        document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
+        document.querySelector(`[label-id="${this.currentLabelId}"]`).classList.add('selected');
 
         this.renderEmails();
     }
@@ -195,6 +179,29 @@ export default class View {
         return row;
     }
 
+
+    #setCalendarEventListeners() {
+        this.calendar.onEventChange((id, values) => {
+            this.model.editEvent(id, values);
+        });
+
+        this.calendar.onCreateEvent(values => {
+            this.model.createEvent(values);
+            this.calendar.refresh();
+        });
+
+        this.calendar.onEditEvent(event => {
+            const { id, ...values } = event;
+            this.model.editEvent(id, values);
+            this.calendar.refresh();
+        })
+
+        this.calendar.onDeleteEvent((id) => {
+            this.model.deleteEvent(id);
+            this.calendar.refresh();
+        })
+
+    }
 
     handleWindowResize() {
         let isWitdhShort = false;
