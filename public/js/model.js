@@ -56,7 +56,7 @@ export default class Model {
                 url += `&labelId=${labelId}`
             });
         }
-        
+
         const emails = await fetch(url).then(r => r.json());
         return emails;
     }
@@ -89,5 +89,33 @@ export default class Model {
         request.open('POST', '/api/emails/send');
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify(values));
+    }
+
+    changeEmailLabel(data) {
+        this.sendJsonRequest('PATCH', '/api/users/me/emails', data);
+    }
+
+    createEvent(values) {
+        this.sendJsonRequest('POST', '/api/users/me/events', values);
+    }
+
+    async editEvent(id, values) {
+        const request = new XMLHttpRequest();
+        request.open('PUT', `/api/users/me/events/${id}`);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(values));
+    }
+
+    deleteEvent(id) {
+        const request = new XMLHttpRequest();
+        request.open('DELETE', `/api/users/me/events/${id}`);
+        request.send();
+    }
+
+    sendJsonRequest(method, url, values) {
+        const request = new XMLHttpRequest();
+        request.open(method, url);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(values))
     }
 }

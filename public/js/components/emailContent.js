@@ -27,8 +27,17 @@ export default class EmailContent {
         this.date.textContent = formatTimestamp(email.date);
     }
 
+    // PATCH {  values: {labelId, emailId, draftId}, newLabelId: "DELETED" }
     onDelete(callback) {
-        callback(this.email);
+        this.deleteEmailBtn.onclick = async e => {
+            const { label: { id: labelId }, id: emailId } = this.email;
+            const values = {
+                labelId,
+                emailId,
+            }
+            await callback(values, 'DELETED');
+            this.closeEmail();
+        }
     }
 
     openEmail(email) {

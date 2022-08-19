@@ -100,3 +100,26 @@ Content-Type: application/json
     "id": 2, 
     "lastname": "Lorenzo"
 }
+
+###
+GET http://localhost:8080/api/users/2/events HTTP/1.1
+
+###
+
+PUT http://localhost:8080/api/users/2/events/evet-1233334
+Content-Type: application/json
+
+{
+    "title": "hhhhhhhhh"
+}
+
+
+###
+POST http://localhost:8080/api/users/2/events/
+Content-Type: application/json
+
+{
+    "id": "eeeeeee",
+    "title": "hhhhhhhhh",
+    "start": "2022-08-16T20:00:00"
+}

@@ -1,5 +1,6 @@
 const con = require('../connection');
 const { query } = require('../connection');
+const { getUserId } = require('../helpers/getUserId')
 const { httpError } = require('../helpers/handleError');
 
 
@@ -60,10 +61,6 @@ function deleteEmail(req, res) {
     })
 }
 
-function getUserId(req) {
-    return (req.params.userId === 'me' && req.session.userId) ? req.session.userId : req.params.userId;
-}
-
 async function getHistoryId(req, res) {
     try {
         const userId = getUserId(req);
@@ -120,6 +117,22 @@ async function getUserEmails(req, res) {
         httpError(res, err)
     }
 }
+// PATCH {  values: {labelId, emailId}, newLabelId: "DELETED" }
+async function changeEmailLabel(req, res) {
+    try {
+        const userId = getUserId(req);
+        const { newLabelId } = req.body;
+        let { labelId, emailId } = req.body.values
+
+        const sql = 'UPDATE user_emails set label_id = ? where user_id = ? and label_id = ? AND email_id = ?';
+
+        const response = await query(sql, [newLabelId, userId, labelId, emailId]);
+
+        res.send(response)
+    } catch (err) {
+        httpError(res, err)
+    }
+}
 
 module.exports = {
     getEmails,
@@ -129,5 +142,6 @@ module.exports = {
     sendEmail,
     deleteEmail,
     getUserEmails,
-    getHistoryId
+    getHistoryId,
+    changeEmailLabel,
 }

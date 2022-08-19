@@ -19,31 +19,31 @@ export default class View {
 
 
         this.emailContent = new EmailContent();
+
+        this.emailContent.onDelete((values, newLabelId) => {
+            this.model.changeEmailLabel({values, newLabelId});
+            this.render()
+        })
+
         this.draftModal = new DraftModal();
 
-        document.querySelector('[data-inbox-label]').onclick = () => {
-            this.currentLabelId = 'INBOX';
-            this.render();
-        };
-        document.querySelector('[data-sents-label]').onclick = () => {
-            this.currentLabelId = 'SENT';
-            this.render();
-        };
-        document.querySelector('[data-drafts-label]').onclick = () => {
-            this.currentLabelId = 'DRAFT';
-            this.render();
-        };
+        document.querySelectorAll('[data-label]').forEach(labelEl => {
+            labelEl.onclick = e => {
+                this.currentLabelId = labelEl.getAttribute('label-id');
+                this.render();
+            }
+        })
 
         document.querySelector('[data-new-draft-btn]').onclick = async () => this.createDraft();
 
         this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
 
-        this.handleWindowResize();
 
         this.calendar = new Calendar();
-        this.calendar.render();
 
+        this.#setCalendarEventListeners();
+        this.handleWindowResize();
     }
 
     setModel(model) {
@@ -107,8 +107,8 @@ export default class View {
         this.emails = await this.model.getUserEmails([this.currentLabelId]);
         console.log(this.emails);
 
-        document.querySelectorAll('.nav__item').forEach(item => item.classList.remove('selected'))
-        document.querySelector(`.nav__item.${this.currentLabelId}`).classList.add('selected');
+        document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
+        document.querySelector(`[label-id="${this.currentLabelId}"]`).classList.add('selected');
 
         this.renderEmails();
     }
@@ -124,7 +124,8 @@ export default class View {
         const row = document.createElement('div');
         row.classList.add('email-row');
 
-        if (email.unread) row.classList.add('unread');
+        if (email.unread && this.currentLabelId !== 'SENT')
+            row.classList.add('unread');
 
         row.innerHTML = `
             <div class="block"></div>
@@ -146,7 +147,7 @@ export default class View {
         // Campo del usuario
         const userField = fieldGroup.children[0];
 
-        userField.innerHTML = email.label.id === 'DRAFT' ? userField.innerHTML : '';
+        if (email.label.id !== 'DRAFT') userField.innerHTML = '';
 
         const user = this.currentLabelId === 'SENT' || this.currentLabelId === 'DRAFT' ? email.to_user : email.from_user;
         if (user)
@@ -179,6 +180,29 @@ export default class View {
     }
 
 
+    #setCalendarEventListeners() {
+        this.calendar.onEventChange((id, values) => {
+            this.model.editEvent(id, values);
+        });
+
+        this.calendar.onCreateEvent(values => {
+            this.model.createEvent(values);
+            this.calendar.refresh();
+        });
+
+        this.calendar.onEditEvent(event => {
+            const { id, ...values } = event;
+            this.model.editEvent(id, values);
+            this.calendar.refresh();
+        })
+
+        this.calendar.onDeleteEvent((id) => {
+            this.model.deleteEvent(id);
+            this.calendar.refresh();
+        })
+
+    }
+
     handleWindowResize() {
         let isWitdhShort = false;
 
@@ -186,6 +210,7 @@ export default class View {
         if (initialWidth < 992) {
             menuBtnEvent('add');
             isWitdhShort = true;
+            this.calendar.changeNumberOfDays(4);
         }
 
         window.onresize = () => {
@@ -193,9 +218,11 @@ export default class View {
             if (width < 992) {
                 if (!isWitdhShort) menuBtnEvent('add');
                 isWitdhShort = true;
+                this.calendar.changeNumberOfDays(4);
             } else {
                 if (isWitdhShort) menuBtnEvent('remove');
                 isWitdhShort = false;
+                this.calendar.resetNumberOfDays();
             }
         }
     }

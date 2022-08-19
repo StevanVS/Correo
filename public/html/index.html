@@ -8,6 +8,9 @@
     <!-- FullCalendar -->
     <link rel="stylesheet" href="../libs/fullcalendar/main.min.css">
     <script src="../libs/fullcalendar/main.min.js"></script>
+    <!-- Tippy Tooltips -->
+    <script src="../libs/tippy/popper.min.js"></script>
+    <script src="../libs/tippy/tippy-bundle.umd.js"></script>
     <!-- Styles Css -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/normalize.css">
@@ -28,15 +31,13 @@
         <div class="header__left">
             <!-- btn izquierda -->
             <i class="fa-solid fa-bars header__menu btn" title="Expandir la barra lateral"></i>
-            <a href="/" class="header_index">
-                <img src="/img/Logo.png" alt="Logo Principal" class="header__Logo ">
-                <!-- <h1>Correo</h1> -->
+            <a href="/" class="header_index" draggable="false">
+                <img src="/img/Logo.png" alt="Logo Principal" class="header__Logo " draggable="false">
             </a>
         </div>
         <div class="header__right">
             <!-- btn derecha -->
             <!-- <i class="fa-solid fa-magnifying-glass header__search btn"></i> -->
-            <!-- <i class="fa-solid fa-circle-question header__medical btn"></i> -->
             <i class="fa-solid fa-gear header__config btn" title="Configuración"></i>
             <span class="username" data-username></span>
             <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i>
@@ -52,22 +53,31 @@
                 <span>Escribir</span>
             </div>
             <ul class="nav__content">
-                <li class="nav__item INBOX" id="nav__content1" data-inbox-label>
+                <li class="nav__item" data-label label-id="INBOX">
                     <i class="fa-solid fa-inbox icon"></i>
                     <span class="nav_list">Bandeja de Entrada</span>
                 </li>
-                <li class="nav__item SENT" id="nav__content2" data-sents-label>
+                <li class="nav__item" data-label label-id="SENT">
                     <i class="fa-solid fa-paper-plane icon"></i>
                     <span class="nav_list">Enviados</span>
                 </li>
-                <!-- <li class="nav__item 3" id="nav__content3">
+                <!-- <li class="nav__item FAVORITE" id="nav__content3">
                     <i class="fa-solid fa-star icon"></i>
                     <span class="nav_list">Favoritos</span>
                 </li> -->
-                <li class="nav__item DRAFT" id="nav__content4" data-drafts-label>
+                <li class="nav__item" data-label label-id="DRAFT">
                     <i class="fa-solid fa-file icon"></i>
                     <span class="nav_list">Borrador</span>
                 </li>
+                <li class="nav__item" data-label label-id="ARCHIVE">
+                    <i class="fa-solid fa-archive icon"></i>
+                    <span class="nav_list">Archivados</span>
+                </li>
+                <li class="nav__item" data-label label-id="DELETED">
+                    <i class="fa-solid fa-trash-alt icon"></i>
+                    <span class="nav_list">Eliminados</span>
+                </li>
+
             </ul>
         </nav>
 
@@ -76,23 +86,26 @@
                 <span data-background-text-content></span>
             </div>
 
-            <!-- <div class="emails-table-header" data-emails-table-header></div> -->
             <div class="emails-rows" data-emails-rows></div>
 
+            <!-- CALENDARIO -->
             <div class="calendar-container">
                 <div class="calendar-handle" title="Mostrar y Esconder calendrio" data-calendar-handle>
-                    <i class="fa-solid fa-angle-up"></i>
-                    <i class="fa-solid fa-angle-down"></i>
-                    <span>Calendario</span>
+                    <i class="fa-solid fa-angle-up open-calendar"></i>
+                    <i class="fa-solid fa-angle-down close-calendar"></i>
+                    <span class="calendar-handle-text">Calendario</span>
                 </div>
 
                 <div class="calendar-content">
                     <div class="calendar-header">
                         <div class="chunk">
-                            <span data-calendar-title>14-20 agosss 2022</span>
+                            <span data-calendar-title></span>
                         </div>
                         <div class="chunk"></div>
                         <div class="chunk">
+                            <button class="btn-icon" title="Añadir nuevo Evento" data-new-calendar-event-btn>
+                                <i class="fa-solid fa-calendar-plus"></i>
+                            </button>
                             <button class="btn-icon" title="Mostrar esta semana" data-calendar-today-btn>
                                 <i class="fa-solid fa-calendar-day"></i>
                             </button>
@@ -110,16 +123,25 @@
                 </div>
             </div>
 
+            <!-- CONTENIDO DEL EMAIL -->
             <div class="email-content" data-email-content>
                 <div class="buttons">
                     <div class="btn-group">
-                        <button class="btn-icon"><i class="fa-solid fa-arrow-left" data-close-email-btn></i></button>
-                        <button class="btn-icon"><i class="fa-solid fa-calendar-plus"
-                                data-new-calendar-event-btn></i></button>
+                        <button class="btn-icon" title="Cerrar Correo" data-close-email-btn>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button class="btn-icon" title="Añadir nuevo Evento" data-new-calendar-event-btn>
+                            <i class="fa-solid fa-calendar-plus"></i>
+                        </button>
+                        <button class="btn-icon" title="Archivar Correo" data-archive-email-btn>
+                            <i class="fa-solid fa-archive"></i>
+                        </button>
                     </div>
                     <div class="btn-group">
                         <!-- <i class="fa-solid fa-reply"></i> -->
-                        <button class="btn-icon"><i class="fa-solid fa-trash" data-delete-email-btn></i></button>
+                        <button class="btn-icon" title="Eliminar Correo" data-delete-email-btn>
+                            <i class="fa-solid fa-trash-alt"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="email-payload">
@@ -172,9 +194,63 @@
             </div>
         </section>
 
+        <dialog class="big-modal" data-event-dialog>
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <span data-event-dialog-title>Evento Nuevo</span>
+                    <button class="btn-icon" data-close-event-dialog-btn>
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="dialog-form" method="dialog" data-event-form>
+                    <input class="dialog-input" type="text" placeholder="Titulo" required autofocus
+                        data-event-title-input>
+                    <label class="dialog-input"> Fecha de Inicio:
+                        <input type="datetime-local" placeholder="Fecha de Inicio" required data-event-start-input>
+                    </label>
+                    <label class="dialog-input"> Fecha de Fin:
+                        <input type="datetime-local" placeholder="Fecha de Fin" data-event-end-input>
+                    </label>
+                    <textarea class="dialog-input" placeholder="Descripción" data-event-description-input></textarea>
+                    <button type="submit" class="dialog-btn">Guardar</button>
+                </form>
+            </div>
+        </dialog>
+
+        <dialog class="mini-modal" data-preview-event-dialog>
+            <div class="dialog-header">
+                <span>Evento</span>
+                <div class="btn-group">
+                    <button class="btn-icon" title="Editar Evento" data-edit-event-btn>
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="btn-icon" title="Eliminar Evento" data-delete-event-btn>
+                        <i class="fa-solid fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="dialog-content">
+                <div class="dialog-field event-title">
+                    <span data-event-title-field></span>
+                </div>
+                <div class="dialog-field"><strong>Inicio:</strong>
+                    <span data-event-start-field></span>
+                </div>
+                <div class="dialog-field"><strong>Fin:</strong>
+                    <span data-event-end-field></span>
+                </div>
+                <div class="dialog-field event-description">
+                    <span data-event-description-field></span>
+                </div>
+            </div>
+        </dialog>
+
     </main>
     <!-- Loader Controller -->
     <script>
+
+        // document.querySelector('[data-preview-event-dialog]').showModal();
+
         window.onload = () => {
             const loader = document.querySelector('.loader-wrapper')
             // loader.style.opacity = 0;
@@ -191,6 +267,10 @@
             }, 10)
         }
     </script>
+
+    <!-- <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script> -->
+
     <script src="../js/main.js" type="module" defer></script>
     <script src="../js/index.js" type="module" defer></script>
 </body>
