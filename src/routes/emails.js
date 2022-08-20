@@ -14,7 +14,8 @@ router.delete('/emails/:emailId', deleteEmail);
 
 
 router.get('/users/:userId/historyId', getHistoryId);
-router.get('/users/:userId/emails', getUserEmails);
+// router.get('/users/:userId/emails', getUserEmails);
+router.get('/users/:userId/emails/:labelId', getUserEmails);
 router.patch('/users/:userId/emails', changeEmailLabel);
 
 module.exports = router;

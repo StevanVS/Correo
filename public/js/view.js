@@ -6,11 +6,10 @@ import { menuBtnEvent } from "./main.js";
 
 export default class View {
     constructor() {
-        this.model = null;
+        this.controller = null;
         this.currentUser = null;
         this.historyId = null;
         this.emails = null;
-        this.header = null;
 
         this.currentLabelId = 'INBOX'
 
@@ -21,7 +20,7 @@ export default class View {
         this.emailContent = new EmailContent();
 
         this.emailContent.onDelete((values, newLabelId) => {
-            this.model.changeEmailLabel({values, newLabelId});
+            this.controller.changeEmailLabel({ values, newLabelId });
             this.render()
         })
 
@@ -29,7 +28,9 @@ export default class View {
 
         document.querySelectorAll('[data-label]').forEach(labelEl => {
             labelEl.onclick = e => {
-                this.currentLabelId = labelEl.getAttribute('label-id');
+                const labelId = labelEl.getAttribute('label-id');
+                if (labelId === this.currentLabelId) return;
+                this.currentLabelId = labelId;
                 this.render();
             }
         })
@@ -46,19 +47,19 @@ export default class View {
         this.handleWindowResize();
     }
 
-    setModel(model) {
-        this.model = model;
+    setController(controller) {
+        this.controller = controller;
     }
 
     async createDraft() {
-        const drafts = await this.model.getUserEmails(['DRAFT']);
+        const drafts = await this.controller.getUserEmails(['DRAFT']);
         const emptyDraft = drafts.find(draft => (
             !draft.subject && !draft.message && !draft.to_user
         ))
 
         if (!emptyDraft) {
             this.draftModal.emptyValues();
-            this.model.createDraft(this.currentUser.id);
+            this.controller.createDraft(this.currentUser.id);
         } else {
             this.draftModal.setValues(emptyDraft);
         }
@@ -67,25 +68,25 @@ export default class View {
     }
 
     async editDraft(draftId, values) {
-        await this.model.editDraft(draftId, values)
+        await this.controller.editDraft(draftId, values)
         if (this.currentLabelId === 'DRAFT') this.render();
     }
 
     async sendEmail(draftId, { to_user, subject, message }) {
-        const toUser = await this.model.getUserByEmail(to_user);
+        const toUser = await this.controller.getUserByEmail(to_user);
         if (!toUser || toUser == null) {
             alert('No existe usuario con el correo: ' + to_user);
             return false;
         }
 
-        this.model.sendEmail({
+        this.controller.sendEmail({
             from_user: this.currentUser.id,
             to_user: toUser.id,
             subject: subject,
             message: message,
         })
 
-        this.model.deleteDraft(draftId);
+        this.controller.deleteDraft(draftId);
 
         alert('Correo Enviado!');
         this.render();
@@ -93,28 +94,34 @@ export default class View {
     }
 
     async handleRefresh() {
-        const newHistoryId = await this.model.getHistoryId();
+        const newHistoryId = await this.controller.getHistoryId();
         if (newHistoryId !== this.historyId) {
             this.historyId = newHistoryId;
             this.render();
         }
     }
 
-    async render() {
-        this.currentUser = await this.model.getCurrentUser();
+    async initView() {
+        this.currentUser = await this.controller.getCurrentUser();
         document.querySelector('[data-username]').innerText = `${this.currentUser.name} ${this.currentUser.lastname}`;
 
-        this.emails = await this.model.getUserEmails([this.currentLabelId]);
-        console.log(this.emails);
-
+        this.historyId = await this.controller.getHistoryId();
+        this.render();
+    }
+    
+    async render() {
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
         document.querySelector(`[label-id="${this.currentLabelId}"]`).classList.add('selected');
 
-        this.renderEmails();
-    }
-
-    async renderEmails() {
-        this.emailsContainer.innerHTML = ''
+        this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
+        
+        //todo Empezar animacion emailLoader
+        
+        this.emails = await this.controller.getUserEmails(this.currentLabelId);
+        
+        //todo Terminar animacion loader
+        this.emailsContainer.innerHTML = '';
+        
         this.emails.forEach(email => {
             this.emailsContainer.appendChild(this.createEmailRow(email));
         })
@@ -182,22 +189,22 @@ export default class View {
 
     #setCalendarEventListeners() {
         this.calendar.onEventChange((id, values) => {
-            this.model.editEvent(id, values);
+            this.controller.editEvent(id, values);
         });
 
         this.calendar.onCreateEvent(values => {
-            this.model.createEvent(values);
+            this.controller.createEvent(values);
             this.calendar.refresh();
         });
 
         this.calendar.onEditEvent(event => {
             const { id, ...values } = event;
-            this.model.editEvent(id, values);
+            this.controller.editEvent(id, values);
             this.calendar.refresh();
         })
 
         this.calendar.onDeleteEvent((id) => {
-            this.model.deleteEvent(id);
+            this.controller.deleteEvent(id);
             this.calendar.refresh();
         })
 

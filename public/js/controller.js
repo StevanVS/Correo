@@ -1,7 +1,6 @@
-export default class Model {
+export default class Controller {
     constructor() {
         this.view = null;
-
     }
 
     setView(view) {
@@ -48,15 +47,8 @@ export default class Model {
         return historyId.id;
     }
 
-    async getUserEmails(labelIds) {
-        let url = '/api/users/me/emails?';
-
-        if (labelIds) {
-            labelIds.forEach(labelId => {
-                url += `&labelId=${labelId}`
-            });
-        }
-
+    async getUserEmails(labelId) {
+        let url = `/api/users/me/emails/${labelId}`;
         const emails = await fetch(url).then(r => r.json());
         return emails;
     }
@@ -99,11 +91,8 @@ export default class Model {
         this.sendJsonRequest('POST', '/api/users/me/events', values);
     }
 
-    async editEvent(id, values) {
-        const request = new XMLHttpRequest();
-        request.open('PUT', `/api/users/me/events/${id}`);
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify(values));
+    async editEvent(id, data) {
+        this.sendJsonRequest('PUT', `/api/users/me/events/${id}`, data)
     }
 
     deleteEvent(id) {
@@ -112,10 +101,10 @@ export default class Model {
         request.send();
     }
 
-    sendJsonRequest(method, url, values) {
+    sendJsonRequest(method, url, data) {
         const request = new XMLHttpRequest();
         request.open(method, url);
         request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify(values))
+        request.send(JSON.stringify(data))
     }
 }

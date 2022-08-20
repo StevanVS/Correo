@@ -23,7 +23,6 @@ export default class PreviewEventModal extends Modal {
     }
 
     onEditEvent(callback) {
-        // this.editEventModal.onSubmit(callback);
         this.editEventCallback = callback;
     }
 

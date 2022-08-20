@@ -76,16 +76,11 @@ async function getHistoryId(req, res) {
 async function getUserEmails(req, res) {
     try {
         const userId = getUserId(req);
+        const labelId = req.params.labelId;
 
-        let userEmails = await query('select * from user_emails where user_id = ?', userId);
+        let sql = 'select * from user_emails where user_id = ? and label_id = ?';
 
-        if (req.query.labelId != null) {
-            const labelIds = [req.query.labelId].flat();
-
-            userEmails = userEmails
-                .filter(userEmail => labelIds
-                    .some(labelId => labelId === userEmail.label_id));
-        }
+        let userEmails = await query(sql, [userId, labelId]);
 
         let emails = [];
 

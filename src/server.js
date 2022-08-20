@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
 const { login } = require('./middlewares/login');
+const apicache = require('apicache');
 const path = require('path');
 
 const router = require('./routes');
@@ -13,7 +14,7 @@ const port = process.env.PORT || 8080;
 
 // control de sesión
 app.use(sessions({
-    secret: "misesionsecreta1",
+    secret: "manolito23",
     saveUninitialized: true,
     cookie: {
         maxAge: null
@@ -31,6 +32,9 @@ app.use(authRouter);
 
 // para usar cookies
 app.use(cookieParser());
+
+// Configuracion de Cache
+// app.use(apicache.middleware('5 minutes'))
 
 // configurar archivos publicos
 app.use(express.static('public'));

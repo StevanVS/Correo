@@ -1,13 +1,13 @@
 import View from "./view.js";
-import Model from "./model.js";
+import Controller from "./controller.js";
 
-const model = new Model();
+const controller = new Controller();
 const view = new View();
 
-view.setModel(model);
-model.setView(view);
+view.setController(controller);
+controller.setView(view);
 
-view.render();
+view.initView();
 
 setInterval(() => {
     view.handleRefresh();
