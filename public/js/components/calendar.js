@@ -1,3 +1,4 @@
+import { formatDate } from "./dateFormater.js";
 import EventDialog from "./eventDialog.js";
 import PreviewEventModal from "./previewEventModal.js";
 
@@ -36,8 +37,8 @@ export default class Calendar {
             const e = changeInfo.event;
             const values = {
                 title: e.title,
-                start: e.start,
-                end: e.end,
+                start: formatDate(e.start),
+                end: e.end ? formatDate(e.end) : null,
                 description: e.extendedProps.description,
             }
 

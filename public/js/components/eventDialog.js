@@ -1,4 +1,5 @@
 import Modal from "./Modal.js";
+import { formatDate } from "./dateFormater.js";
 
 export default class EventDialog extends Modal {
     constructor() {
@@ -50,36 +51,13 @@ export default class EventDialog extends Modal {
         this.event = event;
         const { title, start, end, extendedProps: { description } } = event;
         this.titleInput.value = title;
-        this.startInput.value = this.#formatDate(start);
-        this.endInput.value = end ? this.#formatDate(end) : '';
+        this.startInput.value = formatDate(start);
+        this.endInput.value = end ? formatDate(end) : '';
         this.descriptionInput.value = description || '';
     }
 
     setTitle(title) {
         document.querySelector('[data-event-dialog-title]').textContent = title;
-    }
-
-    #formatDate(d) {
-
-        let month = d.getMonth();
-        month++;
-        month = this.#toTwoDigits(month);
-
-        const day = this.#toTwoDigits(d.getDate())
-
-        let year = d.getFullYear();
-
-        const hours = this.#toTwoDigits(d.getHours())
-
-        const min = this.#toTwoDigits(d.getMinutes());
-
-        const dateString = `${year}-${month}-${day}T${hours}:${min}`;
-        console.log(dateString);
-        return dateString;
-    }
-
-    #toTwoDigits(v) {
-        return v.toString().length === 1 ? `0${v}` : v;
     }
 
     #setEventListeners() {

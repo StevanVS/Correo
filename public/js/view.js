@@ -1,5 +1,5 @@
 import Calendar from "./components/calendar.js";
-import formatTimestamp from "./components/dateFormater.js";
+import { formatTimestamp } from "./components/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
 import EmailContent from "./components/emailContent.js";
 import { menuBtnEvent } from "./main.js";
@@ -108,20 +108,20 @@ export default class View {
         this.historyId = await this.controller.getHistoryId();
         this.render();
     }
-    
+
     async render() {
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
         document.querySelector(`[label-id="${this.currentLabelId}"]`).classList.add('selected');
 
         this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
-        
+
         //todo Empezar animacion emailLoader
-        
+
         this.emails = await this.controller.getUserEmails(this.currentLabelId);
-        
+
         //todo Terminar animacion loader
         this.emailsContainer.innerHTML = '';
-        
+
         this.emails.forEach(email => {
             this.emailsContainer.appendChild(this.createEmailRow(email));
         })
