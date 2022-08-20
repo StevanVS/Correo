@@ -42,11 +42,11 @@ export default class EmailContent {
 
     openEmail(email) {
         this.setValues(email);
-        this.container.style.display = 'block';
+        this.container.classList.add('open');
     }
-
+    
     closeEmail() {
-        this.container.style.display = 'none';
+        this.container.classList.remove('open');
     }
 
 }

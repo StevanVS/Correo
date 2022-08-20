@@ -1,6 +1,7 @@
 import Calendar from "./components/calendar.js";
 import { formatTimestamp } from "./components/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
+import EmailAlert from "./components/emailAlert.js";
 import EmailContent from "./components/emailContent.js";
 import { menuBtnEvent } from "./main.js";
 
@@ -11,11 +12,14 @@ export default class View {
         this.historyId = null;
         this.emails = null;
 
-        this.currentLabelId = 'INBOX'
+        this.currentLabelId = 'INBOX';
+        this.currentLabel = {
+            id: 'INBOX',
+            name: 'Bandeja de Entrada',
+        }
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
-        this.backgroundTextEl = document.querySelector('[data-background-text-content]');
-
+        this.emailAlert = new EmailAlert();
 
         this.emailContent = new EmailContent();
 
@@ -31,6 +35,7 @@ export default class View {
                 const labelId = labelEl.getAttribute('label-id');
                 if (labelId === this.currentLabelId) return;
                 this.currentLabelId = labelId;
+                this.currentLabel.name = labelEl.textContent;
                 this.render();
             }
         })
@@ -113,18 +118,26 @@ export default class View {
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
         document.querySelector(`[label-id="${this.currentLabelId}"]`).classList.add('selected');
 
-        this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
+        this.handleEmails();
+    }
 
-        //todo Empezar animacion emailLoader
+    async handleEmails() {
+        //Empezar animacion email-loader
+        this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
+        this.emailAlert.hide();
 
         this.emails = await this.controller.getUserEmails(this.currentLabelId);
+        if (this.emails.length === 0) {
+            this.emailAlert.show(`La pestaña '${this.currentLabel.name}' está vacia`)
+        }
 
-        //todo Terminar animacion loader
+        //Terminar animacion loader
         this.emailsContainer.innerHTML = '';
 
         this.emails.forEach(email => {
             this.emailsContainer.appendChild(this.createEmailRow(email));
         })
+
     }
 
     createEmailRow(email) {

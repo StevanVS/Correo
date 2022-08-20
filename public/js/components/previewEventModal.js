@@ -41,6 +41,7 @@ export default class PreviewEventModal extends Modal {
         const { height: mHeight, width: mWidth } = this.modal.getBoundingClientRect();
 
         if (eRight > window.innerWidth - 50) this.modal.style.right = 0;
+        else if(eLeft < 50) this.modal.style.left = 0;
         else this.modal.style.left = (eLeft - (mWidth - eWidth) / 2) + 'px';
 
         this.modal.style.top = (eTop - mHeight - 5) + 'px';

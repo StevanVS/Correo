@@ -14,7 +14,7 @@ export default class Calendar {
             initialView: 'dayGridWeek',
             duration: null,
             locale: 'es',
-            height: '180px',
+            height: '30vh',
             headerToolbar: false,
             events: { url: '/api/users/me/events' },
             eventTimeFormat: {
@@ -33,7 +33,7 @@ export default class Calendar {
     }
 
     onEventChange(callback) {
-        this.calendar.setOption('eventChange', (changeInfo) => {
+        this.calendar.setOption('eventChange', async (changeInfo) => {
             const e = changeInfo.event;
             const values = {
                 title: e.title,
@@ -41,8 +41,9 @@ export default class Calendar {
                 end: e.end ? formatDate(e.end) : null,
                 description: e.extendedProps.description,
             }
-
-            callback(e.id, values);
+            //todo show loader
+            await callback(e.id, values);
+            // todo hide loader
         })
     }
 

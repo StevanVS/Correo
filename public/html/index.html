@@ -67,7 +67,7 @@
                 </li> -->
                 <li class="nav__item" data-label label-id="DRAFT">
                     <i class="fa-solid fa-file icon"></i>
-                    <span class="nav_list">Borrador</span>
+                    <span class="nav_list">Borradores</span>
                 </li>
                 <li class="nav__item" data-label label-id="ARCHIVE">
                     <i class="fa-solid fa-archive icon"></i>
@@ -82,8 +82,11 @@
         </nav>
 
         <section class="emails">
-            <div class="alert-container"></div>
-            
+
+            <div class="email-alert-container" data-email-alert-container>
+                <div class="email-alert-content info" data-email-alert-content></div>
+            </div>
+
             <div class="emails-rows" data-emails-rows>
             </div>
 
@@ -94,6 +97,8 @@
                     <i class="fa-solid fa-angle-down close-calendar"></i>
                     <span class="calendar-handle-text">Calendario</span>
                 </div>
+
+                <!-- <div class="lds-dual-ring"></div> -->
 
                 <div class="calendar-content">
                     <div class="calendar-header">
@@ -247,9 +252,6 @@
     </main>
     <!-- Loader Controller -->
     <script>
-
-        // document.querySelector('[data-preview-event-dialog]').showModal();
-
         window.onload = () => {
             const loader = document.querySelector('.loader-wrapper')
             // loader.style.opacity = 0;
