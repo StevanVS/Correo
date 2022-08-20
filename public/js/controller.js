@@ -92,7 +92,9 @@ export default class Controller {
     }
 
     async editEvent(id, data) {
-        this.sendJsonRequest('PUT', `/api/users/me/events/${id}`, data)
+        // this.sendJsonRequest('PUT', `/api/users/me/events/${id}`, data)
+        const result = await this.#fetch('PUT', `/api/users/me/events/${id}`, data);
+        return result;
     }
 
     deleteEvent(id) {
@@ -101,10 +103,21 @@ export default class Controller {
         request.send();
     }
 
-    sendJsonRequest(method, url, data) {
+    async sendJsonRequest(method, url, data) {
         const request = new XMLHttpRequest();
+        request.onload = () => {console.log(JSON.parse(request.response))};
         request.open(method, url);
         request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify(data))
+        request.send(JSON.stringify(data));
+    }
+
+    async #fetch(method, url, data) {
+        const options = {
+            method,
+            body: JSON.stringify(data),
+            headers: {"Content-Type": "application/json"}
+        }
+        const result = await fetch(url, options).then(r => r.json());
+        return result;
     }
 }

@@ -42,7 +42,7 @@ export default class Calendar {
                 description: e.extendedProps.description,
             }
             //todo show loader
-            await callback(e.id, values);
+            const result = await callback(e.id, values);
             // todo hide loader
         })
     }
@@ -131,5 +131,11 @@ export default class Calendar {
 
     refresh() {
         this.calendar.refetchEvents();
+    }
+    close() {
+        this.container.classList.add('close');
+    }
+    open() {
+        this.container.classList.remove('close');
     }
 }

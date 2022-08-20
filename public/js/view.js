@@ -3,7 +3,7 @@ import { formatTimestamp } from "./components/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
 import EmailAlert from "./components/emailAlert.js";
 import EmailContent from "./components/emailContent.js";
-import { menuBtnEvent } from "./main.js";
+import { expandNav, reduceNav } from "./main.js";
 
 export default class View {
     constructor() {
@@ -12,7 +12,6 @@ export default class View {
         this.historyId = null;
         this.emails = null;
 
-        this.currentLabelId = 'INBOX';
         this.currentLabel = {
             id: 'INBOX',
             name: 'Bandeja de Entrada',
@@ -24,6 +23,8 @@ export default class View {
         this.emailContent = new EmailContent();
 
         this.emailContent.onDelete((values, newLabelId) => {
+            // todo eliminar permanentemente
+            if (this.currentLabel.id === 'DELETED') {}
             this.controller.changeEmailLabel({ values, newLabelId });
             this.render()
         })
@@ -32,9 +33,10 @@ export default class View {
 
         document.querySelectorAll('[data-label]').forEach(labelEl => {
             labelEl.onclick = e => {
+                if (window.innerWidth < 992) reduceNav();
                 const labelId = labelEl.getAttribute('label-id');
-                if (labelId === this.currentLabelId) return;
-                this.currentLabelId = labelId;
+                if (labelId === this.currentLabel.id) return;
+                this.currentLabel.id = labelId;
                 this.currentLabel.name = labelEl.textContent;
                 this.render();
             }
@@ -74,7 +76,7 @@ export default class View {
 
     async editDraft(draftId, values) {
         await this.controller.editDraft(draftId, values)
-        if (this.currentLabelId === 'DRAFT') this.render();
+        if (this.currentLabel.id === 'DRAFT') this.render();
     }
 
     async sendEmail(draftId, { to_user, subject, message }) {
@@ -116,7 +118,7 @@ export default class View {
 
     async render() {
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
-        document.querySelector(`[label-id="${this.currentLabelId}"]`).classList.add('selected');
+        document.querySelector(`[label-id="${this.currentLabel.id}"]`).classList.add('selected');
 
         this.handleEmails();
     }
@@ -125,11 +127,13 @@ export default class View {
         //Empezar animacion email-loader
         this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
         this.emailAlert.hide();
-
-        this.emails = await this.controller.getUserEmails(this.currentLabelId);
+        
+        this.emails = await this.controller.getUserEmails(this.currentLabel.id);
         if (this.emails.length === 0) {
             this.emailAlert.show(`La pestaña '${this.currentLabel.name}' está vacia`)
         }
+        if (this.currentLabel.id === 'DELETED') 
+            this.emailAlert.show('Los Correos presentes en esta pestaña serán eliminados dentro de 30 días')
 
         //Terminar animacion loader
         this.emailsContainer.innerHTML = '';
@@ -144,7 +148,7 @@ export default class View {
         const row = document.createElement('div');
         row.classList.add('email-row');
 
-        if (email.unread && this.currentLabelId !== 'SENT')
+        if (email.unread && this.currentLabel.id !== 'SENT')
             row.classList.add('unread');
 
         row.innerHTML = `
@@ -169,7 +173,7 @@ export default class View {
 
         if (email.label.id !== 'DRAFT') userField.innerHTML = '';
 
-        const user = this.currentLabelId === 'SENT' || this.currentLabelId === 'DRAFT' ? email.to_user : email.from_user;
+        const user = this.currentLabel.id === 'SENT' || this.currentLabel.id === 'DRAFT' ? email.to_user : email.from_user;
         if (user)
             userField.innerHTML += email.label.id !== 'DRAFT' ? `${user.name} ${user.lastname}` : user;
         else
@@ -201,8 +205,8 @@ export default class View {
 
 
     #setCalendarEventListeners() {
-        this.calendar.onEventChange((id, values) => {
-            this.controller.editEvent(id, values);
+        this.calendar.onEventChange(async (id, values) => {
+            return await this.controller.editEvent(id, values);
         });
 
         this.calendar.onCreateEvent(values => {
@@ -224,26 +228,42 @@ export default class View {
     }
 
     handleWindowResize() {
-        let isWitdhShort = false;
-
-        const initialWidth = window.innerWidth;
-        if (initialWidth < 992) {
-            menuBtnEvent('add');
-            isWitdhShort = true;
-            this.calendar.changeNumberOfDays(4);
-        }
-
+        let isNavExpanded = true;
+        let isCalendarClosed = false;
         window.onresize = () => {
+            const breakPoints = {
+                short: 425,
+                medium: 768,
+                large: 1024
+            };
+
             const width = window.innerWidth;
-            if (width < 992) {
-                if (!isWitdhShort) menuBtnEvent('add');
-                isWitdhShort = true;
-                this.calendar.changeNumberOfDays(4);
-            } else {
-                if (isWitdhShort) menuBtnEvent('remove');
-                isWitdhShort = false;
+            if (width > breakPoints.large) {
+                if (!isNavExpanded) {
+                    expandNav();
+                    isNavExpanded = !isNavExpanded
+                }
+
                 this.calendar.resetNumberOfDays();
+            } else {
+                if (isNavExpanded) {
+                    reduceNav();
+                    isNavExpanded = !isNavExpanded
+                }
+                if (width > breakPoints.medium) {
+                    if (isCalendarClosed) {
+                        this.calendar.open();
+                        isCalendarClosed = !isCalendarClosed;
+                    }
+                    this.calendar.changeNumberOfDays(4);
+                } else {
+                    this.calendar.close();
+                    isCalendarClosed = true
+                    this.calendar.changeNumberOfDays(3);
+                }
             }
         }
+        window.dispatchEvent(new Event('resize'))
     }
+
 }

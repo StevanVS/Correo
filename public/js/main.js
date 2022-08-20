@@ -10,6 +10,7 @@ const nav = document.querySelector(".nav");
 const btn__redactar = document.querySelector(".btn__redactar");
 const icon__redactar = document.querySelector(".icon__redactar");
 const emails = document.querySelector(".emails");
+const navItems = document.querySelectorAll('.nav__item');
 
 
 
@@ -38,7 +39,7 @@ export function menuBtnEvent(action) {
         nav,
         btn__redactar,
         icon__redactar,
-        [...document.querySelectorAll('.nav__item')],
+        [...navItems],
         emails
     ], action, 'active');
 }
@@ -48,4 +49,12 @@ function alterElementClass(elements, action, className) {
     elements.forEach(element => {
         element.classList[action](className);
     });
+}
+
+export function expandNav() {
+    menuBtnEvent('remove');
+}
+
+export function reduceNav() {
+    menuBtnEvent('add');
 }
