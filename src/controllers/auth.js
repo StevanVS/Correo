@@ -28,14 +28,17 @@ async function loginControl(req, res) {
 
 async function singupControl(req, res) {
     try {
-        const newUser = req.body;
+        const { type, ...newUser } = req.body;
 
         // VALIDAR SI NO SE REPITE EL EMAIL
 
-        await query('INSERT INTO users SET ?', newUser);
+        const sql = 'INSERT INTO users SET ?';
 
-        res.status(201).send()
+        const result = await query(sql, newUser);
 
+        req.session.userId = result.insertId;
+
+        res.status(201).send(result);
     } catch (err) {
         httpError(res, err)
     }

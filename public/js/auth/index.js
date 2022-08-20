@@ -50,14 +50,14 @@ singupForm.onsubmit = (e) => {
 
     const req = new XMLHttpRequest();
     req.onload = function () {
-        window.location.href = '/login-singup';
+        window.location.href = '/';
     }
 
     req.onerror = function (e) {
         console.log(e);
     }
 
-    req.open('post', '/api/users', true);
+    req.open('post', '/login-singup', true);
     req.setRequestHeader('Content-type', 'application/json')
     req.send(JSON.stringify(data));
 }

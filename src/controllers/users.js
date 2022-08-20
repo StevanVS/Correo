@@ -16,14 +16,13 @@ function getUser(req, res) {
         })
 }
 
-function createUser(req, res) {
+async function createUser(req, res) {
     const user = req.body;
     const sql = 'INSERT INTO users SET ?';
 
-    query(sql, user, (err, rows) => {
-        if (err) console.log(err);
-        res.status(201).send(`New User ID: ${rows.insertId}`);
-    })
+    const result = await query(sql, user);
+
+    res.status(201).send(result);
 }
 
 function editUser(req, res) {
