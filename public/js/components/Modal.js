@@ -1,6 +1,10 @@
 export default class Modal {
-    constructor(modalEl) {
+    constructor(modalEl, closeBtnEl) {
         this.modal = modalEl;
+
+        if (closeBtnEl) closeBtnEl.onclick = () => {
+            this.close()
+        };
 
         this.modal.onmousedown = e => {
             if (e.target.tagName === 'DIALOG') {
@@ -9,9 +13,19 @@ export default class Modal {
         }
     }
 
-    show() {
+    showModal() {
         this.modal.showModal();
         this.modal.style.top = 0;
+
+        this.modal.style.visibility = 'visible';
+        this.modal.style.opacity = 1;
+    }
+
+    show() {
+        this.modal.show();
+        
+        this.modal.style.visibility = 'visible';
+        this.modal.style.opacity = 1;
     }
 
     close() {
@@ -19,5 +33,8 @@ export default class Modal {
         this.modal.style.left = '';
         this.modal.style.right = '';
         this.modal.close();
+
+        this.modal.style.visibility = 'hidden';
+        this.modal.style.opacity = 0;
     }
 }

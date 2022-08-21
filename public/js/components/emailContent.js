@@ -1,4 +1,4 @@
-import { formatTimestamp } from "./dateFormater.js";
+import { formatTimestamp } from "../utils/dateFormater.js";
 
 export default class EmailContent {
     constructor() {

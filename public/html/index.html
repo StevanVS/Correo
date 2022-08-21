@@ -11,6 +11,9 @@
     <!-- Tippy Tooltips -->
     <script src="../libs/tippy/popper.min.js"></script>
     <script src="../libs/tippy/tippy-bundle.umd.js"></script>
+    <!-- Toastify alertas -->
+    <!-- <link rel="stylesheet" href="../libs/toastify/toastify.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!-- Styles Css -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/normalize.css">
@@ -30,17 +33,74 @@
         <!-- Barra superior -->
         <div class="header__left">
             <!-- btn izquierda -->
-            <i class="fa-solid fa-bars header__menu btn" title="Expandir la barra lateral"></i>
+            <button class="btn-icon header__menu" title="Expandir la barra lateral">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <a href="/" class="header_index" draggable="false">
                 <img src="/img/Logo.png" alt="Logo Principal" class="header__Logo " draggable="false">
             </a>
+            <span class="nav-text label-title" data-label-title></span>
         </div>
         <div class="header__right">
             <!-- btn derecha -->
-            <!-- <i class="fa-solid fa-magnifying-glass header__search btn"></i> -->
-            <i class="fa-solid fa-gear header__config btn" title="Configuración"></i>
+            <!-- <i class="fa-solid fa-gear header__config btn" title="Configuración"></i>
             <span class="username" data-username></span>
-            <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i>
+            <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i> -->
+
+            <!-- <li class="header__li">
+                <i class="fa-solid fa-gear header__config btn"></i>
+
+            </li> -->
+            <li class="data__user header__li">
+                <span class="nav-text username" data-username></span>
+                <div class="user-img-container" data-submenu-btn>
+                    <!-- <i class="fa-solid fa-circle-user"></i> -->
+                    <img class="user-img" src="../img/userImage.jpg" alt="Foto de perfil">
+                </div>
+                <ul class="submenu">
+                    <div class="config-group">
+                        <li class="config-text user" data-username>Usuario</li>
+                        <li class="config-text" data-user-email-address>svelez0841@</li>
+                    </div>
+                    <div class="config-group">
+                        <li>
+                            <div class="config__element">
+                                <i class="fa-solid fa-user-gear"></i>
+                                Editar perfil
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/logout">
+                                <div class="config__element" data-logout-btn>
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                    Cerrar Sesión
+                                </div>
+                            </a>
+                        </li>
+                    </div>
+                    <!-- <div class="config-group">
+                        <li>
+                            <div class="config__element">Cambiar de tema</div>
+                        </li>
+                        <li>
+                            <div class="config__element">Desactivar al guia</div>
+                        </li>
+                    </div> -->
+                    <li>
+                        <div class="config__element">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Documentación
+                        </div>
+                    </li>
+                    <li>
+                        <div class="config__element">
+                            <i class="fa-solid fa-circle-question"></i>
+                            Soporte
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
         </div>
     </header>
     <main class="main">
@@ -75,7 +135,7 @@
                 </li>
                 <li class="nav__item" data-label label-id="DELETED">
                     <i class="fa-solid fa-trash-alt icon"></i>
-                    <span class="nav_list">Eliminados</span>
+                    <span class="nav_list">Papelera</span>
                 </li>
 
             </ul>
@@ -83,17 +143,18 @@
 
         <section class="emails">
 
+            <!-- CUADRO DE ALERTA -->
             <div class="email-alert-container" data-email-alert-container>
-                <div class="email-alert-content info" data-email-alert-content>
+                <div class="email-alert-content" data-email-alert-content>
                     <span data-email-alert-text>alerta</span>
-                    <button class="btn-icon" title="Esconder Aviso" data-close-email-alert-btn>
+                    <!-- <button class="btn-icon" title="Esconder Aviso" data-close-email-alert-btn>
                         <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    </button> -->
                 </div>
             </div>
 
-            <div class="emails-rows" data-emails-rows>
-            </div>
+            <!-- FILA DE CORREOS -->
+            <div class="emails-rows" data-emails-rows></div>
 
             <!-- CALENDARIO -->
             <div class="calendar-container">
@@ -102,8 +163,6 @@
                     <i class="fa-solid fa-angle-down close-calendar"></i>
                     <span class="calendar-handle-text">Calendario</span>
                 </div>
-
-                <!-- <div class="lds-dual-ring"></div> -->
 
                 <div class="calendar-content">
                     <div class="calendar-header">
@@ -177,8 +236,7 @@
         </section>
 
         <!--Container Email-->
-        <section class="email" data-draft-modal>
-            <!--email-->
+        <!-- <section class="email">
             <div class="email__modal">
                 <div class="email__modal-encabezado">
                     <h2 class="encabezado__titulo">Mensaje nuevo</h2>
@@ -191,17 +249,33 @@
                         </div>
                     </div>
                 </div>
-                <form class="email__form" data-draft-form>
-                    <input type="email" required name="" id="" placeholder="Para" class="email__for form__input"
-                        data-draft-to-user-input>
-                    <input type="text" name="" id="" placeholder="Agregar asunto" class="email__affair form__input"
-                        data-draft-subject-input>
+                <form class="email__form" >
+                    <input type="email" required name="" id="" placeholder="Para" class="email__for form__input">
+                    <input type="text" name="" id="" placeholder="Agregar asunto" class="email__affair form__input">
                     <textarea name="" id="" placeholder="Descripcion" class="email__messege form__input"
-                        data-draft-message-input></textarea>
-                    <button class="email__btn-enviar" data-send-email-btn>Enviar</button>
+                        ></textarea>
+                    <button class="email__btn-enviar" >Enviar</button>
                 </form>
             </div>
-        </section>
+        </section> -->
+
+        <dialog class="big-modal" data-draft-modal>
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <span>Mensaje nuevo</span>
+                    <button class="btn-icon" data-close-draft-modal-btn>
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="dialog-form" method="dialog" data-draft-form>
+                    <input class="dialog-input" type="text" placeholder="Para" required autofocus
+                        data-draft-to-user-input>
+                    <input class="dialog-input" type="text" placeholder="Agregar asunto" data-draft-subject-input>
+                    <textarea class="dialog-input" placeholder="Mensaje" data-draft-message-input></textarea>
+                    <button type="submit" class="dialog-btn" data-send-email-btn>Enviar</button>
+                </form>
+            </div>
+        </dialog>
 
         <dialog class="big-modal" data-event-dialog>
             <div class="dialog-content">
@@ -226,7 +300,7 @@
             </div>
         </dialog>
 
-        <dialog class="mini-modal" data-preview-event-dialog>
+        <dialog class="mini-modal" data-preview-event-modal>
             <div class="dialog-header">
                 <span>Evento</span>
                 <div class="btn-group">
@@ -235,6 +309,9 @@
                     </button>
                     <button class="btn-icon" title="Eliminar Evento" data-delete-event-btn>
                         <i class="fa-solid fa-trash-alt"></i>
+                    </button>
+                    <button class="btn-icon" data-close-preview-event-modal-btn>
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
             </div>
@@ -274,8 +351,8 @@
         }
     </script>
 
-    <!-- <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script> -->
+    <!-- <script src="../libs/toastify/toastify-js.js"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>s
 
     <script src="../js/main.js" type="module" defer></script>
     <script src="../js/index.js" type="module" defer></script>

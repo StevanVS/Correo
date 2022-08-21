@@ -53,11 +53,14 @@ export default class Controller {
         return emails;
     }
 
-    async createDraft(currentUserId) {
-        const request = new XMLHttpRequest();
-        request.open('POST', '/api/emails/drafts');
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify({ from_user: currentUserId }));
+    async createDraft() {
+        const result = this.#fetch('POST', '/api/users/me/drafts');
+        return result.insertId;
+
+        // const request = new XMLHttpRequest();
+        // request.open('POST', '/api/emails/drafts');
+        // request.setRequestHeader('Content-Type', 'application/json');
+        // request.send(JSON.stringify({ from_user: currentUserId }));
     }
 
     async editDraft(id, values) {
@@ -71,9 +74,7 @@ export default class Controller {
     }
 
     async deleteDraft(id) {
-        const request = new XMLHttpRequest();
-        request.open('DELETE', `/api/emails/drafts/${id}`);
-        request.send();
+        this.#fetch('DELETE', `/api/users/me/drafts/${id}`);
     }
 
     async sendEmail(values) {
@@ -92,7 +93,6 @@ export default class Controller {
     }
 
     async editEvent(id, data) {
-        // this.sendJsonRequest('PUT', `/api/users/me/events/${id}`, data)
         const result = await this.#fetch('PUT', `/api/users/me/events/${id}`, data);
         return result;
     }
@@ -114,7 +114,7 @@ export default class Controller {
     async #fetch(method, url, data) {
         const options = {
             method,
-            body: JSON.stringify(data),
+            body: data ? JSON.stringify(data) : null,
             headers: {"Content-Type": "application/json"}
         }
         const result = await fetch(url, options).then(r => r.json());

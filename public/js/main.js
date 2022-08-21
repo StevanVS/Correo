@@ -12,23 +12,17 @@ const icon__redactar = document.querySelector(".icon__redactar");
 const emails = document.querySelector(".emails");
 const navItems = document.querySelectorAll('.nav__item');
 
+const submenuBtn = document.querySelector("[data-submenu-btn]");
+const submenu_content = document.querySelector(".submenu");
 
 
-btn_redactar.addEventListener("click", () => {
-    modal.classList.toggle("active");
-});
-
-exit_redactar.addEventListener("click", () => {
-    modal.classList.toggle("active");
-});
-
-btn_minimize.addEventListener("click", () => {
-    alterElementClass([
-        modal,
-        modal_box,
-        form_minimize
-    ], 'toggle', 'minimize');
-});
+// btn_minimize.addEventListener("click", () => {
+//     alterElementClass([
+//         modal,
+//         modal_box,
+//         form_minimize
+//     ], 'toggle', 'minimize');
+// });
 
 menubtn.addEventListener("click", () => {
     menuBtnEvent('toggle');
@@ -58,3 +52,23 @@ export function expandNav() {
 export function reduceNav() {
     menuBtnEvent('add');
 }
+
+export function handleConfigMenuClose(e) {
+    if (!submenu_content.contains(e.target)
+        && !submenuBtn.contains(e.target)) {
+        submenu_content.classList.remove("active");
+        submenuBtn.classList.remove("active");
+    }
+}
+
+export function handleNavClose(e) {
+    if (!nav.contains(e.target)
+        && !menubtn.contains(e.target)
+        && window.innerWidth < 1024)
+        reduceNav();
+}
+
+submenuBtn.addEventListener("click", () => {
+    submenu_content.classList.toggle("active");
+    submenuBtn.classList.toggle("active");
+})

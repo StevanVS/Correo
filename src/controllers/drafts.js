@@ -1,4 +1,6 @@
+const { query } = require('../connection');
 const con = require('../connection');
+const { getUserId } = require('../helpers/getUserId');
 const { httpError } = require('../helpers/handleError');
 
 function getDrafts(req, res) {
@@ -16,17 +18,19 @@ function getDraft(req, res) {
     })
 }
 
-function createDraft(req, res) {
-    const sql = 'INSERT INTO drafts (from_user) VALUES (?)';
-
-    con.query(sql, [req.body.from_user], (err, rows) => {
-        if (err) console.log(err);
-        res.status(201).send(`Created Draft with ID: ${rows.insertId}`);
-    })
+async function createDraft(req, res) {
+    try {
+        const userId = getUserId(req);
+        const sql = 'INSERT INTO drafts (from_user) VALUES (?)';
+        const result = await query(sql, userId);
+        res.status(201).send(result)
+    } catch (err) {
+        httpError(res, err);
+    }
 }
 
 function editDraft(req, res) {
-    const {id, ...draft} = req.body;
+    const { id, ...draft } = req.body;
     const sql = 'UPDATE drafts SET ? WHERE id = ?';
 
     con.query(sql, [draft, id], (err, rows) => {
@@ -35,15 +39,17 @@ function editDraft(req, res) {
     })
 }
 
-function deleteDraft(req, res) {
-    const id = req.params.draftId;
-    con.query('DELETE FROM drafts WHERE id = ?', id, (err, rows) => {
-        if (err) console.log(err);
-        if (rows.affectedRows > 0)
-            res.send(`Draft ${id} Deleted`);
-        else
-            res.status(404).send('Draft not Found')
-    })
+async function deleteDraft(req, res) {
+    try {
+        const userId = getUserId(req);
+        const draftId = req.params.draftId;
+        const sql = 'DELETE FROM user_emails where user_id = ? and draft_id = ?';
+        const result = await query(sql, [userId, draftId]);
+
+        res.send(result);
+    } catch (err) {
+        httpError(res, err)
+    }
 }
 
 async function getDraftsFrom(req, res) {

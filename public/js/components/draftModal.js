@@ -1,34 +1,44 @@
-export default class DraftModal {
-    constructor() {
-        this.modal = document.querySelector("[data-draft-modal]");
-        this.form = document.querySelector('[data-draft-form]');
-        this.toUser = document.querySelector('[data-draft-to-user-input]');
-        this.subject = document.querySelector('[data-draft-subject-input]');
-        this.message = document.querySelector('[data-draft-message-input]');
+import Modal from "./Modal.js";
 
+export default class DraftModal extends Modal {
+    constructor() {
+        super(document.querySelector("[data-draft-modal]"),
+            document.querySelector('[data-close-draft-modal-btn]'));
+
+        this.form = document.querySelector('[data-draft-form]');
+        this.toUserInput = document.querySelector('[data-draft-to-user-input]');
+        this.subjectInput = document.querySelector('[data-draft-subject-input]');
+        this.messageInput = document.querySelector('[data-draft-message-input]');
+
+        this.draftId = null
         this.draft = null;
+    }
+
+    setDraftId(id) {
+        this.draftId = id;
     }
 
     setValues(draft) {
         this.draft = draft;
-        this.toUser.value = draft.to_user;
-        this.subject.value = draft.subject;
-        this.message.value = draft.message;
+        this.draftId = draft.id;
+        this.toUserInput.value = draft.to_user;
+        this.subjectInput.value = draft.subject;
+        this.messageInput.value = draft.message;
     }
 
     emptyValues() {
-        this.toUser.value = null;
-        this.subject.value = null;
-        this.message.value = null;
+        this.toUserInput.value = null;
+        this.subjectInput.value = null;
+        this.messageInput.value = null;
     }
 
     onEdit(callback) {
-        const inputs = [this.toUser, this.subject, this.message];
+        const inputs = [this.toUserInput, this.subjectInput, this.messageInput];
         inputs.forEach(intputEl => {
-            intputEl.onblur = (e) => callback(this.draft.id, {
-                to_user: this.toUser.value,
-                subject: this.subject.value,
-                message: this.message.value,
+            intputEl.onblur = (e) => callback(this.draftId, {
+                to_user: this.toUserInput.value,
+                subject: this.subjectInput.value,
+                message: this.messageInput.value,
             })
         })
     }
@@ -37,26 +47,26 @@ export default class DraftModal {
         this.form.onsubmit = (e) => {
             e.preventDefault();
 
-            callback(this.draft.id, {
-                to_user: this.toUser.value, // String
-                subject: this.subject.value,
-                message: this.message.value,
+            callback(this.draftId, {
+                to_user: this.toUserInput.value, // String
+                subject: this.subjectInput.value,
+                message: this.messageInput.value,
             }).then(emailSent => {
                 if (emailSent) {
-                    this.closeModal();
+                    this.close();
                     this.emptyValues();
                 }
             });
         }
     }
 
-    openModal(draft) {
-        this.setValues(draft);
-        this.modal.classList.add("active");
+    showModal() {
+        super.showModal();
+        this.modal.style.margin = 'auto';
     }
-
-    closeModal() {
-        this.modal.classList.remove('active');
+    close() {
+        this.modal.style.margin = 0;
+        super.close();
     }
 
 }

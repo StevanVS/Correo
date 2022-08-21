@@ -98,6 +98,8 @@ async function getUserEmails(req, res) {
                     .then(r => r[0]);
             }
 
+            if (email == null) continue;
+
             email.from_user = await query('select * from users where id = ?', email.from_user)
                 .then(r => r[0]);
 

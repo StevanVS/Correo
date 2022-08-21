@@ -1,9 +1,10 @@
 import Calendar from "./components/calendar.js";
-import { formatTimestamp } from "./components/dateFormater.js";
+import { formatTimestamp } from "./utils/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
-import EmailAlert from "./components/emailAlert.js";
 import EmailContent from "./components/emailContent.js";
-import { expandNav, reduceNav } from "./main.js";
+import LabelMessage from "./components/labelMessage.js";
+import { expandNav, handleConfigMenuClose, handleNavClose, reduceNav } from "./main.js";
+import Alert from "./components/alert.js";
 
 export default class View {
     constructor() {
@@ -12,19 +13,19 @@ export default class View {
         this.historyId = null;
         this.emails = null;
 
+        this.labelMessage = new LabelMessage();
         this.currentLabel = {
             id: 'INBOX',
             name: 'Bandeja de Entrada',
         }
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
-        this.emailAlert = new EmailAlert();
-
+        
         this.emailContent = new EmailContent();
 
         this.emailContent.onDelete((values, newLabelId) => {
             // todo eliminar permanentemente
-            if (this.currentLabel.id === 'DELETED') {}
+            if (this.currentLabel.id === 'DELETED') { }
             this.controller.changeEmailLabel({ values, newLabelId });
             this.render()
         })
@@ -33,16 +34,22 @@ export default class View {
 
         document.querySelectorAll('[data-label]').forEach(labelEl => {
             labelEl.onclick = e => {
+                this.emailContent.closeEmail();
                 if (window.innerWidth < 992) reduceNav();
+
                 const labelId = labelEl.getAttribute('label-id');
                 if (labelId === this.currentLabel.id) return;
+
                 this.currentLabel.id = labelId;
                 this.currentLabel.name = labelEl.textContent;
+
                 this.render();
             }
         })
 
-        document.querySelector('[data-new-draft-btn]').onclick = async () => this.createDraft();
+        document.querySelector('[data-new-draft-btn]').onclick = async () => {
+            this.createDraft();
+        };
 
         this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
@@ -66,10 +73,13 @@ export default class View {
 
         if (!emptyDraft) {
             this.draftModal.emptyValues();
-            this.controller.createDraft(this.currentUser.id);
+            const draftId = await this.controller.createDraft();
+            this.draftModal.setDraftId(draftId);
         } else {
             this.draftModal.setValues(emptyDraft);
         }
+        
+        this.draftModal.showModal();
 
         this.render();
     }
@@ -110,13 +120,21 @@ export default class View {
 
     async initView() {
         this.currentUser = await this.controller.getCurrentUser();
-        document.querySelector('[data-username]').innerText = `${this.currentUser.name} ${this.currentUser.lastname}`;
+
+        document.querySelectorAll('[data-username]').forEach(item => {
+            item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
+        })
+        document.querySelectorAll('[data-user-email-address]').forEach(item => {
+            item.textContent = this.currentUser.email_address
+        })
 
         this.historyId = await this.controller.getHistoryId();
         this.render();
     }
 
     async render() {
+        document.querySelector('[data-label-title]').textContent = this.currentLabel.name;         
+
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
         document.querySelector(`[label-id="${this.currentLabel.id}"]`).classList.add('selected');
 
@@ -126,14 +144,14 @@ export default class View {
     async handleEmails() {
         //Empezar animacion email-loader
         this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
-        this.emailAlert.hide();
-        
+        this.labelMessage.hide();
+
         this.emails = await this.controller.getUserEmails(this.currentLabel.id);
         if (this.emails.length === 0) {
-            this.emailAlert.show(`La pestaña '${this.currentLabel.name}' está vacia`)
+            this.labelMessage.show(`No hay nada en ${this.currentLabel.name}`)
         }
-        if (this.currentLabel.id === 'DELETED') 
-            this.emailAlert.show('Los Correos presentes en esta pestaña serán eliminados dentro de 30 días')
+        if (this.currentLabel.id === 'DELETED')
+            this.labelMessage.showTrashLabelMessage();
 
         //Terminar animacion loader
         this.emailsContainer.innerHTML = '';
@@ -194,7 +212,8 @@ export default class View {
 
         row.onclick = e => {
             if (email.label.id === 'DRAFT') {
-                this.draftModal.openModal(email);
+                this.draftModal.setValues(email);
+                this.draftModal.showModal();
             } else {
                 this.emailContent.openEmail(email);
             }
@@ -225,6 +244,11 @@ export default class View {
             this.calendar.refresh();
         })
 
+        document.onmouseup = e => {
+            handleConfigMenuClose(e);
+            this.calendar.previewEventModal.handleModalClose(e);
+            handleNavClose(e);
+        }
     }
 
     handleWindowResize() {
@@ -252,12 +276,12 @@ export default class View {
                 }
                 if (width > breakPoints.medium) {
                     if (isCalendarClosed) {
-                        this.calendar.open();
+                        // this.calendar.open();
                         isCalendarClosed = !isCalendarClosed;
                     }
                     this.calendar.changeNumberOfDays(4);
                 } else {
-                    this.calendar.close();
+                    // this.calendar.close();
                     isCalendarClosed = true
                     this.calendar.changeNumberOfDays(3);
                 }
