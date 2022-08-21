@@ -4,7 +4,7 @@ import { formatDate } from "../utils/dateFormater.js";
 export default class EventDialog extends Modal {
     constructor() {
         super(document.querySelector('[data-event-dialog]'),
-            document.querySelector('[data-close-event-dialog-btn]'));
+            [document.querySelector('[data-close-event-dialog-btn]')]);
 
         this.event = null;
 

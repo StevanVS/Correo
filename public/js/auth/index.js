@@ -27,7 +27,7 @@ loginForm.onsubmit = (e) => {
         } else {
             //MALO
             // alert('Credenciales Incorrectas')
-            new Alert('Credenciales Incorrectas', 'danger')
+            new Alert('Credenciales Incorrectas', 'error')
         }
     }
 

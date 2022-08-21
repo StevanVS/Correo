@@ -1,4 +1,5 @@
 import { formatTimestamp } from "../utils/dateFormater.js";
+import ConfirmModal from "./confirmModal.js";
 
 export default class EmailContent {
     constructor() {
@@ -35,8 +36,11 @@ export default class EmailContent {
                 labelId,
                 emailId,
             }
-            await callback(values, 'DELETED');
-            this.closeEmail();
+
+            new ConfirmModal('Esta seguro que desea Eliminar este Correo?', () => {
+                callback(values, 'DELETED');
+                this.closeEmail();
+            });
         }
     }
 
@@ -44,7 +48,7 @@ export default class EmailContent {
         this.setValues(email);
         this.container.classList.add('open');
     }
-    
+
     closeEmail() {
         this.container.classList.remove('open');
     }

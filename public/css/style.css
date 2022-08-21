@@ -78,7 +78,15 @@ dialog {
 }
 
 .big-modal::backdrop {
-  background-color: #2b28286c;
+  background-color: hsla(0, 4%, 16%, 0.424);
+}
+
+.medium-modal {
+  /* margin: 25vh auto; */
+  max-width: 40ch;
+}
+.medium-modal::backdrop {
+  background-color: hsla(0, 4%, 16%, 0.1);
 }
 
 .mini-modal {
@@ -121,7 +129,7 @@ textarea {
 }
 
 .btn-icon:hover {
-  background-color: hsla(0, 0%, 0%, .08);
+  background-color: hsla(0, 0%, 0%, 0.08);
 }
 
 .btn-group {
@@ -177,7 +185,7 @@ textarea {
   right: 4rem;
   /* right: -2px; */
   z-index: 1;
-  padding: .5rem;
+  padding: 0.5rem;
   visibility: hidden;
   opacity: 0;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
@@ -205,12 +213,12 @@ textarea {
 } */
 
 .config-group {
-  padding-bottom: .4rem;
+  padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--color_gray);
 }
 
 .config-text {
-  padding: .3rem 1rem;
+  padding: 0.3rem 1rem;
 }
 
 .config-text.user {
@@ -225,7 +233,7 @@ textarea {
   color: var(--font_color);
   padding: 6px;
   padding-left: 14px;
-  margin-top: .3rem;
+  margin-top: 0.3rem;
   text-transform: capitalize;
   transition: all 300ms ease;
   border-radius: var(--border-radius);
@@ -240,7 +248,7 @@ textarea {
 }
 
 .config__element i {
-  padding-right: .4rem;
+  padding-right: 0.4rem;
 }
 
 .btn {
@@ -290,29 +298,31 @@ textarea {
   position: relative;
   height: 2.3rem;
   width: 2.3rem;
-  margin-left: .8rem;
+  margin-left: 0.8rem;
   margin-right: 1rem;
   overflow: hidden;
   border-radius: 50%;
+
+  background-color: gray;
+  background-image: url(../img/userImage.jpg);
+  background-position: center;
+  background-size: cover;
 }
 
-.user-img-container .user-img{
+/* .user-img-container .user-img{
   transform: translateX(-9%);
-  /* display: inline; */
-  /* margin: 0 auto; */
   height: 100%;
   width: auto;
-}
-
+} */
 
 /* .header__config {
   transition: var(--transition);
   transform: rotate(0);
 } */
-.header__config.active{
+.header__config.active {
   transition: var(--transition);
 }
-.header__config.active{
+.header__config.active {
   color: #0074c7;
   /* transform: rotate(115deg); */
 }
@@ -846,7 +856,7 @@ textarea {
 
 .dialog-header .btn-group {
   margin: 0;
-  gap: .4rem;
+  gap: 0.4rem;
 }
 
 .dialog-header .btn-icon:hover {
@@ -895,13 +905,44 @@ input[type="datetime-local"] {
   height: 2.5em;
   border-radius: 5px;
   border: none;
-  background-color: var(--color_second);
   color: #fff;
   margin: 1em;
 }
+.dialog-btn.confirm {
+  background-color: var(--color_second);
+}
 
-.dialog-btn:hover {
+.dialog-btn.confirm:hover {
   background-color: var(--color_second-dark);
+}
+
+.dialog-btn.cancel {
+  background-color: hsl(208, 8%, 42%);
+}
+
+.dialog-btn.cancel:hover {
+  background-color: hsl(208, 8%, 36%);
+}
+
+/* ---- MEDIUM MODAL ----- */
+.medium-modal .dialog-form {
+  padding: 1rem;
+}
+
+.medium-modal .dialog-text {
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.medium-modal .btn-group {
+  margin: 0;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.medium-modal .dialog-btn {
+  margin: 0;
 }
 
 /* ---- MINI MODAL ----- */
@@ -991,7 +1032,6 @@ input[type="datetime-local"] {
   align-items: center;
   border-bottom: 1px solid var(--color_gray);
 }
-
 
 .info {
   background-color: hsl(210, 67%, 65%);

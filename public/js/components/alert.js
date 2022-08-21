@@ -1,13 +1,13 @@
 export default class Alert {
-    constructor(text, type) {
-
+    constructor(text, type, element) {
         this.values = {
-            danger: {
+            error: {
                 background: "hsl(0, 67%, 50%)"
+            },
+            success: {
+                background: '#0074c7'
             }
         }
-
-
 
         Toastify({
             text: text,
@@ -20,6 +20,7 @@ export default class Alert {
             offset: {
                 y: '-0.4rem'
             },
+            selector: element,
         }).showToast();
     }
 }

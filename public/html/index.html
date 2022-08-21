@@ -55,7 +55,7 @@
                 <span class="nav-text username" data-username></span>
                 <div class="user-img-container" data-submenu-btn>
                     <!-- <i class="fa-solid fa-circle-user"></i> -->
-                    <img class="user-img" src="../img/userImage.jpg" alt="Foto de perfil">
+                    <!-- <img class="user-img" src="../img/userImage.jpg" alt="Foto de perfil"> -->
                 </div>
                 <ul class="submenu">
                     <div class="config-group">
@@ -174,7 +174,7 @@
                             <button class="btn-icon" title="Añadir nuevo Evento" data-new-calendar-event-btn>
                                 <i class="fa-solid fa-calendar-plus"></i>
                             </button>
-                            <button class="btn-icon" title="Mostrar esta semana" data-calendar-today-btn>
+                            <button class="btn-icon" title="Mostrar la semana actual" data-calendar-today-btn>
                                 <i class="fa-solid fa-calendar-day"></i>
                             </button>
                             <div class="btn-group">
@@ -235,30 +235,6 @@
             </div>
         </section>
 
-        <!--Container Email-->
-        <!-- <section class="email">
-            <div class="email__modal">
-                <div class="email__modal-encabezado">
-                    <h2 class="encabezado__titulo">Mensaje nuevo</h2>
-                    <div class="encabezado__icons">
-                        <div class="content__icon-form btn_minimize">
-                            <i class="fa-solid fa-minus encabezado__icon"></i>
-                        </div>
-                        <div class="content__icon-form exit">
-                            <i class="fa-solid fa-xmark encabezado__icon"></i>
-                        </div>
-                    </div>
-                </div>
-                <form class="email__form" >
-                    <input type="email" required name="" id="" placeholder="Para" class="email__for form__input">
-                    <input type="text" name="" id="" placeholder="Agregar asunto" class="email__affair form__input">
-                    <textarea name="" id="" placeholder="Descripcion" class="email__messege form__input"
-                        ></textarea>
-                    <button class="email__btn-enviar" >Enviar</button>
-                </form>
-            </div>
-        </section> -->
-
         <dialog class="big-modal" data-draft-modal>
             <div class="dialog-content">
                 <div class="dialog-header">
@@ -272,7 +248,7 @@
                         data-draft-to-user-input>
                     <input class="dialog-input" type="text" placeholder="Agregar asunto" data-draft-subject-input>
                     <textarea class="dialog-input" placeholder="Mensaje" data-draft-message-input></textarea>
-                    <button type="submit" class="dialog-btn" data-send-email-btn>Enviar</button>
+                    <button type="submit" class="dialog-btn confirm" data-send-email-btn>Enviar</button>
                 </form>
             </div>
         </dialog>
@@ -295,7 +271,7 @@
                         <input type="datetime-local" placeholder="Fecha de Fin" data-event-end-input>
                     </label>
                     <textarea class="dialog-input" placeholder="Descripción" data-event-description-input></textarea>
-                    <button type="submit" class="dialog-btn">Guardar</button>
+                    <button type="submit" class="dialog-btn confirm">Guardar</button>
                 </form>
             </div>
         </dialog>
@@ -328,6 +304,24 @@
                 <div class="dialog-field event-description">
                     <span data-event-description-field></span>
                 </div>
+            </div>
+        </dialog>
+
+        <dialog class="medium-modal" data-confirm-modal>
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <span>Cuadro de Confirmación</span>
+                    <button class="btn-icon" data-close-confirm-modal-btn>
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="dialog-form" method="dialog" data-modal-from>
+                    <div class="dialog-text" data-dialog-text>Esta seguro ?</div>
+                    <div class="btn-group">
+                        <button type="submit" class="dialog-btn confirm" data-confirm-btn>Confirmar</button>
+                        <button type="submit" class="dialog-btn cancel" data-cancel-btn>Cancelar</button>
+                    </div>
+                </form>
             </div>
         </dialog>
 

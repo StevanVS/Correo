@@ -93,7 +93,7 @@ export default class View {
         const toUser = await this.controller.getUserByEmail(to_user);
         if (!toUser || toUser == null) {
             // alert('No existe usuario con el correo: ' + to_user);
-            new Alert(`No existe usuario con el correo: ${to_user}`, 'danger');
+            new Alert(`No existe usuario con el correo: ${to_user}`, 'error', this.draftModal.modal);
             return false;
         }
 
@@ -106,7 +106,8 @@ export default class View {
 
         this.controller.deleteDraft(draftId);
 
-        alert('Correo Enviado!');
+        // alert('Correo Enviado!');
+        new Alert('Correo Enviado con Éxito', 'success')
         this.render();
         return true;
     }

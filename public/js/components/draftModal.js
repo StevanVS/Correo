@@ -3,7 +3,7 @@ import Modal from "./Modal.js";
 export default class DraftModal extends Modal {
     constructor() {
         super(document.querySelector("[data-draft-modal]"),
-            document.querySelector('[data-close-draft-modal-btn]'));
+            [document.querySelector('[data-close-draft-modal-btn]')]);
 
         this.form = document.querySelector('[data-draft-form]');
         this.toUserInput = document.querySelector('[data-draft-to-user-input]');

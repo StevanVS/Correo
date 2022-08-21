@@ -4,7 +4,7 @@ import Modal from "./Modal.js";
 export default class PreviewEventModal extends Modal {
     constructor() {
         super(document.querySelector('[data-preview-event-modal]'),
-            document.querySelector('[data-close-preview-event-modal-btn]'));
+            [document.querySelector('[data-close-preview-event-modal-btn]')]);
 
         this.event = null;
 
