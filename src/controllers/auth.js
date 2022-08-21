@@ -41,8 +41,14 @@ async function singupControl(req, res) {
     }
 }
 
+function logoutControl(req, res) {
+    if (req.session)
+        req.session.destroy();
+
+    res.redirect('/login-singup');
+}
+
 module.exports = {
-    loginControl,
-    singupControl,
     authControl,
+    logoutControl,
 }
