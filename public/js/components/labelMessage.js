@@ -1,4 +1,4 @@
-export default class EmailAlert {
+export default class LabelMessage {
     constructor() {
         this.isHidden = true;
         this.alert = document.querySelector('[data-email-alert-container]');
@@ -27,5 +27,8 @@ export default class EmailAlert {
         this.alert.style.visibility = 'hidden'
         this.alert.classList.remove('show');
         this.isHidden = true;
+    }
+    showTrashLabelMessage() {
+        this.show('Los correos que lleven más de 30 días en la Papelera serán eliminados permanentemente');
     }
 }

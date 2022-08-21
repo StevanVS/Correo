@@ -1,9 +1,10 @@
 import Calendar from "./components/calendar.js";
 import { formatTimestamp } from "./utils/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
-import EmailAlert from "./components/emailAlert.js";
 import EmailContent from "./components/emailContent.js";
+import LabelMessage from "./components/labelMessage.js";
 import { expandNav, handleConfigMenuClose, handleNavClose, reduceNav } from "./main.js";
+import Alert from "./components/alert.js";
 
 export default class View {
     constructor() {
@@ -12,14 +13,14 @@ export default class View {
         this.historyId = null;
         this.emails = null;
 
+        this.labelMessage = new LabelMessage();
         this.currentLabel = {
             id: 'INBOX',
             name: 'Bandeja de Entrada',
         }
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
-        this.emailAlert = new EmailAlert();
-
+        
         this.emailContent = new EmailContent();
 
         this.emailContent.onDelete((values, newLabelId) => {
@@ -143,14 +144,14 @@ export default class View {
     async handleEmails() {
         //Empezar animacion email-loader
         this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
-        this.emailAlert.hide();
+        this.labelMessage.hide();
 
         this.emails = await this.controller.getUserEmails(this.currentLabel.id);
         if (this.emails.length === 0) {
-            this.emailAlert.show(`No hay nada en ${this.currentLabel.name}`)
+            this.labelMessage.show(`No hay nada en ${this.currentLabel.name}`)
         }
         if (this.currentLabel.id === 'DELETED')
-            this.emailAlert.show('Los correos que lleven más de 30 días en este apartado serán eliminados permanentemente')
+            this.labelMessage.showTrashLabelMessage();
 
         //Terminar animacion loader
         this.emailsContainer.innerHTML = '';

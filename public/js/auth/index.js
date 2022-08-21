@@ -1,3 +1,5 @@
+import Alert from "../components/alert.js";
+
 const loginForm = document.querySelector('[data-login-form]');
 const emailInput = document.querySelector('[data-email-login-input]');
 const passwordInput = document.querySelector('[data-password-login-input]');
@@ -24,7 +26,8 @@ loginForm.onsubmit = (e) => {
             window.location.href = '/'
         } else {
             //MALO
-            alert('Credenciales Incorrectas')
+            // alert('Credenciales Incorrectas')
+            new Alert('Credenciales Incorrectas', 'danger')
         }
     }
 

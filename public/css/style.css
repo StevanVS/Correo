@@ -8,6 +8,7 @@
   --color_second: hsl(218, 53%, 40%);
   --color_second-dark: hsl(218, 53%, 30%);
   --color_gray: #6e6e6e;
+  --color-danger: hsl(0, 67%, 50%);
   --color_second-light: #f0f6ff;
   --font_shadow-black: #1b1b1d0e;
   --box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.6);
@@ -166,7 +167,7 @@ textarea {
 }
 
 .submenu {
-  width: fit-content;
+  width: max-content;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -176,7 +177,7 @@ textarea {
   right: 4rem;
   /* right: -2px; */
   z-index: 1;
-  padding: .5rem 0;
+  padding: .5rem;
   visibility: hidden;
   opacity: 0;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
@@ -991,16 +992,13 @@ input[type="datetime-local"] {
   border-bottom: 1px solid var(--color_gray);
 }
 
-.email-alert-content .btn-icon {
-  margin-left: 0.5rem;
-}
 
-.email-alert-content.info {
+.info {
   background-color: hsl(210, 67%, 65%);
 }
 
-.email-alert-content.danger {
-  background-color: hsl(0, 67%, 65%);
+.danger {
+  background-color: hsl(0, 67%, 50%);
 }
 
 /* ---- MEDIA QUERYS -------- */
