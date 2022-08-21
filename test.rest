@@ -123,3 +123,12 @@ Content-Type: application/json
     "title": "hhhhhhhhh",
     "start": "2022-08-16T20:00:00"
 }
+
+###
+DELETE http://localhost:8080/api/emails/drafts/1
+
+###
+DELETE http://localhost:8080/api/users/2/drafts/7
+
+###
+POST http://localhost:8080/api/users/2/drafts

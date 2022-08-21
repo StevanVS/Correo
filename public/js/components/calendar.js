@@ -1,4 +1,4 @@
-import { formatDate } from "./dateFormater.js";
+import { formatDate } from "../utils/dateFormater.js";
 import EventDialog from "./eventDialog.js";
 import PreviewEventModal from "./previewEventModal.js";
 

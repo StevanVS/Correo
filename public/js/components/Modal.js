@@ -1,6 +1,10 @@
 export default class Modal {
-    constructor(modalEl) {
+    constructor(modalEl, closeBtnEl) {
         this.modal = modalEl;
+
+        if (closeBtnEl) closeBtnEl.onclick = () => {
+            this.close()
+        };
 
         this.modal.onmousedown = e => {
             if (e.target.tagName === 'DIALOG') {

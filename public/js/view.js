@@ -1,5 +1,5 @@
 import Calendar from "./components/calendar.js";
-import { formatTimestamp } from "./components/dateFormater.js";
+import { formatTimestamp } from "./utils/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
 import EmailAlert from "./components/emailAlert.js";
 import EmailContent from "./components/emailContent.js";
@@ -24,7 +24,7 @@ export default class View {
 
         this.emailContent.onDelete((values, newLabelId) => {
             // todo eliminar permanentemente
-            if (this.currentLabel.id === 'DELETED') {}
+            if (this.currentLabel.id === 'DELETED') { }
             this.controller.changeEmailLabel({ values, newLabelId });
             this.render()
         })
@@ -42,7 +42,9 @@ export default class View {
             }
         })
 
-        document.querySelector('[data-new-draft-btn]').onclick = async () => this.createDraft();
+        document.querySelector('[data-new-draft-btn]').onclick = async () => {
+            this.createDraft();
+        };
 
         this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
@@ -66,10 +68,13 @@ export default class View {
 
         if (!emptyDraft) {
             this.draftModal.emptyValues();
-            this.controller.createDraft(this.currentUser.id);
+            const draftId = await this.controller.createDraft();
+            this.draftModal.setDraftId(draftId);
         } else {
             this.draftModal.setValues(emptyDraft);
         }
+        
+        this.draftModal.show();
 
         this.render();
     }
@@ -127,12 +132,12 @@ export default class View {
         //Empezar animacion email-loader
         this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
         this.emailAlert.hide();
-        
+
         this.emails = await this.controller.getUserEmails(this.currentLabel.id);
         if (this.emails.length === 0) {
             this.emailAlert.show(`La pestaña '${this.currentLabel.name}' está vacia`)
         }
-        if (this.currentLabel.id === 'DELETED') 
+        if (this.currentLabel.id === 'DELETED')
             this.emailAlert.show('Los Correos presentes en esta pestaña serán eliminados dentro de 30 días')
 
         //Terminar animacion loader
@@ -194,7 +199,8 @@ export default class View {
 
         row.onclick = e => {
             if (email.label.id === 'DRAFT') {
-                this.draftModal.openModal(email);
+                this.draftModal.setValues(email);
+                this.draftModal.show();
             } else {
                 this.emailContent.openEmail(email);
             }

@@ -12,15 +12,9 @@ const icon__redactar = document.querySelector(".icon__redactar");
 const emails = document.querySelector(".emails");
 const navItems = document.querySelectorAll('.nav__item');
 
+const config_btn = document.querySelector(".header__config");
+const submenu_content = document.querySelector(".submenu");
 
-
-btn_redactar.addEventListener("click", () => {
-    modal.classList.toggle("active");
-});
-
-exit_redactar.addEventListener("click", () => {
-    modal.classList.toggle("active");
-});
 
 btn_minimize.addEventListener("click", () => {
     alterElementClass([
@@ -58,3 +52,26 @@ export function expandNav() {
 export function reduceNav() {
     menuBtnEvent('add');
 }
+
+
+let isSubMenuActive = false;
+
+document.addEventListener('mouseup', function (e) {
+    if (!submenu_content.contains(e.target)) {
+        submenu_content.classList.remove("active");
+        config_btn.classList.remove("active");
+        isSubMenuActive = false
+    }
+})
+
+config_btn.addEventListener("click", () => {
+    if (!isSubMenuActive) {
+        submenu_content.classList.add("active");
+        config_btn.classList.add("active");
+        isSubMenuActive = true;
+    } else {
+        submenu_content.classList.remove("active");
+        config_btn.classList.remove("active");
+        isSubMenuActive = false;
+    }
+})

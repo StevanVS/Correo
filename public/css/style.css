@@ -11,7 +11,7 @@
   --color_second-light: #f0f6ff;
   --font_shadow-black: #1b1b1d0e;
   --box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.6);
-  --transition: 0.3s ease;
+  --transition: all 0.3s ease;
   --border-radius: 0.5rem;
   --header-height: 3.5em;
 }
@@ -107,12 +107,15 @@ textarea {
   cursor: pointer;
   background-color: #fff0;
   border: none;
-  border-radius: 0.2rem;
-  padding: 0.2rem 0.5rem;
+  border-radius: 0.2em;
+  padding: 0.2em 0.3em;
+
+  display: flex;
+  justify-content: center;
 }
 
 .btn-icon:hover {
-  background-color: rgba(0, 0, 0, 6%);
+  background-color: hsla(0, 0%, 0%, .08);
 }
 
 .btn-group {
@@ -143,6 +146,75 @@ textarea {
   align-items: center;
 }
 
+/* --- SUBMENU ------ */
+
+.header__li {
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header__li > i {
+  display: flex;
+  align-items: center;
+}
+
+.submenu {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: #fff;
+  top: 50px;
+  right: -2px;
+  z-index: 1;
+  padding: 14px 0;
+  visibility: hidden;
+  opacity: 0;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  transition: all 300ms ease;
+  border-radius: var(--border-radius);
+}
+
+.submenu.active {
+  visibility: visible;
+  opacity: 1;
+  top: 60px;
+}
+
+.submenu:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid white;
+  position: absolute;
+  top: -12px;
+  right: 15px;
+}
+
+.config__element {
+  display: block;
+  color: var(--font_color);
+  padding: 6px;
+  padding-left: 14px;
+  margin-top: 10px;
+  font-size: 15px;
+  text-transform: capitalize;
+  transition: all 300ms ease;
+  border-radius: var(--border-radius);
+}
+
+.config__element:hover {
+  color: #fff;
+  background-color: #0074c7;
+  padding-left: 25px;
+  transform: scale(1.1);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
 .btn {
   font-size: 1.3rem;
   cursor: pointer;
@@ -154,7 +226,8 @@ textarea {
   background-color: var(--font_shadow-black);
 }
 
-.header__menu.btn {
+.header .btn-icon {
+  font-size: 1.3rem;
   margin-left: 1rem;
 }
 
@@ -183,6 +256,16 @@ textarea {
 .header__user.btn:hover {
   background-color: transparent;
 }
+
+/* .header__config {
+  transition: var(--transition);
+  transform: rotate(0);
+}
+
+.header__config.active{
+  color: #0074c7;
+  transform: rotate(115deg);
+} */
 
 .header__right .username {
   padding-left: 0.5em;
@@ -849,7 +932,7 @@ input[type="datetime-local"] {
 }
 
 .email-alert-content .btn-icon {
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 
 .email-alert-content.info {

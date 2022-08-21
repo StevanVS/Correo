@@ -1,9 +1,10 @@
 import Modal from "./Modal.js";
-import { formatDate } from "./dateFormater.js";
+import { formatDate } from "../utils/dateFormater.js";
 
 export default class EventDialog extends Modal {
     constructor() {
-        super(document.querySelector('[data-event-dialog]'));
+        super(document.querySelector('[data-event-dialog]'),
+            document.querySelector('[data-close-event-dialog-btn]'));
 
         this.event = null;
 
@@ -12,8 +13,6 @@ export default class EventDialog extends Modal {
         this.startInput = document.querySelector('[data-event-start-input]');
         this.endInput = document.querySelector('[data-event-end-input]');
         this.descriptionInput = document.querySelector('[data-event-description-input]');
-
-        this.#setEventListeners();
     }
 
     onSubmit(callback) {
@@ -35,6 +34,7 @@ export default class EventDialog extends Modal {
         this.modal.style.margin = 'auto';
     }
     close() {
+        console.log(this.modal);
         this.modal.style.margin = 0;
         super.close();
     }
@@ -58,11 +58,5 @@ export default class EventDialog extends Modal {
 
     setTitle(title) {
         document.querySelector('[data-event-dialog-title]').textContent = title;
-    }
-
-    #setEventListeners() {
-        document.querySelector('[data-close-event-dialog-btn]').onclick = e => {
-            this.close();
-        }
     }
 }

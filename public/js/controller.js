@@ -53,11 +53,14 @@ export default class Controller {
         return emails;
     }
 
-    async createDraft(currentUserId) {
-        const request = new XMLHttpRequest();
-        request.open('POST', '/api/emails/drafts');
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify({ from_user: currentUserId }));
+    async createDraft() {
+        const result = this.#fetch('POST', '/api/users/me/drafts');
+        return result.insertId;
+
+        // const request = new XMLHttpRequest();
+        // request.open('POST', '/api/emails/drafts');
+        // request.setRequestHeader('Content-Type', 'application/json');
+        // request.send(JSON.stringify({ from_user: currentUserId }));
     }
 
     async editDraft(id, values) {

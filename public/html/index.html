@@ -30,17 +30,38 @@
         <!-- Barra superior -->
         <div class="header__left">
             <!-- btn izquierda -->
-            <i class="fa-solid fa-bars header__menu btn" title="Expandir la barra lateral"></i>
+            <button class="btn-icon header__menu" title="Expandir la barra lateral">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <a href="/" class="header_index" draggable="false">
                 <img src="/img/Logo.png" alt="Logo Principal" class="header__Logo " draggable="false">
             </a>
         </div>
         <div class="header__right">
             <!-- btn derecha -->
-            <!-- <i class="fa-solid fa-magnifying-glass header__search btn"></i> -->
-            <i class="fa-solid fa-gear header__config btn" title="Configuración"></i>
+            <!-- <i class="fa-solid fa-gear header__config btn" title="Configuración"></i>
             <span class="username" data-username></span>
-            <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i>
+            <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i> -->
+
+            <li class="header__li">
+                <i class="fa-solid fa-gear header__config btn"></i>
+                <ul class="submenu">
+                    <li>
+                        <div class="config__element">Color</div>
+                    </li>
+                    <li>
+                        <div class="config__element">Config</div>
+                    </li>
+                    <li>
+                        <div class="config__element">Tema</div>
+                    </li>
+                </ul>
+            </li>
+            <li class="data__user header__li">
+                <span class="username" data-username></span>
+                <i class="fa-solid fa-circle-user header__user btn"></i>
+            </li>
+
         </div>
     </header>
     <main class="main">
@@ -177,7 +198,7 @@
         </section>
 
         <!--Container Email-->
-        <section class="email" data-draft-modal>
+        <section class="email">
             <!--email-->
             <div class="email__modal">
                 <div class="email__modal-encabezado">
@@ -191,17 +212,33 @@
                         </div>
                     </div>
                 </div>
-                <form class="email__form" data-draft-form>
-                    <input type="email" required name="" id="" placeholder="Para" class="email__for form__input"
-                        data-draft-to-user-input>
-                    <input type="text" name="" id="" placeholder="Agregar asunto" class="email__affair form__input"
-                        data-draft-subject-input>
+                <form class="email__form" >
+                    <input type="email" required name="" id="" placeholder="Para" class="email__for form__input">
+                    <input type="text" name="" id="" placeholder="Agregar asunto" class="email__affair form__input">
                     <textarea name="" id="" placeholder="Descripcion" class="email__messege form__input"
-                        data-draft-message-input></textarea>
-                    <button class="email__btn-enviar" data-send-email-btn>Enviar</button>
+                        ></textarea>
+                    <button class="email__btn-enviar" >Enviar</button>
                 </form>
             </div>
         </section>
+
+        <dialog class="big-modal" data-draft-modal>
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <span>Mensaje nuevo</span>
+                    <button class="btn-icon" data-close-draft-modal-btn>
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <form class="dialog-form" method="dialog" data-draft-form>
+                    <input class="dialog-input" type="text" placeholder="Para" required autofocus
+                        data-draft-to-user-input>
+                    <input class="dialog-input" type="text" placeholder="Agregar asunto" data-draft-subject-input>
+                    <textarea class="dialog-input" placeholder="Mensaje" data-draft-message-input></textarea>
+                    <button type="submit" class="dialog-btn" data-send-email-btn>Enviar</button>
+                </form>
+            </div>
+        </dialog>
 
         <dialog class="big-modal" data-event-dialog>
             <div class="dialog-content">
