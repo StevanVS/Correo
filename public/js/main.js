@@ -16,13 +16,13 @@ const config_btn = document.querySelector(".header__config");
 const submenu_content = document.querySelector(".submenu");
 
 
-btn_minimize.addEventListener("click", () => {
-    alterElementClass([
-        modal,
-        modal_box,
-        form_minimize
-    ], 'toggle', 'minimize');
-});
+// btn_minimize.addEventListener("click", () => {
+//     alterElementClass([
+//         modal,
+//         modal_box,
+//         form_minimize
+//     ], 'toggle', 'minimize');
+// });
 
 menubtn.addEventListener("click", () => {
     menuBtnEvent('toggle');
@@ -53,25 +53,21 @@ export function reduceNav() {
     menuBtnEvent('add');
 }
 
-
-let isSubMenuActive = false;
-
-document.addEventListener('mouseup', function (e) {
-    if (!submenu_content.contains(e.target)) {
+export function handleConfigMenuClose(e) {
+    if (!submenu_content.contains(e.target) && e.target !== config_btn) {
         submenu_content.classList.remove("active");
         config_btn.classList.remove("active");
-        isSubMenuActive = false
     }
-})
+}
+
+export function handleNavClose(e) {
+    if (!nav.contains(e.target)
+        && !menubtn.contains(e.target)
+        && window.innerWidth < 1024)
+        reduceNav();
+}
 
 config_btn.addEventListener("click", () => {
-    if (!isSubMenuActive) {
-        submenu_content.classList.add("active");
-        config_btn.classList.add("active");
-        isSubMenuActive = true;
-    } else {
-        submenu_content.classList.remove("active");
-        config_btn.classList.remove("active");
-        isSubMenuActive = false;
-    }
+    submenu_content.classList.toggle("active");
+    config_btn.classList.toggle("active");
 })

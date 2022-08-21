@@ -36,6 +36,7 @@
             <a href="/" class="header_index" draggable="false">
                 <img src="/img/Logo.png" alt="Logo Principal" class="header__Logo " draggable="false">
             </a>
+            <span class="nav-text label-title" data-label-title></span>
         </div>
         <div class="header__right">
             <!-- btn derecha -->
@@ -58,7 +59,7 @@
                 </ul>
             </li>
             <li class="data__user header__li">
-                <span class="username" data-username></span>
+                <span class="nav-text username" data-username></span>
                 <i class="fa-solid fa-circle-user header__user btn"></i>
             </li>
 
@@ -104,17 +105,18 @@
 
         <section class="emails">
 
+            <!-- CUADRO DE ALERTA -->
             <div class="email-alert-container" data-email-alert-container>
-                <div class="email-alert-content info" data-email-alert-content>
+                <div class="email-alert-content" data-email-alert-content>
                     <span data-email-alert-text>alerta</span>
-                    <button class="btn-icon" title="Esconder Aviso" data-close-email-alert-btn>
+                    <!-- <button class="btn-icon" title="Esconder Aviso" data-close-email-alert-btn>
                         <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    </button> -->
                 </div>
             </div>
 
-            <div class="emails-rows" data-emails-rows>
-            </div>
+            <!-- FILA DE CORREOS -->
+            <div class="emails-rows" data-emails-rows></div>
 
             <!-- CALENDARIO -->
             <div class="calendar-container">
@@ -123,8 +125,6 @@
                     <i class="fa-solid fa-angle-down close-calendar"></i>
                     <span class="calendar-handle-text">Calendario</span>
                 </div>
-
-                <!-- <div class="lds-dual-ring"></div> -->
 
                 <div class="calendar-content">
                     <div class="calendar-header">
@@ -198,8 +198,7 @@
         </section>
 
         <!--Container Email-->
-        <section class="email">
-            <!--email-->
+        <!-- <section class="email">
             <div class="email__modal">
                 <div class="email__modal-encabezado">
                     <h2 class="encabezado__titulo">Mensaje nuevo</h2>
@@ -220,7 +219,7 @@
                     <button class="email__btn-enviar" >Enviar</button>
                 </form>
             </div>
-        </section>
+        </section> -->
 
         <dialog class="big-modal" data-draft-modal>
             <div class="dialog-content">
@@ -263,7 +262,7 @@
             </div>
         </dialog>
 
-        <dialog class="mini-modal" data-preview-event-dialog>
+        <dialog class="mini-modal" data-preview-event-modal>
             <div class="dialog-header">
                 <span>Evento</span>
                 <div class="btn-group">
@@ -272,6 +271,9 @@
                     </button>
                     <button class="btn-icon" title="Eliminar Evento" data-delete-event-btn>
                         <i class="fa-solid fa-trash-alt"></i>
+                    </button>
+                    <button class="btn-icon" data-close-preview-event-modal-btn>
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
             </div>

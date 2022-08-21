@@ -60,8 +60,8 @@ export default class DraftModal extends Modal {
         }
     }
 
-    show() {
-        super.show();
+    showModal() {
+        super.showModal();
         this.modal.style.margin = 'auto';
     }
     close() {

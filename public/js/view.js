@@ -3,7 +3,7 @@ import { formatTimestamp } from "./utils/dateFormater.js";
 import DraftModal from "./components/draftModal.js";
 import EmailAlert from "./components/emailAlert.js";
 import EmailContent from "./components/emailContent.js";
-import { expandNav, reduceNav } from "./main.js";
+import { expandNav, handleConfigMenuClose, handleNavClose, reduceNav } from "./main.js";
 
 export default class View {
     constructor() {
@@ -33,11 +33,15 @@ export default class View {
 
         document.querySelectorAll('[data-label]').forEach(labelEl => {
             labelEl.onclick = e => {
+                this.emailContent.closeEmail();
                 if (window.innerWidth < 992) reduceNav();
+
                 const labelId = labelEl.getAttribute('label-id');
                 if (labelId === this.currentLabel.id) return;
+
                 this.currentLabel.id = labelId;
                 this.currentLabel.name = labelEl.textContent;
+
                 this.render();
             }
         })
@@ -74,7 +78,7 @@ export default class View {
             this.draftModal.setValues(emptyDraft);
         }
         
-        this.draftModal.show();
+        this.draftModal.showModal();
 
         this.render();
     }
@@ -122,6 +126,8 @@ export default class View {
     }
 
     async render() {
+        document.querySelector('[data-label-title]').textContent = this.currentLabel.name;         
+
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
         document.querySelector(`[label-id="${this.currentLabel.id}"]`).classList.add('selected');
 
@@ -135,10 +141,10 @@ export default class View {
 
         this.emails = await this.controller.getUserEmails(this.currentLabel.id);
         if (this.emails.length === 0) {
-            this.emailAlert.show(`La pestaña '${this.currentLabel.name}' está vacia`)
+            this.emailAlert.show(`No hay nada en ${this.currentLabel.name}`)
         }
         if (this.currentLabel.id === 'DELETED')
-            this.emailAlert.show('Los Correos presentes en esta pestaña serán eliminados dentro de 30 días')
+            this.emailAlert.show('Los correos que lleven más de 30 días en este apartado serán eliminados permanentemente')
 
         //Terminar animacion loader
         this.emailsContainer.innerHTML = '';
@@ -200,7 +206,7 @@ export default class View {
         row.onclick = e => {
             if (email.label.id === 'DRAFT') {
                 this.draftModal.setValues(email);
-                this.draftModal.show();
+                this.draftModal.showModal();
             } else {
                 this.emailContent.openEmail(email);
             }
@@ -231,6 +237,11 @@ export default class View {
             this.calendar.refresh();
         })
 
+        document.onmouseup = e => {
+            handleConfigMenuClose(e);
+            this.calendar.previewEventModal.handleModalClose(e);
+            handleNavClose(e);
+        }
     }
 
     handleWindowResize() {
@@ -258,12 +269,12 @@ export default class View {
                 }
                 if (width > breakPoints.medium) {
                     if (isCalendarClosed) {
-                        this.calendar.open();
+                        // this.calendar.open();
                         isCalendarClosed = !isCalendarClosed;
                     }
                     this.calendar.changeNumberOfDays(4);
                 } else {
-                    this.calendar.close();
+                    // this.calendar.close();
                     isCalendarClosed = true
                     this.calendar.changeNumberOfDays(3);
                 }

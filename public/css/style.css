@@ -66,6 +66,9 @@ dialog {
   border-radius: 8px;
   transition: var(--transition);
   top: 100vh;
+
+  visibility: hidden;
+  opacity: 0;
 }
 
 .big-modal {
@@ -78,6 +81,7 @@ dialog {
 }
 
 .mini-modal {
+  z-index: 1;
   margin: 0;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   max-width: 30ch;
@@ -161,12 +165,12 @@ textarea {
 }
 
 .submenu {
-  width: 300px;
+  width: 18ch;
   display: flex;
   flex-direction: column;
   position: absolute;
   background-color: #fff;
-  top: 50px;
+  top: calc(var(--header-height) - 20px);
   right: -2px;
   z-index: 1;
   padding: 14px 0;
@@ -180,7 +184,7 @@ textarea {
 .submenu.active {
   visibility: visible;
   opacity: 1;
-  top: 60px;
+  top: calc(var(--header-height) - 10px);
 }
 
 .submenu:before {
@@ -260,19 +264,29 @@ textarea {
 /* .header__config {
   transition: var(--transition);
   transform: rotate(0);
+} */
+.header__config.active{
+  transition: var(--transition);
 }
-
 .header__config.active{
   color: #0074c7;
-  transform: rotate(115deg);
-} */
+  /* transform: rotate(115deg); */
+}
 
-.header__right .username {
+.nav-text {
   padding-left: 0.5em;
   font-weight: bold;
   font-size: 1.2rem;
-  text-align: right;
   /* width: min-content; */
+}
+
+.username {
+  text-align: right;
+}
+
+.label-title {
+  font-size: 1.3rem;
+  display: none;
 }
 
 /*--- main ---*/
@@ -783,6 +797,12 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.dialog-header .btn-group {
+  margin: 0;
+  gap: .4rem;
 }
 
 .dialog-header .btn-icon:hover {
@@ -904,15 +924,14 @@ input[type="datetime-local"] {
 /* ------ ALERT EMAIL ------ */
 
 .email-alert-container {
-  color: #000;
+  color: #222;
   position: absolute;
   width: 100%;
   transform: translateY(-110%);
   z-index: -1;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 500;
   transition: var(--transition);
-  /* display: none; */
 }
 
 .email-alert-container.show {
@@ -921,14 +940,12 @@ input[type="datetime-local"] {
 }
 
 .email-alert-content {
-  /* width: fit-content; */
   padding: 0.5rem 1rem;
-  margin: 0.3rem 0.5rem;
   text-align: center;
-  border-radius: var(--border-radius);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  border-bottom: 1px solid var(--color_gray);
 }
 
 .email-alert-content .btn-icon {
@@ -974,6 +991,12 @@ input[type="datetime-local"] {
   }
   .username {
     display: none;
+  }
+  .header_index {
+    display: none;
+  }
+  .label-title {
+    display: block;
   }
   .emails.active {
     width: 100vw;

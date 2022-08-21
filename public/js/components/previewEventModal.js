@@ -3,7 +3,8 @@ import Modal from "./Modal.js";
 
 export default class PreviewEventModal extends Modal {
     constructor() {
-        super(document.querySelector('[data-preview-event-dialog]'));
+        super(document.querySelector('[data-preview-event-modal]'),
+            document.querySelector('[data-close-preview-event-modal-btn]'));
 
         this.event = null;
 
@@ -19,6 +20,8 @@ export default class PreviewEventModal extends Modal {
 
         this.editEventCallback = null;
 
+        this.eventBoundingRect = null;
+
         this.#setEventListeners();
     }
 
@@ -33,7 +36,9 @@ export default class PreviewEventModal extends Modal {
         }
     }
 
-    show(elBoundingRect) {
+    showModal(elBoundingRect) {
+        this.eventBoundingRect = elBoundingRect;
+
         super.show();
 
         const { left: eLeft, right: eRight, top: eTop, width: eWidth } = elBoundingRect;
@@ -41,10 +46,16 @@ export default class PreviewEventModal extends Modal {
         const { height: mHeight, width: mWidth } = this.modal.getBoundingClientRect();
 
         if (eRight > window.innerWidth - 50) this.modal.style.right = 0;
-        else if(eLeft < 50) this.modal.style.left = 0;
+        else if (eLeft < 50) this.modal.style.left = 0;
         else this.modal.style.left = (eLeft - (mWidth - eWidth) / 2) + 'px';
 
         this.modal.style.top = (eTop - mHeight - 5) + 'px';
+    }
+
+    close() {
+        super.close();
+        this.modal.style.top =
+            (this.eventBoundingRect.top + this.eventBoundingRect.height) + 'px';
     }
 
     setValues(event) {
@@ -66,8 +77,8 @@ export default class PreviewEventModal extends Modal {
         this.descriptionField.textContent = description || '';
     }
 
-    close() {
-        super.close();
+    handleModalClose(e) {
+        if (!this.modal.contains(e.target) && this.modal.hasAttribute('open')) this.close()
     }
 
     #setEventListeners() {
@@ -75,7 +86,7 @@ export default class PreviewEventModal extends Modal {
             this.editEventModal.setTitle('Editar Evento');
             this.editEventModal.setValues(this.event);
             this.editEventModal.onSubmit(this.editEventCallback);
-            this.editEventModal.show();
+            this.editEventModal.showModal();
             this.close()
         }
 

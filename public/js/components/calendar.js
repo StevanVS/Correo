@@ -115,13 +115,13 @@ export default class Calendar {
                 this.eventDialog.emptyValues();
                 this.eventDialog.setTitle('Evento Nuevo');
                 this.eventDialog.onSubmit(this.createEventCallback);
-                this.eventDialog.show();
+                this.eventDialog.showModal();
             }
         });
 
         this.calendar.setOption('eventClick', (eventClickInfo) => {
             this.previewEventModal.setValues(eventClickInfo.event)
-            this.previewEventModal.show(eventClickInfo.el.getBoundingClientRect());
+            this.previewEventModal.showModal(eventClickInfo.el.getBoundingClientRect());
         });
     }
 

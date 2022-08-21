@@ -29,12 +29,12 @@ export default class EventDialog extends Modal {
         }
     }
 
-    show() {
-        super.show();
+    showModal() {
+        super.showModal();
         this.modal.style.margin = 'auto';
     }
+    
     close() {
-        console.log(this.modal);
         this.modal.style.margin = 0;
         super.close();
     }
