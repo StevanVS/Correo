@@ -10,15 +10,17 @@ export default class DraftModal extends Modal {
         this.subjectInput = document.querySelector('[data-draft-subject-input]');
         this.messageInput = document.querySelector('[data-draft-message-input]');
 
+        this.draftId = null
         this.draft = null;
     }
 
     setDraftId(id) {
-        this.draft.id = id;
+        this.draftId = id;
     }
 
     setValues(draft) {
         this.draft = draft;
+        this.draftId = draft.id;
         this.toUserInput.value = draft.to_user;
         this.subjectInput.value = draft.subject;
         this.messageInput.value = draft.message;
@@ -33,7 +35,7 @@ export default class DraftModal extends Modal {
     onEdit(callback) {
         const inputs = [this.toUserInput, this.subjectInput, this.messageInput];
         inputs.forEach(intputEl => {
-            intputEl.onblur = (e) => callback(this.draft.id, {
+            intputEl.onblur = (e) => callback(this.draftId, {
                 to_user: this.toUserInput.value,
                 subject: this.subjectInput.value,
                 message: this.messageInput.value,
@@ -45,7 +47,7 @@ export default class DraftModal extends Modal {
         this.form.onsubmit = (e) => {
             e.preventDefault();
 
-            callback(this.draft.id, {
+            callback(this.draftId, {
                 to_user: this.toUserInput.value, // String
                 subject: this.subjectInput.value,
                 message: this.messageInput.value,

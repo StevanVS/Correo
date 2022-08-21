@@ -27,15 +27,6 @@ async function createDraft(req, res) {
     } catch (err) {
         httpError(res, err);
     }
-
-
-
-    // const sql = 'INSERT INTO drafts (from_user) VALUES (?)';
-
-    // con.query(sql, [req.body.from_user], (err, rows) => {
-    //     if (err) console.log(err);
-    //     res.status(201).send(`Created Draft with ID: ${rows.insertId}`);
-    // })
 }
 
 function editDraft(req, res) {
@@ -52,11 +43,7 @@ async function deleteDraft(req, res) {
     try {
         const userId = getUserId(req);
         const draftId = req.params.draftId;
-
         const sql = 'DELETE FROM user_emails where user_id = ? and draft_id = ?';
-
-        // const sql ='DELETE FROM drafts WHERE id = ?';
-
         const result = await query(sql, [userId, draftId]);
 
         res.send(result);
