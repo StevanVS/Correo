@@ -22,8 +22,8 @@ export default class EmailContent {
 
         this.fromUserInfo.textContent = `De: ${email.from_user.name} <${email.from_user.email_address}>`;
         this.toUserInfo.textContent = `Para: ${email.to_user.email_address}`;
-        this.subject.textContent = email.subject;
-        this.message.textContent = email.message;
+        this.subject.textContent = !email.subject ? '(Sin Asunto)' : email.subject;
+        this.message.textContent = !email.message ? '(Sin Mensaje)' : email.message;
         this.date.textContent = formatTimestamp(email.date);
     }
 

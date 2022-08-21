@@ -18,6 +18,10 @@ export default class Controller {
         return user;
     }
 
+    async editUser(data) {
+        return await this.#fetch('PUT', '/api/users/me', data);
+    }
+
     async getUserByEmail(emailAddress) {
         const result = await (await fetch(`/api/users/email/${emailAddress}`)).text();
         if (!result) return;
@@ -56,11 +60,6 @@ export default class Controller {
     async createDraft() {
         const result = this.#fetch('POST', '/api/users/me/drafts');
         return result.insertId;
-
-        // const request = new XMLHttpRequest();
-        // request.open('POST', '/api/emails/drafts');
-        // request.setRequestHeader('Content-Type', 'application/json');
-        // request.send(JSON.stringify({ from_user: currentUserId }));
     }
 
     async editDraft(id, values) {

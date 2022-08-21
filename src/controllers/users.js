@@ -1,5 +1,6 @@
 const { query } = require('../connection');
 const { httpError } = require('../helpers/handleError');
+const { getUserId } = require('../helpers/getUserId');
 
 function getUsers(req, res) {
     query('SELECT * FROM users', (err, rows) => {
@@ -25,14 +26,16 @@ async function createUser(req, res) {
     res.status(201).send(result);
 }
 
-function editUser(req, res) {
-    const { id, ...user } = req.body;
-    const sql = 'UPDATE users SET ? WHERE id = ?';
-
-    query(sql, [user, id], (err, rows) => {
-        if (err) console.log(err);
-        res.send(`User ${id} Updated: ${rows.message})`);
-    })
+async function editUser(req, res) {
+    try {
+        const userId = getUserId(req);
+        const values = req.body;
+        const sql = 'UPDATE users SET ? WHERE id = ?';
+        const result = await query(sql, [values, userId]);
+        res.send(result);
+    } catch (err) {
+        httpError(res, err)
+    }
 }
 
 function deleteUser(req, res) {

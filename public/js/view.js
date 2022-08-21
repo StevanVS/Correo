@@ -20,7 +20,7 @@ export default class View {
         }
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
-        
+
         this.emailContent = new EmailContent();
 
         this.emailContent.onDelete((values, newLabelId) => {
@@ -78,7 +78,7 @@ export default class View {
         } else {
             this.draftModal.setValues(emptyDraft);
         }
-        
+
         this.draftModal.showModal();
 
         this.render();
@@ -92,7 +92,8 @@ export default class View {
     async sendEmail(draftId, { to_user, subject, message }) {
         const toUser = await this.controller.getUserByEmail(to_user);
         if (!toUser || toUser == null) {
-            alert('No existe usuario con el correo: ' + to_user);
+            // alert('No existe usuario con el correo: ' + to_user);
+            new Alert(`No existe usuario con el correo: ${to_user}`, 'danger');
             return false;
         }
 
@@ -121,6 +122,13 @@ export default class View {
     async initView() {
         this.currentUser = await this.controller.getCurrentUser();
 
+        if (this.currentUser.newuser) {
+
+            //TODO: ACCIONAR AL ROBOT
+            
+            this.controller.editUser({ newuser: false });
+        }
+
         document.querySelectorAll('[data-username]').forEach(item => {
             item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
         })
@@ -133,7 +141,7 @@ export default class View {
     }
 
     async render() {
-        document.querySelector('[data-label-title]').textContent = this.currentLabel.name;         
+        document.querySelector('[data-label-title]').textContent = this.currentLabel.name;
 
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
         document.querySelector(`[label-id="${this.currentLabel.id}"]`).classList.add('selected');
@@ -192,6 +200,7 @@ export default class View {
         if (email.label.id !== 'DRAFT') userField.innerHTML = '';
 
         const user = this.currentLabel.id === 'SENT' || this.currentLabel.id === 'DRAFT' ? email.to_user : email.from_user;
+
         if (user)
             userField.innerHTML += email.label.id !== 'DRAFT' ? `${user.name} ${user.lastname}` : user;
         else
