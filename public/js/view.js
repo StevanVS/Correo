@@ -119,7 +119,13 @@ export default class View {
 
     async initView() {
         this.currentUser = await this.controller.getCurrentUser();
-        document.querySelector('[data-username]').innerText = `${this.currentUser.name} ${this.currentUser.lastname}`;
+
+        document.querySelectorAll('[data-username]').forEach(item => {
+            item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
+        })
+        document.querySelectorAll('[data-user-email-address]').forEach(item => {
+            item.textContent = this.currentUser.email_address
+        })
 
         this.historyId = await this.controller.getHistoryId();
         this.render();

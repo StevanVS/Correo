@@ -44,23 +44,44 @@
             <span class="username" data-username></span>
             <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i> -->
 
-            <li class="header__li">
+            <!-- <li class="header__li">
                 <i class="fa-solid fa-gear header__config btn"></i>
-                <ul class="submenu">
-                    <li>
-                        <div class="config__element">Color</div>
-                    </li>
-                    <li>
-                        <div class="config__element">Config</div>
-                    </li>
-                    <li>
-                        <div class="config__element">Tema</div>
-                    </li>
-                </ul>
-            </li>
+
+            </li> -->
             <li class="data__user header__li">
                 <span class="nav-text username" data-username></span>
-                <i class="fa-solid fa-circle-user header__user btn"></i>
+                <div class="user-img-container" data-submenu-btn>
+                    <!-- <i class="fa-solid fa-circle-user"></i> -->
+                    <img class="user-img" src="../img/userImage.jpg" alt="Foto de perfil">
+                </div>
+                <ul class="submenu">
+                    <div class="config-group">
+                        <li class="config-text user" data-username>Usuario</li>
+                        <li class="config-text" data-user-email-address>svelez0841@</li>
+                    </div>
+                    <div class="config-group">
+                        <li>
+                            <div class="config__element">Editar perfil</div>
+                        </li>
+                        <li>
+                            <div class="config__element" data-logout-btn>Cerrar Sesión</div>
+                        </li>
+                    </div>
+                    <!-- <div class="config-group">
+                        <li>
+                            <div class="config__element">Cambiar de tema</div>
+                        </li>
+                        <li>
+                            <div class="config__element">Desactivar al guia</div>
+                        </li>
+                    </div> -->
+                    <li>
+                        <div class="config__element">Documentación</div>
+                    </li>
+                    <li>
+                        <div class="config__element">Soporte</div>
+                    </li>
+                </ul>
             </li>
 
         </div>

@@ -12,7 +12,7 @@ const icon__redactar = document.querySelector(".icon__redactar");
 const emails = document.querySelector(".emails");
 const navItems = document.querySelectorAll('.nav__item');
 
-const config_btn = document.querySelector(".header__config");
+const submenuBtn = document.querySelector("[data-submenu-btn]");
 const submenu_content = document.querySelector(".submenu");
 
 
@@ -54,9 +54,10 @@ export function reduceNav() {
 }
 
 export function handleConfigMenuClose(e) {
-    if (!submenu_content.contains(e.target) && e.target !== config_btn) {
+    if (!submenu_content.contains(e.target)
+        && !submenuBtn.contains(e.target)) {
         submenu_content.classList.remove("active");
-        config_btn.classList.remove("active");
+        submenuBtn.classList.remove("active");
     }
 }
 
@@ -67,7 +68,7 @@ export function handleNavClose(e) {
         reduceNav();
 }
 
-config_btn.addEventListener("click", () => {
+submenuBtn.addEventListener("click", () => {
     submenu_content.classList.toggle("active");
-    config_btn.classList.toggle("active");
+    submenuBtn.classList.toggle("active");
 })
