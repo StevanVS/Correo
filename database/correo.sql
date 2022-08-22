@@ -2,20 +2,23 @@ drop database if exists correo;
 create database correo;
 use correo;
 
+SET SQL_SAFE_UPDATES = 0;
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     email_address VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(64) NOT NULL
+    password VARCHAR(64) NOT NULL,
+    newuser boolean default true
 );
 
 CREATE TABLE emails (
     id INT AUTO_INCREMENT PRIMARY KEY,
     from_user int NOT NULL,
     to_user int not null,
-    subject text,
-    message text,
+    subject varchar(400),
+    message varchar(2000),
     unread BOOLEAN DEFAULT TRUE,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     foreign key (from_user) references users (id),
@@ -26,8 +29,8 @@ create table drafts (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     from_user int NOT NULL,
     to_user varchar(100),
-    subject text,
-    message text,
+    subject varchar(400),
+    message varchar(2000),
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -105,16 +108,16 @@ delimiter ;
 
 
 insert into labels values 
-	('INBOX', 'INBOX'),
-    ('SENT', 'SENT'),
-    ('DRAFT', 'DRAFT'),
-    ('ARCHIVE', 'ARCHIVE'),
-    ('DELETED', 'DELETED');
+	('INBOX', 'Bandeja de Entrada'),
+    ('SENT', 'Enviados'),
+    ('DRAFT', 'Borradores'),
+    ('ARCHIVE', 'Archivados'),
+    ('DELETED', 'Papelera');
 
 insert into users values 
-	(2, 'Juan', 'Garcia', 'juan23@email.com', '123'),
-    (3, 'Antonio', 'Perez', 'anto3@email.com', '123'),
-	(4, 'Stevan', 'Velez', 'svelez1@email.com', '123');
+	(2, 'Juan', 'Garcia', 'juan23@email.com', '123', true),
+    (3, 'Antonio', 'Perez', 'anto3@email.com', '123', true),
+	(4, 'Stevan', 'Velez', 'svelez1@email.com', '123', false);
 
 insert into emails (id, from_user, to_user, subject, message) values
 	(null, 2, 3, 'test1', 'Esto es un 1111'),
@@ -139,14 +142,11 @@ insert into calendar_events values
 
 insert into calendar_events values ('evet-424234', 3, 'Mi titulo', current_time(), null, null);
 
-update calendar_events set title = 'hola2' where id = 'evet-1233334';
-delete from calendar_events where id = 'evet-1234';
+
 -- select * from calendar_events where user_id = 2;
--- select * from user_emails;
-
-
+/*
+select distinct label_id from user_emails where user_id = 2;
+select * from labels where id in ( select distinct label_id from user_emails where user_id = 2 );
+*/
 -- select * from user_emails where user_id = 2;
-
 -- UPDATE user_emails set label_id = 'ARCHIVE' where user_id = 2 and label_id = 'SENT' AND email_id = 5;
-
-
