@@ -5,10 +5,11 @@ import EmailContent from "./components/emailContent.js";
 import LabelMessage from "./components/labelMessage.js";
 import { expandNav, handleConfigMenuClose, handleNavClose, reduceNav } from "./main.js";
 import Alert from "./components/alert.js";
+import Controller from "./controller.js";
 
 export default class View {
     constructor() {
-        this.controller = null;
+        this.controller = new Controller();
         this.currentUser = null;
         this.historyId = null;
         this.emails = null;
@@ -59,10 +60,6 @@ export default class View {
 
         this.#setCalendarEventListeners();
         this.handleWindowResize();
-    }
-
-    setController(controller) {
-        this.controller = controller;
     }
 
     async createDraft() {
@@ -126,7 +123,7 @@ export default class View {
         if (this.currentUser.newuser) {
 
             //TODO: ACCIONAR AL ROBOT
-            
+
             this.controller.editUser({ newuser: false });
         }
 
@@ -226,6 +223,8 @@ export default class View {
                 this.draftModal.showModal();
             } else {
                 this.emailContent.openEmail(email);
+                this.controller.editEmail(email.id, { unread: false })
+                this.render()
             }
         }
 

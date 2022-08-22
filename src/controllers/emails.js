@@ -131,6 +131,19 @@ async function changeEmailLabel(req, res) {
     }
 }
 
+// PUT /api/users/:userId/emails/:emailId
+async function editEmail(req, res) {
+    try {
+        const emailId = req.params.emailId;
+        const values = req.body;
+        const sql = 'UPDATE emails SET ? where id = ?';
+        const result = await query(sql, [values, emailId]);
+        res.send(result)
+    } catch (err) {
+        httpError(res, err)
+    }
+}
+
 module.exports = {
     getEmails,
     getEmailsFrom,
@@ -141,4 +154,5 @@ module.exports = {
     getUserEmails,
     getHistoryId,
     changeEmailLabel,
+    editEmail,
 }

@@ -57,6 +57,10 @@ export default class Controller {
         return emails;
     }
 
+    async editEmail(emailId, data) {
+        return await this.#fetch('PUT', `/api/users/me/emails/${emailId}`, data);
+    }
+
     async createDraft() {
         const result = this.#fetch('POST', '/api/users/me/drafts');
         return result.insertId;
@@ -104,7 +108,7 @@ export default class Controller {
 
     async sendJsonRequest(method, url, data) {
         const request = new XMLHttpRequest();
-        request.onload = () => {console.log(JSON.parse(request.response))};
+        request.onload = () => { console.log(JSON.parse(request.response)) };
         request.open(method, url);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify(data));
@@ -114,7 +118,7 @@ export default class Controller {
         const options = {
             method,
             body: data ? JSON.stringify(data) : null,
-            headers: {"Content-Type": "application/json"}
+            headers: { "Content-Type": "application/json" }
         }
         const result = await fetch(url, options).then(r => r.json());
         return result;

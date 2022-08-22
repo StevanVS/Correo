@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-    getEmails, getEmailsFrom, getEmailsTo, getEmail, sendEmail, deleteEmail, getUserEmails,getHistoryId, changeEmailLabel
+    getEmails, getEmailsFrom, getEmailsTo, getEmail, sendEmail, deleteEmail, getUserEmails,getHistoryId, changeEmailLabel, editEmail
 } = require('../controllers/emails');
 
 const router = express.Router();
@@ -17,5 +17,7 @@ router.get('/users/:userId/historyId', getHistoryId);
 // router.get('/users/:userId/emails', getUserEmails);
 router.get('/users/:userId/emails/:labelId', getUserEmails);
 router.patch('/users/:userId/emails', changeEmailLabel);
+router.put('/users/:userId/emails/:emailId', editEmail)
+
 
 module.exports = router;

@@ -275,7 +275,7 @@ textarea {
 }
 
 .header__Logo {
-  width: 8.6em;
+  height: 2.8rem;
   padding: 0;
 }
 
@@ -661,6 +661,10 @@ textarea {
 
   display: flex;
   justify-content: space-between;
+}
+
+.email-content .close-email {
+  margin-right: 1rem;
 }
 
 .email-content .btn-group {

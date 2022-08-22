@@ -1,11 +1,11 @@
 import View from "./view.js";
 import Controller from "./controller.js";
 
-const controller = new Controller();
+// const controller = new Controller();
 const view = new View();
 
-view.setController(controller);
-controller.setView(view);
+// view.setController(controller);
+// controller.setView(view);
 
 view.initView();
 
