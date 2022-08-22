@@ -132,3 +132,7 @@ DELETE http://localhost:8080/api/users/2/drafts/7
 
 ###
 POST http://localhost:8080/api/users/2/drafts
+
+###
+DELETE http://localhost:8080/api/users/2/emails?emailId=3&
+

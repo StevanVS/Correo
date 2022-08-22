@@ -32,7 +32,7 @@ export default class EventDialog extends Modal {
     showModal() {
         super.showModal();
     }
-    
+
     close() {
         super.close();
     }
@@ -47,10 +47,13 @@ export default class EventDialog extends Modal {
 
     setValues(event) {
         this.event = event;
-        const { title, start, end, extendedProps: { description } } = event;
+        const { title, start, end, extendedProps } = event;
         this.titleInput.value = title;
-        this.startInput.value = formatDate(start);
+        this.startInput.value = start ? formatDate(start) : '';
         this.endInput.value = end ? formatDate(end) : '';
+
+        if (!extendedProps) return;
+        const { description } = extendedProps;
         this.descriptionInput.value = description || '';
     }
 

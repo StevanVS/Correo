@@ -23,7 +23,11 @@ export default class EmailContent {
 
         this.closeEmailBtn.onclick = () => this.closeEmail();
 
-        this.createEventCallback = null;
+        this.createEventCallBack = null;
+
+        this.container.querySelector('[data-new-calendar-event-btn]').onclick = e => {
+            this.createEventCallBack({ title: this.email.subject });
+        }
     }
 
     setValues(email) {
@@ -91,9 +95,9 @@ export default class EmailContent {
         })
     }
 
-    onDetectDate(callback) {
-        this.createEventCallback = callback;
-    }
+    // onDetectDate(callback) {
+    //     this.createEventCallback = callback;
+    // }
 
     //const { title, start, end, extendedProps: { description } } = event;
     findDates() {
@@ -112,10 +116,10 @@ export default class EmailContent {
             title: this.email.subject,
             start: datetimeObjs[0],
             end: datetimeObjs[1],
-            extendedProps: {},
         }
-        new ConfirmModal('Se detactó una fecha en el correo, desea agendar un evento en el calendario?', () => this.createEventCallback(values));
 
+        if (this.email.unread && this.email.label.id !== 'SENT')
+            new ConfirmModal('Se detectó una fecha en el correo, desea agendarla en el calendario?', () => this.createEventCallBack(values));
     }
 
     openEmail(email) {

@@ -13,24 +13,6 @@ function getEmails(req, res) {
     })
 }
 
-function getEmailsFrom(req, res) {
-    const sql = 'SELECT * FROM emails WHERE from_user = ? ORDER BY date DESC';
-
-    con.query(sql, req.params.userId, (err, rows) => {
-        if (err) console.log(err);
-        res.send(rows);
-    })
-}
-
-function getEmailsTo(req, res) {
-    const sql = 'SELECT * FROM emails WHERE to_user = ? ORDER BY date DESC';
-
-    con.query(sql, req.params.userId, (err, rows) => {
-        if (err) console.log(err);
-        res.send(rows);
-    })
-}
-
 function getEmail(req, res) {
     const sql = 'SELECT * FROM emails WHERE id = ?';
 
@@ -59,6 +41,19 @@ async function deleteEmail(req, res) {
         res.send(result);
     } catch (err) {
         httpError(res, err)
+    }
+}
+// DELETE /api/users/:userId/emails?emailId=3
+async function deleteEmails(req, res) {
+    try {
+        const
+            userId = getUserId(req),
+            emailIds = [...req.query.emailId].toString(),
+            sql = 'DELETE FROM user_emails WHERE user_id = ? AND email_id in (?)';
+        const result = await query(sql, [userId, emailIds]);
+        res.send(result);
+    } catch (err) {
+        httpError(res, err);
     }
 }
 
@@ -123,11 +118,11 @@ async function changeEmailLabel(req, res) {
     try {
         const userId = getUserId(req);
         const { newLabelId } = req.body;
-        let { labelId, emailId } = req.body.values
+        const { labelId, emailId } = req.body.values
 
-        const sql = 'UPDATE user_emails set label_id = ? where user_id = ? and label_id = ? AND email_id = ?';
+        const sql = 'UPDATE user_emails set label_id = ? where user_id = ? and label_id = ? AND email_id in (?)';
 
-        const response = await query(sql, [newLabelId, userId, labelId, emailId]);
+        const response = await query(sql, [newLabelId, userId, labelId, emailId.toString()]);
 
         res.send(response)
     } catch (err) {
@@ -148,10 +143,21 @@ async function editEmail(req, res) {
     }
 }
 
+async function editEmails(req, res) {
+    try {
+        const
+            emailIds = [...req.query.emailId],
+            values = req.body,
+            sql = 'UPDATE emails SET ? where id (?)';
+        const result = await query(sql, [values, emailIds]);
+        res.send(result)
+    } catch (err) {
+        httpError(res, err)
+    }
+}
+
 module.exports = {
     getEmails,
-    getEmailsFrom,
-    getEmailsTo,
     getEmail,
     sendEmail,
     deleteEmail,
@@ -159,4 +165,6 @@ module.exports = {
     getHistoryId,
     changeEmailLabel,
     editEmail,
+    deleteEmails,
+    editEmails,
 }

@@ -33,18 +33,6 @@ export default class Controller {
         return await this.#fetch('GET', '/api/users/me/labels');
     }
 
-    async getEmailsFrom(userId) {
-        const res = await fetch(`/api/emails/from/${userId}`);
-        const emails = await res.json();
-        return emails;
-    }
-
-    async getEmailsTo(userId) {
-        const res = await fetch(`/api/emails/to/${userId}`);
-        const emails = await res.json();
-        return emails;
-    }
-
     async getDraftsFrom(userId) {
         const emails = await fetch(`/api/emails/drafts/from/${userId}`).then(res => res.json());
         return emails;

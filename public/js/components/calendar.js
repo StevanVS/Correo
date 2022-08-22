@@ -116,9 +116,9 @@ export default class Calendar {
             this.refreshTitle();
         };
 
-        document.querySelectorAll('[data-new-calendar-event-btn]').forEach(btn => {
-            btn.onclick = e => this.createEvent();
-        });
+        this.container.querySelector('[data-new-calendar-event-btn]').onclick = e => {
+            this.createEvent();
+        };
 
         this.calendar.setOption('eventClick', (eventClickInfo) => {
             this.previewEventModal.setValues(eventClickInfo.event)

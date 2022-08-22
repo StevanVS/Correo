@@ -258,10 +258,10 @@ export default class View {
             this.render()
         });
 
-        this.emailContent.onDetectDate((values) => {
+        this.emailContent.createEventCallBack = (values) => {
             this.calendar.createEvent();
             this.calendar.eventDialog.setValues(values);
-        });
+        }
     }
 
     #setCalendarEventListeners() {
