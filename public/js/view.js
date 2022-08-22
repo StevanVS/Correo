@@ -1,16 +1,20 @@
 import Calendar from "./components/calendar.js";
 import { formatTimestamp } from "./utils/dateFormater.js";
-import DraftModal from "./components/draftModal.js";
+import DraftModal from "./components/modals/draftModal.js";
 import EmailContent from "./components/emailContent.js";
 import LabelMessage from "./components/labelMessage.js";
 import { expandNav, handleConfigMenuClose, handleNavClose, reduceNav } from "./main.js";
 import Alert from "./components/alert.js";
 import Controller from "./controller.js";
+import UserProfileModal from "./components/modals/userProfileModal.js";
 
 export default class View {
     constructor() {
         this.controller = new Controller();
+
         this.currentUser = null;
+        this.userProfileModal = new UserProfileModal();
+
         this.historyId = null;
         this.emails = null;
 
@@ -22,25 +26,22 @@ export default class View {
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
 
-        this.emailContent = new EmailContent();
+        document.querySelector('[data-edit-user-profile-btn]').onclick = () => {
+            this.userProfileModal.showModal();
+        }
 
-        this.emailContent.onReply(async draft => {
-            const id = await this.createDraft();
-            this.draftModal.setValues({id, ...draft});
-        });
+        this.userProfileModal.onSubmit();//todo interactuar con la BD
 
-        this.emailContent.onChangeLabel((values, newLabelId) => {
-            this.controller.changeEmailLabel({ values, newLabelId });
-            this.render()
-        }, this.controller.getUserLabels());
-
-        this.emailContent.onDelete((emailId) => {
-            this.controller.deleteEmail(emailId)
-            this.render()
-        });
-
+        this.emailContent = new EmailContent()
+        this.#setEmailContentEventListeners();
 
         this.draftModal = new DraftModal();
+
+        this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
+        this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
+
+
+        document.querySelector('[data-new-draft-btn]').onclick = () => this.createDraft();
 
         document.querySelectorAll('[data-label]').forEach(labelEl => {
             labelEl.onclick = e => {
@@ -57,17 +58,16 @@ export default class View {
             }
         })
 
-        document.querySelector('[data-new-draft-btn]').onclick = () => this.createDraft();
-
-
-        this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
-        this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
-
-
         this.calendar = new Calendar();
 
         this.#setCalendarEventListeners();
         this.handleWindowResize();
+
+        document.onmouseup = e => {
+            handleConfigMenuClose(e);
+            this.calendar.previewEventModal.handleModalClose(e);
+            handleNavClose(e);
+        }
     }
 
     async createDraft() {
@@ -163,6 +163,7 @@ export default class View {
         this.labelMessage.hide();
 
         this.emails = await this.controller.getUserEmails(this.currentLabel.id);
+
         if (this.emails.length === 0) {
             this.labelMessage.show(`No hay nada en ${this.currentLabel.name}`)
         }
@@ -173,7 +174,7 @@ export default class View {
         this.emailsContainer.innerHTML = '';
 
         this.emails.forEach(email => {
-            this.emailsContainer.appendChild(this.createEmailRow(email));
+            this.emailsContainer.prepend(this.createEmailRow(email));
         })
 
     }
@@ -241,6 +242,27 @@ export default class View {
         return row;
     }
 
+    #setEmailContentEventListeners() {
+        this.emailContent.onReply(async draft => {
+            const id = await this.createDraft();
+            this.draftModal.setValues({ id, ...draft });
+        });
+
+        this.emailContent.onChangeLabel((values, newLabelId) => {
+            this.controller.changeEmailLabel({ values, newLabelId });
+            this.render()
+        }, this.controller.getUserLabels());
+
+        this.emailContent.onDelete((emailId) => {
+            this.controller.deleteEmail(emailId)
+            this.render()
+        });
+
+        this.emailContent.onDetectDate((values) => {
+            this.calendar.createEvent();
+            this.calendar.eventDialog.setValues(values);
+        });
+    }
 
     #setCalendarEventListeners() {
         this.calendar.onEventChange(async (id, values) => {
@@ -262,17 +284,10 @@ export default class View {
             this.controller.deleteEvent(id);
             this.calendar.refresh();
         })
-
-        document.onmouseup = e => {
-            handleConfigMenuClose(e);
-            this.calendar.previewEventModal.handleModalClose(e);
-            handleNavClose(e);
-        }
     }
 
     handleWindowResize() {
         let isNavExpanded = true;
-        let isCalendarClosed = false;
         window.onresize = () => {
             const breakPoints = {
                 short: 425,
@@ -294,14 +309,8 @@ export default class View {
                     isNavExpanded = !isNavExpanded
                 }
                 if (width > breakPoints.medium) {
-                    if (isCalendarClosed) {
-                        // this.calendar.open();
-                        isCalendarClosed = !isCalendarClosed;
-                    }
                     this.calendar.changeNumberOfDays(4);
                 } else {
-                    // this.calendar.close();
-                    isCalendarClosed = true
                     this.calendar.changeNumberOfDays(3);
                 }
             }

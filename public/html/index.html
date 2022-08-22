@@ -64,7 +64,7 @@
                     </div>
                     <div class="config-group">
                         <li>
-                            <div class="config__element">
+                            <div class="config__element" data-edit-user-profile-btn>
                                 <i class="fa-solid fa-user-gear"></i>
                                 Editar perfil
                             </div>
@@ -240,6 +240,7 @@
             </div>
         </section>
 
+        <!-- MODAL DE BORRADOR -->
         <dialog class="big-modal" data-draft-modal>
             <div class="dialog-content">
                 <div class="dialog-header">
@@ -258,6 +259,7 @@
             </div>
         </dialog>
 
+        <!-- MODAL DE EVENTOS DE CALENDARIO -->
         <dialog class="big-modal" data-event-dialog>
             <div class="dialog-content">
                 <div class="dialog-header">
@@ -281,6 +283,7 @@
             </div>
         </dialog>
 
+        <!-- MODAL PARA VER DESCRIPCION DE EVENTOS -->
         <dialog class="mini-modal" data-preview-event-modal>
             <div class="dialog-header">
                 <span>Evento</span>
@@ -312,6 +315,7 @@
             </div>
         </dialog>
 
+        <!-- MODAL DE CONFIRMACION -->
         <dialog class="medium-modal" data-confirm-modal>
             <div class="dialog-content">
                 <div class="dialog-header">
@@ -327,6 +331,19 @@
                         <button type="submit" class="dialog-btn cancel" data-cancel-btn>Cancelar</button>
                     </div>
                 </form>
+            </div>
+        </dialog>
+
+
+        <dialog class="big-modal" data-user-profile-modal>
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <span>Perfil de Usuario</span>
+                    <button class="btn-icon" data-close-user-profile-modal-btn>
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                a
             </div>
         </dialog>
 

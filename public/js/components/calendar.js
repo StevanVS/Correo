@@ -1,10 +1,10 @@
 import { formatDate } from "../utils/dateFormater.js";
-import EventDialog from "./eventDialog.js";
-import PreviewEventModal from "./previewEventModal.js";
+import EventDialog from "./modals/eventDialog.js";
+import PreviewEventModal from "./modals/previewEventModal.js";
 
 export default class Calendar {
     constructor() {
-        this.eventDialog = new EventDialog('Evento Nuevo');
+        this.eventDialog = new EventDialog();
         this.previewEventModal = new PreviewEventModal();
 
         this.container = document.querySelector('.calendar-container');
@@ -48,7 +48,6 @@ export default class Calendar {
     }
 
     onCreateEvent(callback) {
-        // this.eventDialog.onSubmit(callback);
         this.createEventCallback = callback;
     }
 
@@ -84,6 +83,13 @@ export default class Calendar {
         return this.calendar.getOption(name);
     }
 
+    createEvent() {
+        this.eventDialog.emptyValues();
+        this.eventDialog.setTitle('Evento Nuevo');
+        this.eventDialog.onSubmit(this.createEventCallback);
+        this.eventDialog.showModal();
+    }
+
     #setEventListeners() {
         this.container.parentElement.ontransitionend = e => {
             if (e.propertyName === "width") {
@@ -111,12 +117,7 @@ export default class Calendar {
         };
 
         document.querySelectorAll('[data-new-calendar-event-btn]').forEach(btn => {
-            btn.onclick = e => {
-                this.eventDialog.emptyValues();
-                this.eventDialog.setTitle('Evento Nuevo');
-                this.eventDialog.onSubmit(this.createEventCallback);
-                this.eventDialog.showModal();
-            }
+            btn.onclick = e => this.createEvent();
         });
 
         this.calendar.setOption('eventClick', (eventClickInfo) => {

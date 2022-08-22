@@ -18,9 +18,11 @@ export default class Modal {
     showModal() {
         this.modal.showModal();
         this.modal.style.top = 0;
+        this.modal.style.margin = 'auto';
 
         this.modal.style.visibility = 'visible';
         this.modal.style.opacity = 1;
+
     }
 
     show() {
@@ -31,6 +33,7 @@ export default class Modal {
     }
 
     close() {
+        this.modal.style.margin = 0;
         this.modal.style.top = '100vh';
         this.modal.style.left = '';
         this.modal.style.right = '';

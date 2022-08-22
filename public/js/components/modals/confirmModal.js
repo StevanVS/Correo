@@ -1,4 +1,4 @@
-import Modal from "./Modal.js";
+import Modal from "./modal.js";
 
 export default class ConfirmModal extends Modal {
     constructor(text, callback) {

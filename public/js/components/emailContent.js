@@ -1,9 +1,11 @@
-import { formatTimestamp } from "../utils/dateFormater.js";
-import ConfirmModal from "./confirmModal.js";
+import { formatTimestamp, formatDate, getDateFromDatetimeStr } from "../utils/dateFormater.js";
+import ConfirmModal from "./modals/confirmModal.js";
 import Alert from './alert.js';
 
 export default class EmailContent {
     constructor() {
+        this.isOpen = false;
+
         this.container = document.querySelector('[data-email-content]');
         this.subject = document.querySelector('[data-email-subject]');
         this.fromUserInfo = document.querySelector('[data-email-from-user-info]');
@@ -20,6 +22,8 @@ export default class EmailContent {
         this.email = null;
 
         this.closeEmailBtn.onclick = () => this.closeEmail();
+
+        this.createEventCallback = null;
     }
 
     setValues(email) {
@@ -31,7 +35,7 @@ export default class EmailContent {
         this.message.textContent = !email.message ? '(Sin Mensaje)' : email.message;
         this.date.textContent = formatTimestamp(email.date);
 
-        this.#manageBtns();
+        this.#manageBtnsDisplay();
     }
 
     /*
@@ -57,7 +61,7 @@ export default class EmailContent {
             new ConfirmModal('Está seguro que desea Eliminar este Correo Permanentemente?', () => {
                 callback(this.email.id);
                 this.closeEmail();
-                new Alert('Correo Eliminado Permanentemente', 'error')
+                new Alert('Correo Eliminado Permanentemente', 'info')
             });
         }
     }
@@ -87,16 +91,46 @@ export default class EmailContent {
         })
     }
 
+    onDetectDate(callback) {
+        this.createEventCallback = callback;
+    }
+
+    //const { title, start, end, extendedProps: { description } } = event;
+    findDates() {
+        const datePattern = /\d{1,2}[/.-]\d{1,2}[/.-]\d{4}|\d{1,2}(?::\d{2})?[ap]m/gim;
+        const datetimes = this.email.message.match(datePattern);
+
+        if (!datetimes) return;
+
+        let datetimeObjs = getDateFromDatetimeStr(datetimes)
+
+        datetimeObjs = datetimeObjs.map(datetime => {
+            return !isNaN(datetime.getTime()) ? datetime : null;
+        })
+
+        const values = {
+            title: this.email.subject,
+            start: datetimeObjs[0],
+            end: datetimeObjs[1],
+            extendedProps: {},
+        }
+        new ConfirmModal('Se detactó una fecha en el correo, desea agendar un evento en el calendario?', () => this.createEventCallback(values));
+
+    }
+
     openEmail(email) {
+        this.isOpen = true;
         this.setValues(email);
         this.container.classList.add('open');
+        this.findDates();
     }
 
     closeEmail() {
+        this.isOpen = false;
         this.container.classList.remove('open');
     }
 
-    #manageBtns() {
+    #manageBtnsDisplay() {
         if (this.email.label.id !== 'DELETED') {
             document.querySelector('[data-trash-email-btn]').style.display = 'block';
             document.querySelector('[data-untrash-email-btn]').style.display = 'none';

@@ -1,5 +1,5 @@
-import Modal from "./Modal.js";
-import { formatDate } from "../utils/dateFormater.js";
+import Modal from "./modal.js";
+import { formatDate } from "../../utils/dateFormater.js";
 
 export default class EventDialog extends Modal {
     constructor() {
@@ -31,11 +31,9 @@ export default class EventDialog extends Modal {
 
     showModal() {
         super.showModal();
-        this.modal.style.margin = 'auto';
     }
     
     close() {
-        this.modal.style.margin = 0;
         super.close();
     }
 

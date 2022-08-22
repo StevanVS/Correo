@@ -111,6 +111,8 @@ async function getUserEmails(req, res) {
             emails.push(email);
         }
 
+        emails.sort((a, b) => new Date(b.start) - new Date(a.start));
+
         res.send(emails)
     } catch (err) {
         httpError(res, err)

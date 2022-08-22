@@ -1,5 +1,5 @@
 import EventDialog from "./eventDialog.js";
-import Modal from "./Modal.js";
+import Modal from "./modal.js";
 
 export default class PreviewEventModal extends Modal {
     constructor() {

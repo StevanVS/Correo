@@ -32,6 +32,10 @@ async function singupControl(req, res) {
 
         // VALIDAR SI NO SE REPITE EL EMAIL
 
+
+        
+
+
         const sql = 'INSERT INTO users SET ?';
 
         const result = await query(sql, newUser);
