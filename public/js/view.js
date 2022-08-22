@@ -24,15 +24,21 @@ export default class View {
 
         this.emailContent = new EmailContent();
 
-        this.emailContent.onDelete((emailId) => {
-            this.controller.deleteEmail(emailId)
-            this.render()
-        })
+        this.emailContent.onReply(async draft => {
+            const id = await this.createDraft();
+            this.draftModal.setValues({id, ...draft});
+        });
 
         this.emailContent.onChangeLabel((values, newLabelId) => {
             this.controller.changeEmailLabel({ values, newLabelId });
             this.render()
         }, this.controller.getUserLabels());
+
+        this.emailContent.onDelete((emailId) => {
+            this.controller.deleteEmail(emailId)
+            this.render()
+        });
+
 
         this.draftModal = new DraftModal();
 
@@ -51,9 +57,8 @@ export default class View {
             }
         })
 
-        document.querySelector('[data-new-draft-btn]').onclick = async () => {
-            this.createDraft();
-        };
+        document.querySelector('[data-new-draft-btn]').onclick = () => this.createDraft();
+
 
         this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
@@ -71,9 +76,10 @@ export default class View {
             !draft.subject && !draft.message && !draft.to_user
         ))
 
+        let draftId;
         if (!emptyDraft) {
             this.draftModal.emptyValues();
-            const draftId = await this.controller.createDraft();
+            draftId = await this.controller.createDraft();
             this.draftModal.setDraftId(draftId);
         } else {
             this.draftModal.setValues(emptyDraft);
@@ -82,6 +88,7 @@ export default class View {
         this.draftModal.showModal();
 
         this.render();
+        return draftId;
     }
 
     async editDraft(draftId, values) {

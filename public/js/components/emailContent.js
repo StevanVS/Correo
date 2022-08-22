@@ -1,5 +1,6 @@
 import { formatTimestamp } from "../utils/dateFormater.js";
 import ConfirmModal from "./confirmModal.js";
+import Alert from './alert.js';
 
 export default class EmailContent {
     constructor() {
@@ -12,6 +13,7 @@ export default class EmailContent {
 
         this.closeEmailBtn = document.querySelector('[data-close-email-btn]');
         this.deleteEmailBtn = document.querySelector('[data-delete-email-btn]');
+        this.replyEmailBtn = document.querySelector('[data-reply-email-btn]');
 
         this.changeLabelBtns = document.querySelectorAll('[for-label]');
 
@@ -32,11 +34,30 @@ export default class EmailContent {
         this.#manageBtns();
     }
 
+    /*
+            this.draft = draft;
+            this.draftId = draft.id;
+            this.toUserInput.value = draft.to_user;
+            this.subjectInput.value = draft.subject;
+            this.messageInput.value = draft.message;
+    */
+    onReply(callback) {
+        this.replyEmailBtn.onclick = () => {
+            const draft = {
+                to_user: this.email.from_user.email_address,
+                subject: `RE: ${this.email.subject}`,
+                message: '',
+            }
+            callback(draft);
+        }
+    }
+
     onDelete(callback) {
         this.deleteEmailBtn.onclick = e => {
             new ConfirmModal('Está seguro que desea Eliminar este Correo Permanentemente?', () => {
                 callback(this.email.id);
                 this.closeEmail();
+                new Alert('Correo Eliminado Permanentemente', 'error')
             });
         }
     }
@@ -59,6 +80,7 @@ export default class EmailContent {
                     () => {
                         callback(values, newLabelId);
                         this.closeEmail();
+                        new Alert(`Correo enviado a ${newLabelName}`, 'info');
                     }
                 );
             }
@@ -75,7 +97,7 @@ export default class EmailContent {
     }
 
     #manageBtns() {
-        if(this.email.label.id !== 'DELETED') {
+        if (this.email.label.id !== 'DELETED') {
             document.querySelector('[data-trash-email-btn]').style.display = 'block';
             document.querySelector('[data-untrash-email-btn]').style.display = 'none';
             this.deleteEmailBtn.style.display = 'none';

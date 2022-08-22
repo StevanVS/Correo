@@ -79,9 +79,9 @@ async function getUserByEmail(req, res) {
 
 async function getUserLabels(req, res) {
     try {
-        const userId = getUserId(req);
-        const sql = 'select * from labels where id in ( select distinct label_id from user_emails where user_id = ? );'
-        const result = await query(sql, userId);
+        // const userId = getUserId(req);
+        const sql = 'select * from labels'
+        const result = await query(sql);
         res.send(result);
     } catch (err) {
         httpError(res, err);
