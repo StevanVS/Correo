@@ -50,15 +50,16 @@ function sendEmail(req, res) {
     })
 }
 
-function deleteEmail(req, res) {
-    const id = req.params.emailId;
-    con.query('DELETE FROM emails WHERE id = ?', id, (err, rows) => {
-        if (err) console.log(err);
-        if (rows.affectedRows > 0)
-            res.send(`Email ${id} Deleted`);
-        else
-            res.status(404).send('Email not Found');
-    })
+async function deleteEmail(req, res) {
+    try {
+        const userId = getUserId(req);
+        const emailId = req.params.emailId;
+        const sql = 'DELETE FROM user_emails where user_id = ? and email_id = ?';
+        const result = await query(sql, [userId, emailId]);
+        res.send(result);
+    } catch (err) {
+        httpError(res, err)
+    }
 }
 
 async function getHistoryId(req, res) {
@@ -90,6 +91,7 @@ async function getUserEmails(req, res) {
             if (userEmail.email_id > 0 || userEmail.label_id !== 'DRAFT') {
                 email = await query('select * from emails where id = ?', userEmail.email_id)
                     .then(r => r[0]);
+                if (email == null) continue;
 
                 email.to_user = await query('select * from users where id = ?', email.to_user)
                     .then(r => r[0]);

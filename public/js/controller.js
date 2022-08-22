@@ -29,6 +29,10 @@ export default class Controller {
         return user;
     }
 
+    async getUserLabels() {
+        return await this.#fetch('GET', '/api/users/me/labels');
+    }
+
     async getEmailsFrom(userId) {
         const res = await fetch(`/api/emails/from/${userId}`);
         const emails = await res.json();
@@ -59,6 +63,10 @@ export default class Controller {
 
     async editEmail(emailId, data) {
         return await this.#fetch('PUT', `/api/users/me/emails/${emailId}`, data);
+    }
+
+    async deleteEmail(emailId) {
+        return await this.#fetch('DELETE', `/api/users/me/emails/${emailId}`);
     }
 
     async createDraft() {

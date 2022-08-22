@@ -126,6 +126,7 @@ textarea {
 
   display: flex;
   justify-content: center;
+  gap: .3rem;
 }
 
 .btn-icon:hover {
@@ -275,7 +276,7 @@ textarea {
 }
 
 .header__Logo {
-  height: 2.8rem;
+  height: 2.7rem;
   padding: 0;
 }
 
@@ -663,9 +664,9 @@ textarea {
   justify-content: space-between;
 }
 
-.email-content .close-email {
-  margin-right: 1rem;
-}
+/* .email-content .close-email {
+  margin-right: .5rem;
+} */
 
 .email-content .btn-group {
   margin: 0;

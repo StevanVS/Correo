@@ -10,7 +10,7 @@ router.get('/emails/from/:userId', getEmailsFrom);
 router.get('/emails/to/:userId', getEmailsTo);
 router.get('/emails/:emailId', getEmail);
 router.post('/emails/send', sendEmail);
-router.delete('/emails/:emailId', deleteEmail);
+router.delete('/users/:userId/emails/:emailId', deleteEmail);
 
 
 router.get('/users/:userId/historyId', getHistoryId);

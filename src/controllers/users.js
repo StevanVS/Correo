@@ -77,6 +77,17 @@ async function getUserByEmail(req, res) {
     res.end();
 }
 
+async function getUserLabels(req, res) {
+    try {
+        const userId = getUserId(req);
+        const sql = 'select * from labels where id in ( select distinct label_id from user_emails where user_id = ? );'
+        const result = await query(sql, userId);
+        res.send(result);
+    } catch (err) {
+        httpError(res, err);
+    }
+}
+
 module.exports = {
     getUsers,
     getUser,
@@ -85,4 +96,5 @@ module.exports = {
     deleteUser,
     getCurrentUser,
     getUserByEmail,
+    getUserLabels,
 }

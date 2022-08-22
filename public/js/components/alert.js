@@ -5,6 +5,9 @@ export default class Alert {
                 background: "hsl(0, 67%, 50%)"
             },
             success: {
+                background: '#4900c2'
+            },
+            info: {
                 background: '#0074c7'
             }
         }

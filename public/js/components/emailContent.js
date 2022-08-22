@@ -13,6 +13,8 @@ export default class EmailContent {
         this.closeEmailBtn = document.querySelector('[data-close-email-btn]');
         this.deleteEmailBtn = document.querySelector('[data-delete-email-btn]');
 
+        this.changeLabelBtns = document.querySelectorAll('[for-label]');
+
         this.email = null;
 
         this.closeEmailBtn.onclick = () => this.closeEmail();
@@ -26,22 +28,41 @@ export default class EmailContent {
         this.subject.textContent = !email.subject ? '(Sin Asunto)' : email.subject;
         this.message.textContent = !email.message ? '(Sin Mensaje)' : email.message;
         this.date.textContent = formatTimestamp(email.date);
+
+        this.#manageBtns();
     }
 
-    // PATCH {  values: {labelId, emailId, draftId}, newLabelId: "DELETED" }
     onDelete(callback) {
-        this.deleteEmailBtn.onclick = async e => {
-            const { label: { id: labelId }, id: emailId } = this.email;
-            const values = {
-                labelId,
-                emailId,
-            }
-
-            new ConfirmModal('Esta seguro que desea Eliminar este Correo?', () => {
-                callback(values, 'DELETED');
+        this.deleteEmailBtn.onclick = e => {
+            new ConfirmModal('Está seguro que desea Eliminar este Correo Permanentemente?', () => {
+                callback(this.email.id);
                 this.closeEmail();
             });
         }
+    }
+
+    // PATCH {  values: {labelId, emailId, draftId}, newLabelId: "DELETED" }
+    onChangeLabel(callback, promiseLabels) {
+        this.changeLabelBtns.forEach(btn => {
+            btn.onclick = async () => {
+                const { label: { id: labelId }, id: emailId } = this.email;
+                const values = {
+                    labelId,
+                    emailId,
+                };
+                const newLabelId = btn.getAttribute('for-label');
+
+                const labels = await promiseLabels;
+                const newLabelName = labels.find(label => label.id === newLabelId).name;
+
+                new ConfirmModal(`El Correo se moverá a ${newLabelName}, está seguro?`,
+                    () => {
+                        callback(values, newLabelId);
+                        this.closeEmail();
+                    }
+                );
+            }
+        })
     }
 
     openEmail(email) {
@@ -53,4 +74,15 @@ export default class EmailContent {
         this.container.classList.remove('open');
     }
 
+    #manageBtns() {
+        if(this.email.label.id !== 'DELETED') {
+            document.querySelector('[data-trash-email-btn]').style.display = 'block';
+            document.querySelector('[data-untrash-email-btn]').style.display = 'none';
+            this.deleteEmailBtn.style.display = 'none';
+        } else {
+            document.querySelector('[data-trash-email-btn]').style.display = 'none';
+            document.querySelector('[data-untrash-email-btn]').style.display = 'block';
+            this.deleteEmailBtn.style.display = 'block';
+        }
+    }
 }

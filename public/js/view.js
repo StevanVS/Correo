@@ -24,12 +24,15 @@ export default class View {
 
         this.emailContent = new EmailContent();
 
-        this.emailContent.onDelete((values, newLabelId) => {
-            // todo eliminar permanentemente
-            if (this.currentLabel.id === 'DELETED') { }
-            this.controller.changeEmailLabel({ values, newLabelId });
+        this.emailContent.onDelete((emailId) => {
+            this.controller.deleteEmail(emailId)
             this.render()
         })
+
+        this.emailContent.onChangeLabel((values, newLabelId) => {
+            this.controller.changeEmailLabel({ values, newLabelId });
+            this.render()
+        }, this.controller.getUserLabels());
 
         this.draftModal = new DraftModal();
 
@@ -86,11 +89,11 @@ export default class View {
         if (this.currentLabel.id === 'DRAFT') this.render();
     }
 
-    async sendEmail(draftId, { to_user, subject, message }) {
-        const toUser = await this.controller.getUserByEmail(to_user);
+    async sendEmail(draftId, { to_user: userAddress, subject, message }) {
+        const toUser = await this.controller.getUserByEmail(userAddress);
         if (!toUser || toUser == null) {
-            // alert('No existe usuario con el correo: ' + to_user);
-            new Alert(`No existe usuario con el correo: ${to_user}`, 'error', this.draftModal.modal);
+            // alert('No existe usuario con el correo: ' + userAddress);
+            new Alert(`No existe usuario con el correo: ${userAddress}`, 'error', this.draftModal.modal);
             return false;
         }
 
@@ -104,7 +107,7 @@ export default class View {
         this.controller.deleteDraft(draftId);
 
         // alert('Correo Enviado!');
-        new Alert('Correo Enviado con Éxito', 'success')
+        new Alert(`Correo Enviado con Éxito a ${toUser.name}`, 'success')
         this.render();
         return true;
     }
