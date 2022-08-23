@@ -21,7 +21,8 @@ loginForm.onsubmit = (e) => {
 
     const req = new XMLHttpRequest();
     req.onload = function () {
-        if (this.responseText) {
+        const response = JSON.parse(this.responseText);
+        if (response.success) {
             window.location.href = '/'
         } else {
             new Alert('Credenciales Incorrectas', 'error')

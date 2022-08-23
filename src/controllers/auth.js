@@ -1,5 +1,6 @@
 const { query } = require('../connection');
 const { httpError } = require('../helpers/handleError');
+const bcrypt = require('bcrypt');
 
 async function authControl(req, res) {
     if (req.body.type === 'login') loginControl(req, res);
@@ -9,17 +10,24 @@ async function authControl(req, res) {
 async function loginControl(req, res) {
     try {
         const { email_address, password } = req.body;
-        const sql = 'SELECT * FROM users WHERE email_address = ? and password = ?';
 
-        const result = await query(sql, [email_address, password])
-        const user = await result[0];
+        const user = await query(
+            'SELECT * FROM users WHERE email_address = ?',
+            email_address
+        ).then(r => r[0]);
 
-        if (user) {
-            const session = req.session;
-            session.userId = user.id;
+        if (!user) {
+            res.send({ error: 'No existe usuario' });
+            return;
         }
 
-        res.send(user);
+        if (await bcrypt.compare(password, user.password)) {
+            const session = req.session;
+            session.userId = user.id;
+            res.send({ success: `Bienvenido ${user.name}` });
+        } else {
+            res.send({ error: 'Credenciales Incorrectas' });
+        }
     } catch (err) {
         httpError(res, err)
     }
@@ -30,8 +38,6 @@ async function singupControl(req, res) {
     try {
         const { type, ...newUser } = req.body;
 
-        // VALIDAR SI NO SE REPITE EL EMAIL
-
         const user = await query(
             'SELECT * FROM users WHERE email_address = ?',
             newUser.email_address
@@ -41,6 +47,10 @@ async function singupControl(req, res) {
             res.send({ error: 'Ya existe un usuario registrado con este correo' });
             return;
         }
+
+        //Encriptar contrasenia
+        newUser.password = await bcrypt.hash(newUser.password, 8);
+
 
         const result = await query('INSERT INTO users SET ?', newUser);
 

@@ -8,7 +8,7 @@ const { login } = require('../middlewares/login');
 
 const router = express.Router();
 
-router.use(login);
+// router.use(login);
 
 router.use(users);
 router.use(emails);
