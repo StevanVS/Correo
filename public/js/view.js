@@ -18,6 +18,9 @@ export default class View {
         this.historyId = null;
         this.emails = null;
 
+        this.asistant = new Asistant();
+        this.tour = new Tour(this.asistant);
+
         this.labelMessage = new LabelMessage();
         this.currentLabel = {
             id: 'INBOX',
@@ -80,6 +83,7 @@ export default class View {
             draftId = await this.controller.createDraft();
             this.draftModal.setDraftId(draftId);
         } else {
+            draftId = emptyDraft.id;
             this.draftModal.setValues(emptyDraft);
         }
 
@@ -112,7 +116,7 @@ export default class View {
         this.controller.deleteDraft(draftId);
 
         // alert('Correo Enviado!');
-        new Alert(`Correo Enviado con Éxito a ${toUser.name}`, 'success')
+        new Alert(`Correo Enviado a ${toUser.name}`, 'info')
         this.render();
         return true;
     }
@@ -137,16 +141,20 @@ export default class View {
 
         this.historyId = await this.controller.getHistoryId();
 
-        const asistant = new Asistant();
-        const tour = new Tour();
-        tour.onCompleteAndExit(() => asistant.init());
-        if (this.currentUser.newuser) {
-            //TODO: ACCIONAR AL ROBOT
-            tour.start();
 
-            this.controller.editUser({ newuser: false });
+        if (window.innerWidth > 425) {
+            if (this.currentUser.newuser) {
+                this.tour.start();
+                this.controller.editUser({ newuser: false });
+            } else {
+                this.tour.exit();
+            }
+            Asistant.isActive = true
+            Asistant.show()
         } else {
-            tour.exit();
+            document.querySelector('[data-asistant-config-li]')
+                .parentElement.style.display = 'none';
+            Asistant.hide();
         }
 
         this.render();

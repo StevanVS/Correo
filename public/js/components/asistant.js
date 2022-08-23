@@ -1,16 +1,55 @@
 export default class Asistant {
-    #asistant = document.querySelector(".asistente");
-    show() {
-        this.#asistant.style.display = 'block';
+    static asistant = document.querySelector(".asistente");
+
+    static isActive = false;
+
+    positionOne = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_uno'>`;
+    positionTwo = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_dos'>`;
+
+
+    constructor() {
+
+        this.toggleAsistantBtn = document.querySelector('[data-toggle-asistant]');
+        this.btnText = this.toggleAsistantBtn.querySelector('span');
+        this.toggleAsistantBtn.onclick = () => {
+            if (Asistant.isActive) {
+                this.btnText.textContent = 'Activar Asistente';
+                Asistant.hide();
+                Asistant.isActive = !Asistant.isActive;
+            } else {
+                this.btnText.textContent = 'Desactivar Asistente';
+                Asistant.isActive = !Asistant.isActive;
+                Asistant.show();
+            }
+        }
+
+        this.init();
     }
 
-    hide() {
-        this.#asistant.style.display = 'none';
+    static asistantEl() {
+        const img = document.createElement('img');
+        img.src = '../img/Robot_Final(Saludo).gif';
+        img.classList.add('asistente_intro');
+        img.style.right = '-150px';
+        img.style.bottom = 0;
+        if (Asistant.isActive)
+            return img;
+        else
+            return document.createElement('div')
+    }
+
+    static show() {
+        if (!Asistant.isActive) return;
+        Asistant.asistant.style.display = 'block';
+    }
+
+    static hide() {
+        // if (!this.isActive) return;
+        Asistant.asistant.style.display = 'none';
     }
 
     init() {
         const asistente = document.querySelector(".asistente");
-        this.show()
 
         asistente.onmousedown = function (event) {
             let shiftX = event.clientX - asistente.getBoundingClientRect().left;

@@ -1,10 +1,13 @@
+import Asistant from "./asistant.js";
+
 export default class Tour {
     intro = introJs();
 
-    #asistantPosOne = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_uno'>`;
-    #asistantPosTwo = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_dos'>`;
+    constructor(asistant) {
+        this.asistant = asistant
 
-    constructor() {
+        this.intro.oncomplete(() => Asistant.show());
+        this.intro.onexit(() => Asistant.show());
 
         this.intro.setOptions({
             isActive: true, /*Si esta true, se mostrara el tutorial - false no se mostrara*/
@@ -12,21 +15,21 @@ export default class Tour {
             prevLabel: "Atras",
             steps: [{
                 title: "Bienvenida",
-                intro: "Hola, ¡bienvenido! <br>Te estaba esperando. " + this.#asistantPosOne
+                intro: "Hola, ¡bienvenido! <br>Te estaba esperando. " + asistant.positionOne
             }, {
                 title: "Introducción",
-                intro: "Me presento... <br>Mi nombre es Alex y estaré aquí para ayudarte. " + this.#asistantPosOne
+                intro: "Me presento... <br>Mi nombre es Alex y estaré aquí para ayudarte. " + asistant.positionOne
             }, {
                 title: "Introducción",
-                intro: "Primero que todo, daremos un breve recorrido para que te puedas familiarizar con el entorno. " + this.#asistantPosOne
+                intro: "Primero que todo, daremos un breve recorrido para que te puedas familiarizar con el entorno. " + asistant.positionOne
             }, {
                 element: document.querySelector(".header"),
                 title: "Barra Superior",
-                intro: "Como primer punto, tenemos la barra superior. Aquí podrás encontrar varias opciones del sistema. " + this.#asistantPosTwo
+                intro: "Como primer punto, tenemos la barra superior. Aquí podrás encontrar varias opciones del sistema. " + asistant.positionTwo
             }, {
                 element: document.querySelector(".header__menu"),
                 title: "Botón de menú lateral",
-                intro: "Este botón se encargará de minimizar o desplegar la barra lateral. " + this.#asistantPosOne
+                intro: "Este botón se encargará de minimizar o desplegar la barra lateral. " + asistant.positionOne
             },/* {
                 element: document.querySelector(".header__config"),
                 title: "Botón de configuración",

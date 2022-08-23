@@ -61,12 +61,14 @@ body {
 
 dialog {
   /* margin: auto; */
+  max-width: 800px;
   padding: 0;
   border: none;
   background-color: #fff;
   border-radius: 8px;
   transition: var(--transition);
   top: 100vh;
+  overflow: visible;
 
   visibility: hidden;
   opacity: 0;
