@@ -15,25 +15,20 @@ loginForm.onsubmit = (e) => {
 
     const data = {
         type: 'login',
-        email_address: emailInput.value,
-        password: passwordInput.value,
+        email_address: emailInput.value.trim(),
+        password: passwordInput.value.trim(),
     }
 
     const req = new XMLHttpRequest();
     req.onload = function () {
         if (this.responseText) {
-            // COSA BUENA
             window.location.href = '/'
         } else {
-            //MALO
-            // alert('Credenciales Incorrectas')
             new Alert('Credenciales Incorrectas', 'error')
         }
     }
 
-    req.onerror = function (e) {
-        console.log(e);
-    }
+    req.onerror = function (e) { console.log(e) }
 
     req.open('post', '/login-singup');
     req.setRequestHeader('Content-type', 'application/json')
@@ -43,24 +38,59 @@ loginForm.onsubmit = (e) => {
 singupForm.onsubmit = (e) => {
     e.preventDefault();
 
+    const pass = passwordSingupInput.value.trim()
+
+    if (pass.length < 8) {
+        setErrorFor(passwordSingupInput,
+            'La contraseña debe ser mínimo de 8 caracteres');
+        return;
+    } else if (pass.length > 20) {
+        setErrorFor(passwordSingupInput,
+            'La contraseña debe ser máximo de 20 caracteres');
+        return;
+    } else {
+        setSuccessFor(emailSingupInput)
+    }
+
     const data = {
         type: 'singup',
-        name: nameSingupInput.value,
-        lastname: lastnameSingupInput.value,
-        email_address: emailSingupInput.value,
-        password: passwordSingupInput.value
+        name: nameSingupInput.value.trim(),
+        lastname: lastnameSingupInput.value.trim(),
+        email_address: emailSingupInput.value.trim(),
+        password: pass
     }
 
     const req = new XMLHttpRequest();
     req.onload = function () {
-        window.location.href = '/';
+        const response = JSON.parse(this.responseText)
+        if (!response.error) {
+            window.location.href = '/';
+        } else {
+            setErrorFor(emailSingupInput, 'Correo Invalido')
+            new Alert(response.error, 'error')
+        }
     }
 
-    req.onerror = function (e) {
-        console.log(e);
-    }
+    req.onerror = function (e) { console.log(e) }
 
     req.open('post', '/login-singup', true);
     req.setRequestHeader('Content-type', 'application/json')
     req.send(JSON.stringify(data));
+}
+
+function setErrorFor(input, msg) {
+    const form = input.parentElement;
+    const span = form.querySelector('span');
+
+    span.textContent = msg;
+
+    form.classList.add('error');
+    form.classList.remove('success');
+}
+
+function setSuccessFor(input) {
+    const form = input.parentElement;
+
+    // form.classList.add('success');
+    form.classList.remove('error');
 }

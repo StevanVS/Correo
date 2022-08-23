@@ -32,13 +32,17 @@ async function singupControl(req, res) {
 
         // VALIDAR SI NO SE REPITE EL EMAIL
 
+        const user = await query(
+            'SELECT * FROM users WHERE email_address = ?',
+            newUser.email_address
+        ).then(r => r[0]);
 
-        
+        if (user) {
+            res.send({ error: 'Ya existe un usuario registrado con este correo' });
+            return;
+        }
 
-
-        const sql = 'INSERT INTO users SET ?';
-
-        const result = await query(sql, newUser);
+        const result = await query('INSERT INTO users SET ?', newUser);
 
         req.session.userId = result.insertId;
 

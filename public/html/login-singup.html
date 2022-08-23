@@ -42,8 +42,16 @@
                     </div>
                     <h2>Iniciar Sesión</h2>
                     <h2 id="Ir">Ir a Imail</h2>
-                    <input type="text" placeholder="Correo Electronico" autocomplete="off" autofocus required data-email-login-input>
-                    <input type="password" placeholder="Contraseña" autocomplete="off" required data-password-login-input>
+                    <div class="input-group">
+                        <input type="email" placeholder="Correo Electronico" autocomplete="off" autofocus required
+                            data-email-login-input>
+                        <span class="msg">Invalido</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Contraseña" autocomplete="off" required
+                            data-password-login-input>
+                        <span class="msg">Invalido</span>
+                    </div>
                     <button type="submit">Entrar</button>
                 </form>
 
@@ -53,10 +61,26 @@
                         <img id="logo" src="../img/logo.png">
                     </div>
                     <h2>Regístrarse</h2>
-                    <input type="text" placeholder="Nombre" autocomplete="off" required data-name-singup-input>
-                    <input type="text" placeholder="Apellido" autocomplete="off" required data-lastname-singup-input>
-                    <input type="text" placeholder="Correo Electronico" autocomplete="off" required data-email-singup-input>
-                    <input type="password" placeholder="Contraseña" autocomplete="off" required data-password-singup-input>
+                    <div class="input-group">
+                        <input type="text" placeholder="Nombre" autocomplete="off" required data-name-singup-input>
+                        <span class="msg">Invalido</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Apellido" autocomplete="off" required
+                        data-lastname-singup-input>
+                        <span class="msg">Invalido</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" placeholder="Correo Electronico" autocomplete="off" required
+                        data-email-singup-input>
+                        <span class="msg">Invalido</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Contraseña" autocomplete="off" required
+                        data-password-singup-input>
+                        <span class="msg">Invalido</span>
+                    </div>
+
                     <button type="submit">Regístrarse</button>
                 </form>
             </div>

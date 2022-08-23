@@ -141,20 +141,18 @@ export default class View {
 
         this.historyId = await this.controller.getHistoryId();
 
-
-        if (window.innerWidth > 425) {
+        if (window.innerWidth < 425) {
+            document.querySelector('[data-asistant-config-li]')
+                .parentElement.style.display = 'none';
+            Asistant.hide();
+        } else {
+            Asistant.isActive = true
             if (this.currentUser.newuser) {
                 this.tour.start();
                 this.controller.editUser({ newuser: false });
             } else {
                 this.tour.exit();
             }
-            Asistant.isActive = true
-            Asistant.show()
-        } else {
-            document.querySelector('[data-asistant-config-li]')
-                .parentElement.style.display = 'none';
-            Asistant.hide();
         }
 
         this.render();
