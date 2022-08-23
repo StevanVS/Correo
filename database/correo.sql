@@ -10,6 +10,7 @@ CREATE TABLE users (
     lastname VARCHAR(50) NOT NULL,
     email_address VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(64) NOT NULL,
+    image_profile blob,
     newuser boolean default true
 );
 
@@ -42,10 +43,10 @@ create table history (
 
 create table labels (
 	id varchar(50) primary key,
-    name varchar(50) not null
+    name varchar(50) not null,
+    user_id int,
+    index (user_id)
 );
-
-
 
 create table user_emails (
 	user_id int,
@@ -85,39 +86,21 @@ begin
     insert into history (user_id) value (new.from_user);
 end//
 
-
-/*
-create procedure delete_received_email (in user_id int, in email_id int)
-begin
-	delete from user_emails t where t.user_id = user_id and t.label_id <> 'SENT' and t.email_id = email_id;
-end//
-
-create procedure delete_sent_email (in user_id int, in email_id int)
-begin
-	delete from user_emails t where t.user_id = user_id and t.label_id = 'SENT' and t.email_id = email_id;
-end//
-
-*/
-
-
--- create procedure get_emails (in userId int) 
-
-
 delimiter ;
 
 
 
 insert into labels values 
-	('INBOX', 'Bandeja de Entrada'),
-    ('SENT', 'Enviados'),
-    ('DRAFT', 'Borradores'),
-    ('ARCHIVE', 'Archivados'),
-    ('DELETED', 'Papelera');
+	('INBOX', 'Bandeja de Entrada', 0),
+    ('SENT', 'Enviados', 0),
+    ('DRAFT', 'Borradores', 0),
+    ('ARCHIVE', 'Archivados', 0),
+    ('DELETED', 'Papelera', 0);
 
 insert into users values 
-	(2, 'Juan', 'Garcia', 'juan23@email.com', '123', true),
-    (3, 'Antonio', 'Perez', 'anto3@email.com', '123', true),
-	(4, 'Stevan', 'Velez', 'svelez1@email.com', '123', false);
+	(2, 'Juan', 'Garcia', 'juan23@email.com', '123', null, true),
+    (3, 'Antonio', 'Perez', 'anto3@email.com', '123', null, true),
+	(4, 'Stevan', 'Velez', 'svelez1@email.com', '123', null, false);
 
 insert into emails (id, from_user, to_user, subject, message) values
 	(null, 2, 3, 'test1', 'Esto es un 1111'),
@@ -125,15 +108,9 @@ insert into emails (id, from_user, to_user, subject, message) values
     (null, 4, 2, 'test3', 'ESte es el cuerpo de3'),
 	(null, 3, 4, 'test3', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium in enim voluptate eaque aperiam labore quaerat eveniet eius, sunt mollitia quos iure consequuntur magnam similique nesciunt, cumque itaque veniam ad.');
 
--- insert into emails (from_user, to_user, subject, message, unread) values
--- 	(2, 2, 'Mi Asunto', 'Mi mensaje 2 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium in enim volupta', 0);
-
 insert into drafts (from_user, to_user, subject, message) values
  	(2, 'svelez1@email.com', 'Hola', 'Este es mi mensaje'),
      (2, 'aa@ff', null, null);	
-
-
-
 
 insert into calendar_events values
 	('evet-1234', 2, 'Mi titulo', current_time(), null, 'Esta es mi descripcion1'),
@@ -143,10 +120,16 @@ insert into calendar_events values
 insert into calendar_events values ('evet-424234', 3, 'Mi titulo', current_time(), null, null);
 
 
+select * from users;
+
 -- select * from calendar_events where user_id = 2;
-/*
-select distinct label_id from user_emails where user_id = 2;
-select * from labels where id in ( select distinct label_id from user_emails where user_id = 2 );
-*/
+
+-- select * from labels where id in ('INBOX');
+
 -- select * from user_emails where user_id = 2;
 -- UPDATE user_emails set label_id = 'ARCHIVE' where user_id = 2 and label_id = 'SENT' AND email_id = 5;
+
+-- select * from user_emails where user_id = 5;
+-- select * from user_emails where user_id = 2 and email_id in (2);
+
+-- select * from user_emails where user_id = 2 and label_id = 'INBOX' AND email_id in (3, 2);

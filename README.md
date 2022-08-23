@@ -8,12 +8,14 @@ npm install
 npm run dev
 ```
 
-## Database
+## MySQL Database
 
 Copiar SQL de **/database/correo.sql**
 
 ## Environment Variables
 
-Crear un archivo **.env** en el root y copiar el contenido de **.env.example**
+Crear un archivo con nombre **.env** en el directorio principal 
 
-Después, ingresar las credenciales de la base de datos
+Copiar todo el contenido de **.env.example** dentro de **.env**
+
+Ingresar las credenciales de la base de datos en **.env**
