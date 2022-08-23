@@ -5,13 +5,19 @@ export default class UserProfileModal extends Modal {
         super(document.querySelector('[data-user-profile-modal]'),
             [document.querySelector('[data-close-user-profile-modal-btn]')]);
 
-        
+        this.form = this.modal.querySelector('[data-modal-form]')
+        this.file = this.modal.querySelector('#file')
     }
 
     onSubmit(callback) {
-        this.modal.onsubmit = e => {
+        this.form.onsubmit = e => {
             e.preventDefault();
-            callback(); //todo pasar nuevos datos de usuario
+            // const data = new FormData(this.form)
+            // console.log([...data.entries()]);
+            // callback(); //todo pasar nuevos datos de usuario
+
+            console.log(this.form.result);
+
         }
     }
 }

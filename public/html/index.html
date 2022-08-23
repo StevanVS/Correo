@@ -8,9 +8,6 @@
     <!-- FullCalendar -->
     <link rel="stylesheet" href="../libs/fullcalendar/main.min.css">
     <script src="../libs/fullcalendar/main.min.js"></script>
-    <!-- Tippy Tooltips -->
-    <script src="../libs/tippy/popper.min.js"></script>
-    <script src="../libs/tippy/tippy-bundle.umd.js"></script>
     <!-- Toastify alertas -->
     <!-- <link rel="stylesheet" href="../libs/toastify/toastify.min.css"> -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -21,6 +18,8 @@
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <!-- FontAwasome -->
     <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css">
+    <!-- Intro CSS -->
+    <link rel="stylesheet" href="../libs/intro/introjs.min.css">
 
     <title>Imail</title>
 </head>
@@ -63,39 +62,42 @@
                         <li class="config-text" data-user-email-address>svelez0841@</li>
                     </div>
                     <div class="config-group">
-                        <li>
+                        <!-- <li>
                             <div class="config__element" data-edit-user-profile-btn>
                                 <i class="fa-solid fa-user-gear"></i>
                                 Editar perfil
                             </div>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="/logout">
                                 <div class="config__element" data-logout-btn>
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                    Cerrar Sesión
+                                    <span>Cerrar Sesión</span>
                                 </div>
                             </a>
                         </li>
                     </div>
-                    <!-- <div class="config-group">
-                        <li>
+                    <div class="config-group">
+                        <!-- <li>
                             <div class="config__element">Cambiar de tema</div>
+                        </li> -->
+                        <li data-asistant-config-li>
+                            <div class="config__element" data-toggle-asistant>
+                                <i class="fa-solid fa-robot"></i>
+                                <span>Desactivar al guia</span>
+                            </div>
                         </li>
-                        <li>
-                            <div class="config__element">Desactivar al guia</div>
-                        </li>
-                    </div> -->
+                    </div>
                     <li>
                         <div class="config__element">
                             <i class="fa-solid fa-circle-info"></i>
-                            Documentación
+                            <span>Documentación</span>
                         </div>
                     </li>
                     <li>
                         <div class="config__element">
                             <i class="fa-solid fa-circle-question"></i>
-                            Soporte
+                            <span>Soporte</span>
                         </div>
                     </li>
                 </ul>
@@ -108,10 +110,10 @@
             <img class="wallpaper" draggable="false" src="../img/bg3.jpg">
 
             <!-- Menu lateral -->
-            <div class="btn__redactar" id="open" title="Redactar Nuevo Correo" data-new-draft-btn>
+            <button class="btn__redactar" id="open" title="Redactar Nuevo Correo" data-new-draft-btn>
                 <i class="fa-solid fa-pen icon__redactar"></i>
                 <span>Escribir</span>
-            </div>
+            </button>
             <ul class="nav__content">
                 <li class="nav__item" data-label label-id="INBOX">
                     <i class="fa-solid fa-inbox icon"></i>
@@ -334,8 +336,8 @@
             </div>
         </dialog>
 
-
-        <dialog class="big-modal" data-user-profile-modal>
+        <!-- MODAL DE PERFIL DE USUARIO -->
+        <!-- <dialog class="big-modal" data-user-profile-modal>
             <div class="dialog-content">
                 <div class="dialog-header">
                     <span>Perfil de Usuario</span>
@@ -343,9 +345,18 @@
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
-                a
+                <form class="dialog-form" method="dialog" data-modal-form>
+                    <label>Imagen
+                        <input id="file" type="file" accept="image/*" name="a">
+                    </label>
+                    <div class="btn-group">
+                        <button type="submit" class="dialog-btn confirm" data-confirm-btn>Confirmar</button>
+                        <button type="submit" class="dialog-btn cancel" data-cancel-btn>Cancelar</button>
+                    </div>
+                </form>
             </div>
-        </dialog>
+        </dialog> -->
+        <img src="../img/Robot_Final(Saludo).gif" class="asistente">
 
     </main>
     <!-- Loader Controller -->
@@ -368,7 +379,8 @@
     </script>
 
     <!-- <script src="../libs/toastify/toastify-js.js"></script> -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>s
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../libs/intro/intro.min.js"></script>
 
     <script src="../js/main.js" type="module" defer></script>
     <script src="../js/index.js" type="module" defer></script>

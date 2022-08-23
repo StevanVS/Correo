@@ -6,14 +6,14 @@ import LabelMessage from "./components/labelMessage.js";
 import { expandNav, handleConfigMenuClose, handleNavClose, reduceNav } from "./main.js";
 import Alert from "./components/alert.js";
 import Controller from "./controller.js";
-import UserProfileModal from "./components/modals/userProfileModal.js";
+import Tour from "./components/tour.js";
+import Asistant from "./components/asistant.js";
 
 export default class View {
     constructor() {
         this.controller = new Controller();
 
         this.currentUser = null;
-        this.userProfileModal = new UserProfileModal();
 
         this.historyId = null;
         this.emails = null;
@@ -26,11 +26,9 @@ export default class View {
 
         this.emailsContainer = document.querySelector('[data-emails-rows]');
 
-        document.querySelector('[data-edit-user-profile-btn]').onclick = () => {
-            this.userProfileModal.showModal();
-        }
-
-        this.userProfileModal.onSubmit();//todo interactuar con la BD
+        // document.querySelector('[data-edit-user-profile-btn]').onclick = () => {
+        //     this.userProfileModal.showModal();
+        // }
 
         this.emailContent = new EmailContent()
         this.#setEmailContentEventListeners();
@@ -130,13 +128,6 @@ export default class View {
     async initView() {
         this.currentUser = await this.controller.getCurrentUser();
 
-        if (this.currentUser.newuser) {
-
-            //TODO: ACCIONAR AL ROBOT
-
-            this.controller.editUser({ newuser: false });
-        }
-
         document.querySelectorAll('[data-username]').forEach(item => {
             item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
         })
@@ -145,10 +136,24 @@ export default class View {
         })
 
         this.historyId = await this.controller.getHistoryId();
+
+        const asistant = new Asistant();
+        const tour = new Tour();
+        tour.onCompleteAndExit(() => asistant.init());
+        if (this.currentUser.newuser) {
+            //TODO: ACCIONAR AL ROBOT
+            tour.start();
+
+            this.controller.editUser({ newuser: false });
+        } else {
+            tour.exit();
+        }
+
         this.render();
     }
 
     async render() {
+
         document.querySelector('[data-label-title]').textContent = this.currentLabel.name;
 
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))

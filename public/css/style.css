@@ -235,7 +235,7 @@ textarea {
   padding: 6px;
   padding-left: 14px;
   margin-top: 0.3rem;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   transition: all 300ms ease;
   border-radius: var(--border-radius);
 }
@@ -303,11 +303,13 @@ textarea {
   margin-right: 1rem;
   overflow: hidden;
   border-radius: 50%;
+  border: 1px solid var(--font_color);
 
   background-color: gray;
-  background-image: url(../img/userImage.jpg);
+  background-image: url(../img/defaultProfilePic.svg);
   background-position: center;
   background-size: cover;
+
 }
 
 /* .user-img-container .user-img{
@@ -381,6 +383,7 @@ textarea {
   border: 1px var(--color_second) solid;
   font-size: 1em;
   font-weight: 500;
+  padding: 0;
   margin: 1.3em 1.5em;
   cursor: pointer;
   transition: var(--transition);
@@ -1045,6 +1048,47 @@ input[type="datetime-local"] {
 .danger {
   background-color: hsl(0, 67%, 50%);
 }
+
+
+
+.asistente{
+  /* width: 200px; */
+  height: 180px;
+  position: absolute;
+  z-index: 10;
+  left: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  display: none;
+}
+
+.asistente.active{
+  display:inline-block;
+}
+
+.asistente_intro{
+  /* width: 200px; */
+  height: 180px;
+  position: absolute;
+  z-index: 9999999;
+}
+
+.position_uno{
+  left: 260px;
+  bottom: 0;
+}
+
+.position_dos{
+  left: 315px;
+  bottom: 0;
+}
+
+.position_left{
+  right: 270px;
+  bottom: 0;
+}
+
+
 
 /* ---- MEDIA QUERYS -------- */
 
