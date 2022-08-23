@@ -97,9 +97,11 @@ export default class Calendar {
             };
         };
 
-        document.querySelector('[data-calendar-handle]').onclick = e => {
-            this.container.classList.toggle('close');
-        };
+        document.querySelectorAll('[data-calendar-handle]').forEach(btn => {
+            btn.onclick = e => {
+                this.container.classList.toggle('close');
+            }
+        });
 
         document.querySelector('[data-calendar-today-btn]').onclick = e => {
             this.calendar.today();

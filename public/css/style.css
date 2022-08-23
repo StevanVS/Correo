@@ -15,6 +15,8 @@
   --transition: all 0.3s ease;
   --border-radius: 0.5rem;
   --header-height: 3.5em;
+  --calendar-btn-color: rgb(255, 188, 63);
+  --calendar-btn-color-alt: rgb(255, 170, 13);
 }
 
 html {
@@ -128,7 +130,7 @@ textarea {
 
   display: flex;
   justify-content: center;
-  gap: .3rem;
+  gap: 0.3rem;
 }
 
 .btn-icon:hover {
@@ -311,7 +313,6 @@ textarea {
   background-image: url(../img/defaultProfilePic.svg);
   background-position: center;
   background-size: cover;
-
 }
 
 /* .user-img-container .user-img{
@@ -587,6 +588,33 @@ textarea {
   z-index: 0;
   border-top: 2px solid #373434;
   transition: var(--transition);
+}
+
+.calendar-btn {
+  position: absolute;
+  right: 0;
+  transform: translateY(-120%);
+  font-size: 1.8rem;
+  margin: 0 0.5rem;
+
+  background-color: rgb(255, 188, 63);
+  background-color: var(--color_second-light);
+  border: 2px solid var(--font_color);
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  display: none;
+}
+
+.calendar-btn .arrow {
+  font-size: 1.3rem;
+}
+
+.calendar-btn:hover {
+  background-color: var(--calendar-btn-color-alt);
+  background-color: hsl(216, 100%, 95%);
 }
 
 .calendar-handle {
@@ -948,7 +976,7 @@ input[type="datetime-local"] {
 .medium-modal .btn-group {
   margin: 0;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .medium-modal .dialog-btn {
@@ -1051,9 +1079,7 @@ input[type="datetime-local"] {
   background-color: hsl(0, 67%, 50%);
 }
 
-
-
-.asistente{
+.asistente {
   /* width: 200px; */
   height: 180px;
   position: absolute;
@@ -1064,33 +1090,31 @@ input[type="datetime-local"] {
   display: none;
 }
 
-.asistente.active{
-  display:inline-block;
+.asistente.active {
+  display: inline-block;
 }
 
-.asistente_intro{
+.asistente_intro {
   /* width: 200px; */
   height: 180px;
   position: absolute;
   z-index: 9999999;
 }
 
-.position_uno{
+.position_uno {
   left: 260px;
   bottom: 0;
 }
 
-.position_dos{
+.position_dos {
   left: 315px;
   bottom: 0;
 }
 
-.position_left{
+.position_left {
   right: 270px;
   bottom: 0;
 }
-
-
 
 /* ---- MEDIA QUERYS -------- */
 
@@ -1143,5 +1167,17 @@ input[type="datetime-local"] {
   }
   .email-content {
     padding: 0.5rem;
+  }
+
+  .calendar-container .calendar-handle,
+  .calendar-container.close .calendar-handle {
+    display: none;
+  }
+  .calendar-container .calendar-btn,
+  .calendar-container.close .calendar-btn {
+    display: flex;
+  }
+  .calendar-container.close .calendar-btn {
+    transform: translateY(-250%);
   }
 }
