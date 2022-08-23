@@ -39,15 +39,25 @@ loginForm.onsubmit = (e) => {
 singupForm.onsubmit = (e) => {
     e.preventDefault();
 
-    const pass = passwordSingupInput.value.trim()
+    const email = emailSingupInput.value.trim();
+    const pass = passwordSingupInput.value.trim();
+
+    // if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {
+    if (!/.[\w-]{2,4}$/g.test(email)) {
+        setErrorFor(emailSingupInput, 
+            'Falta el tipo de dominio al final, ej.: .com')
+    } else {
+        setSuccessFor(emailSingupInput)
+    }
+
 
     if (pass.length < 8) {
         setErrorFor(passwordSingupInput,
-            'La contraseña debe ser mínimo de 8 caracteres');
+            'La contraseña debe tener mínimo 8 caracteres');
         return;
     } else if (pass.length > 20) {
         setErrorFor(passwordSingupInput,
-            'La contraseña debe ser máximo de 20 caracteres');
+            'La contraseña debe tener máximo 20 caracteres');
         return;
     } else {
         setSuccessFor(emailSingupInput)
@@ -57,7 +67,7 @@ singupForm.onsubmit = (e) => {
         type: 'singup',
         name: nameSingupInput.value.trim(),
         lastname: lastnameSingupInput.value.trim(),
-        email_address: emailSingupInput.value.trim(),
+        email_address: email,
         password: pass
     }
 
