@@ -1,5 +1,8 @@
+import AsistantModal from "./modals/asistantModal.js";
+
 export default class Asistant {
     static asistant = document.querySelector(".asistente");
+    asistantModal = new AsistantModal();
 
     static isActive = false;
 
@@ -8,7 +11,6 @@ export default class Asistant {
 
 
     constructor() {
-
         this.toggleAsistantBtn = document.querySelector('[data-toggle-asistant]');
         this.btnText = this.toggleAsistantBtn.querySelector('span');
         this.toggleAsistantBtn.onclick = () => {
@@ -23,6 +25,7 @@ export default class Asistant {
             }
         }
 
+
         this.init();
     }
 
@@ -32,10 +35,8 @@ export default class Asistant {
         img.classList.add('asistente_intro');
         img.style.right = '-150px';
         img.style.bottom = 0;
-        if (Asistant.isActive)
-            return img;
-        else
-            return document.createElement('div')
+        if (Asistant.isActive) return img;
+        else return document.createElement('div')
     }
 
     static show() {
@@ -89,7 +90,16 @@ export default class Asistant {
         asistente.addEventListener('mousemove', () => drag = true);
 
         asistente.addEventListener('mouseup', () => {
-            console.log(drag ? 'drag' : 'click')
+            // console.log(drag ? 'drag' : 'click')
+            if (drag) return;
+
+            this.asistantModal.show();
+
+
         });
+    }
+
+    static getRect() {
+        return this.asistant.getBoundingClientRect();
     }
 }

@@ -54,18 +54,21 @@ export function reduceNav() {
 }
 
 export function handleConfigMenuClose(e) {
-    if (!submenu_content.contains(e.target)
-        && !submenuBtn.contains(e.target)) {
+    if (
+        !submenu_content.contains(e.target) && 
+        !submenuBtn.contains(e.target)
+    ) {
         submenu_content.classList.remove("active");
         submenuBtn.classList.remove("active");
     }
 }
 
 export function handleNavClose(e) {
-    if (!nav.contains(e.target)
-        && !menubtn.contains(e.target)
-        && window.innerWidth < 1024)
-        reduceNav();
+    if (
+        !nav.contains(e.target) &&
+        !menubtn.contains(e.target) &&
+        window.innerWidth < 1024
+    ) reduceNav();
 }
 
 submenuBtn.addEventListener("click", () => {

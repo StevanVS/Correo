@@ -88,7 +88,7 @@ async function getUserEmails(req, res) {
                     .then(r => r[0]);
                 if (email == null) continue;
 
-                email.to_user = await query('select * from users where id = ?', email.to_user)
+                email.to_user = await query('select name, lastname, email_address, image_profile from users where id = ?', email.to_user)
                     .then(r => r[0]);
             } else {
                 email = await query('select * from drafts where id = ?', userEmail.draft_id)
@@ -97,7 +97,7 @@ async function getUserEmails(req, res) {
 
             if (email == null) continue;
 
-            email.from_user = await query('select * from users where id = ?', email.from_user)
+            email.from_user = await query('select name, lastname, email_address, image_profile from users where id = ?', email.from_user)
                 .then(r => r[0]);
 
             email.label = await query('select * from labels where id = ?', userEmail.label_id)

@@ -877,6 +877,9 @@ textarea {
   height: 100%;
   width: 100%;
 
+  background-color: #fff;
+  border-radius: var(--border-radius);
+
   display: flex;
   flex-direction: column;
 }
@@ -1114,6 +1117,41 @@ input[type="datetime-local"] {
 .position_left {
   right: 270px;
   bottom: 0;
+}
+
+/* ---- MODAL DEL ASISTENTE ------------ */
+
+.asistant-modal::before {
+  content: " ";
+  background-color: #fff;
+  width: 25px;
+  height: 25px;
+
+  position: absolute;
+  left: -8px;
+  bottom: 15px;
+
+  box-shadow: var(--box-shadow);
+  rotate: 45deg;
+}
+
+.asistant-modal.left::before {
+  left: auto;
+  right: -8px;
+}
+
+.asistant-list {
+  padding-left: 1.3em;
+}
+
+.asistant-list li {
+  cursor: pointer;
+  list-style-type: square;
+  margin-bottom: 0.3rem;
+}
+
+.asistant-list li:hover {
+  text-decoration: underline;
 }
 
 /* ---- MEDIA QUERYS -------- */

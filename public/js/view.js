@@ -69,6 +69,42 @@ export default class View {
             this.calendar.previewEventModal.handleModalClose(e);
             handleNavClose(e);
         }
+
+        hotkeys('alt+e', (e, h) => this.createDraft());
+        hotkeys('alt+c', (e, h) => this.calendar.createEvent())
+    }
+
+
+    async initView() {
+        this.currentUser = await this.controller.getCurrentUser();
+
+        document.querySelectorAll('[data-username]').forEach(item => {
+            item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
+        })
+        document.querySelectorAll('[data-user-email-address]').forEach(item => {
+            item.textContent = this.currentUser.email_address
+        })
+
+        this.historyId = await this.controller.getHistoryId();
+        
+        
+        // if (window.innerWidth > 425) {this.tour.start();}
+        if (window.innerWidth < 425) {
+            this.calendar.close();
+            document.querySelector('[data-asistant-config-li]')
+                .parentElement.style.display = 'none';
+            Asistant.hide();
+        } else {
+            Asistant.isActive = true
+            if (this.currentUser.newuser) {
+                this.tour.start();
+                this.controller.editUser({ newuser: false });
+            } else {
+                this.tour.exit();
+            }
+        }
+
+        this.render();
     }
 
     async createDraft() {
@@ -129,34 +165,6 @@ export default class View {
         }
     }
 
-    async initView() {
-        this.currentUser = await this.controller.getCurrentUser();
-
-        document.querySelectorAll('[data-username]').forEach(item => {
-            item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
-        })
-        document.querySelectorAll('[data-user-email-address]').forEach(item => {
-            item.textContent = this.currentUser.email_address
-        })
-
-        this.historyId = await this.controller.getHistoryId();
-
-        if (window.innerWidth < 425) {
-            document.querySelector('[data-asistant-config-li]')
-                .parentElement.style.display = 'none';
-            Asistant.hide();
-        } else {
-            Asistant.isActive = true
-            if (this.currentUser.newuser) {
-                this.tour.start();
-                this.controller.editUser({ newuser: false });
-            } else {
-                this.tour.exit();
-            }
-        }
-
-        this.render();
-    }
 
     async render() {
 
