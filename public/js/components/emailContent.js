@@ -135,6 +135,12 @@ export default class EmailContent {
     }
 
     #manageBtnsDisplay() {
+        if (this.email.label.id === 'SENT') {
+            this.replyEmailBtn.style.display = 'none';
+        } else {
+            this.replyEmailBtn.style.display = 'block';
+        }
+
         if (this.email.label.id !== 'DELETED') {
             document.querySelector('[data-trash-email-btn]').style.display = 'block';
             document.querySelector('[data-untrash-email-btn]').style.display = 'none';

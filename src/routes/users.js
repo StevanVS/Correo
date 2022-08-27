@@ -1,5 +1,5 @@
 const express = require('express');
-const { login } = require('../middlewares/login');
+const { login } = require('../middlewares/auth');
 const {
     getUsers, getUser, createUser, editUser, deleteUser, getCurrentUser, getUserByEmail, getUserLabels
 } = require('../controllers/users');

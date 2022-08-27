@@ -4,7 +4,7 @@ const users = require('./users');
 const emails = require('./emails');
 const drafts = require('./drafts');
 const calendarEvents = require('./calendarEvents');
-const { login } = require('../middlewares/login');
+const { login } = require('../middlewares/auth');
 
 const router = express.Router();
 

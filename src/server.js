@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
-const { login } = require('./middlewares/login');
+const { login, singup } = require('./middlewares/auth');
 const apicache = require('apicache');
 const path = require('path');
 
@@ -47,7 +47,7 @@ app.get('/', login, (req, res, next) => {
     res.sendFile(path.join(__dirname, '../public/html/index.html'));
 })
 
-app.get('/login-singup', (req, res, next) => {
+app.get('/login-singup', singup, (req, res, next) => {
     res.sendFile(path.join(__dirname, '../public/html/login-singup.html'));
 });
 

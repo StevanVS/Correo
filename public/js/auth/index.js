@@ -25,7 +25,10 @@ loginForm.onsubmit = (e) => {
         if (response.success) {
             window.location.href = '/'
         } else {
-            new Alert('Credenciales Incorrectas', 'error')
+            // new Alert('Credenciales Incorrectas', 'error');
+            passwordInput.value = '';
+            setErrorFor(emailInput, 'Correo o contraseña Incorrecto');
+            emailInput.focus();
         }
     }
 
@@ -39,38 +42,47 @@ loginForm.onsubmit = (e) => {
 singupForm.onsubmit = (e) => {
     e.preventDefault();
 
+    let error = false;
+
     const email = emailSingupInput.value.trim();
     const pass = passwordSingupInput.value.trim();
 
     // if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {
     if (!/@imail\./g.test(email)) {
-        setErrorFor(emailSingupInput,
+        setErrorFor(
+            emailSingupInput,
             'El dominio del correo debe ser "@imail"'
         );
         emailSingupInput.focus();
-        return;
+        error = true;
     } else if (!/@imail\.[\w-]{2,4}$/g.test(email)) {
-        setErrorFor(emailSingupInput,
+        setErrorFor(
+            emailSingupInput,
             'Falta el tipo de dominio al final, Ej.: .com'
         );
         emailSingupInput.focus();
-        return;
+        error = true;
     } else {
         setSuccessFor(emailSingupInput)
+        console.log('asdf');
     }
 
 
     if (pass.length < 8) {
         setErrorFor(passwordSingupInput,
-            'La contraseña debe tener mínimo 8 caracteres');
-        return;
+            'La contraseña debe tener mínimo 8 caracteres'
+        );
+        error = true;
     } else if (pass.length > 20) {
         setErrorFor(passwordSingupInput,
-            'La contraseña debe tener máximo 20 caracteres');
-        return;
+            'La contraseña debe tener máximo 20 caracteres'
+        );
+        error = true;
     } else {
-        setSuccessFor(emailSingupInput)
+        setSuccessFor(passwordSingupInput)
     }
+
+    if (error) return;
 
     const data = {
         type: 'singup',
@@ -86,8 +98,8 @@ singupForm.onsubmit = (e) => {
         if (!response.error) {
             window.location.href = '/';
         } else {
-            setErrorFor(emailSingupInput, 'Correo Invalido')
-            new Alert(response.error, 'error')
+            setErrorFor(emailSingupInput, response.error)
+            // new Alert(response.error, 'error')
         }
     }
 
@@ -110,7 +122,5 @@ function setErrorFor(input, msg) {
 
 function setSuccessFor(input) {
     const form = input.parentElement;
-
-    // form.classList.add('success');
     form.classList.remove('error');
 }

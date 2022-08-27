@@ -22,8 +22,7 @@ async function loginControl(req, res) {
         }
 
         if (await bcrypt.compare(password, user.password)) {
-            const session = req.session;
-            session.userId = user.id;
+            req.session.userId = user.id;
             res.send({ success: `Bienvenido ${user.name}` });
         } else {
             res.send({ error: 'Credenciales Incorrectas' });
@@ -63,8 +62,7 @@ async function singupControl(req, res) {
 }
 
 function logoutControl(req, res) {
-    if (req.session)
-        req.session.destroy();
+    if (req.session) req.session.destroy();
 
     res.redirect('/login-singup');
 }
