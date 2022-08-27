@@ -1,8 +1,8 @@
 import Alert from "../components/alert.js";
 
 const loginForm = document.querySelector('[data-login-form]');
-const emailInput = document.querySelector('[data-email-login-input]');
-const passwordInput = document.querySelector('[data-password-login-input]');
+const emailInput = loginForm.email;
+const passwordInput = loginForm.password;
 
 const singupForm = document.querySelector('[data-singup-form]');
 const nameSingupInput = document.querySelector('[data-name-singup-input]');
@@ -43,9 +43,18 @@ singupForm.onsubmit = (e) => {
     const pass = passwordSingupInput.value.trim();
 
     // if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {
-    if (!/.[\w-]{2,4}$/g.test(email)) {
-        setErrorFor(emailSingupInput, 
-            'Falta el tipo de dominio al final, ej.: .com')
+    if (!/@imail\./g.test(email)) {
+        setErrorFor(emailSingupInput,
+            'El dominio del correo debe ser "@imail"'
+        );
+        emailSingupInput.focus();
+        return;
+    } else if (!/@imail\.[\w-]{2,4}$/g.test(email)) {
+        setErrorFor(emailSingupInput,
+            'Falta el tipo de dominio al final, Ej.: .com'
+        );
+        emailSingupInput.focus();
+        return;
     } else {
         setSuccessFor(emailSingupInput)
     }

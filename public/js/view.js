@@ -16,7 +16,7 @@ export default class View {
         this.currentUser = null;
 
         this.historyId = null;
-        this.emails = null;
+        this.emails = [];
 
         this.asistant = new Asistant();
         this.tour = new Tour(this.asistant);
@@ -86,8 +86,8 @@ export default class View {
         })
 
         this.historyId = await this.controller.getHistoryId();
-        
-        
+
+
         // if (window.innerWidth > 425) {this.tour.start();}
         if (window.innerWidth < 425) {
             this.calendar.close();
@@ -167,7 +167,6 @@ export default class View {
 
 
     async render() {
-
         document.querySelector('[data-label-title]').textContent = this.currentLabel.name;
 
         document.querySelectorAll('[data-label]').forEach(item => item.classList.remove('selected'))
@@ -183,11 +182,7 @@ export default class View {
 
         this.emails = await this.controller.getUserEmails(this.currentLabel.id);
 
-        if (this.emails.length === 0) {
-            this.labelMessage.show(`No hay nada en ${this.currentLabel.name}`)
-        }
-        if (this.currentLabel.id === 'DELETED')
-            this.labelMessage.showTrashLabelMessage();
+        this.labelMessageControl();
 
         //Terminar animacion loader
         this.emailsContainer.innerHTML = '';
@@ -259,6 +254,15 @@ export default class View {
         }
 
         return row;
+    }
+
+    labelMessageControl() {
+        if (this.emails.length === 0) {
+            this.labelMessage.show(`No hay nada en ${this.currentLabel.name}`)
+        }
+        if (this.currentLabel.id === 'DELETED') {
+            this.labelMessage.showTrashLabelMessage();
+        }
     }
 
     #setEmailContentEventListeners() {
