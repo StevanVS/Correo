@@ -252,13 +252,18 @@
             <div class="dialog-content">
                 <div class="dialog-header">
                     <span>Mensaje nuevo</span>
-                    <button class="btn-icon" data-close-draft-modal-btn>
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <div class="btn-group">
+                        <button class="btn-icon" title="Eliminar Borrador" data-delete-draft-btn>
+                            <i class="fa-solid fa-trash-alt"></i>
+                        </button>
+                        <button class="btn-icon" data-close-draft-modal-btn>
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 </div>
                 <form class="dialog-form" method="dialog" data-draft-form>
-                    <input class="dialog-input" type="text" placeholder="Correo electronico del destinatario" required autofocus
-                        data-draft-to-user-input>
+                    <input class="dialog-input" type="text" placeholder="Correo electronico del destinatario" required
+                        autofocus data-draft-to-user-input>
                     <input class="dialog-input" type="text" placeholder="Agregar asunto" data-draft-subject-input>
                     <textarea class="dialog-input" placeholder="Mensaje" data-draft-message-input></textarea>
                     <button type="submit" class="dialog-btn confirm" data-send-email-btn>Enviar</button>

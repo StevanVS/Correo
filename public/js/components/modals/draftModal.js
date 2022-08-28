@@ -2,13 +2,17 @@ import Modal from "./modal.js";
 
 export default class DraftModal extends Modal {
     constructor() {
-        super(document.querySelector("[data-draft-modal]"),
-            [document.querySelector('[data-close-draft-modal-btn]')]);
+        super(
+            document.querySelector("[data-draft-modal]"),
+            [document.querySelector('[data-close-draft-modal-btn]')]
+        );
 
         this.form = document.querySelector('[data-draft-form]');
         this.toUserInput = document.querySelector('[data-draft-to-user-input]');
         this.subjectInput = document.querySelector('[data-draft-subject-input]');
         this.messageInput = document.querySelector('[data-draft-message-input]');
+
+        this.deleteDraftBtn = document.querySelector('[data-delete-draft-btn]');
 
         this.draftId = null
         this.draft = null;
@@ -57,6 +61,13 @@ export default class DraftModal extends Modal {
                     this.emptyValues();
                 }
             });
+        }
+    }
+
+    onDelete(callback) {
+        this.deleteDraftBtn.onclick = () => {
+            this.close();
+            callback(this.draftId);
         }
     }
 

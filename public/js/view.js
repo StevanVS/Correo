@@ -40,7 +40,7 @@ export default class View {
 
         this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
         this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
-
+        this.draftModal.onDelete(async (draftId) => this.deleteDraft(draftId));
 
         document.querySelector('[data-new-draft-btn]').onclick = () => this.createDraft();
 
@@ -131,6 +131,11 @@ export default class View {
 
     async editDraft(draftId, values) {
         await this.controller.editDraft(draftId, values)
+        if (this.currentLabel.id === 'DRAFT') this.render();
+    }
+
+    async deleteDraft(draftId) {
+        await this.controller.deleteDraft(draftId);
         if (this.currentLabel.id === 'DRAFT') this.render();
     }
 
