@@ -1,5 +1,4 @@
 import Modal from "./modal.js";
-import DraftTour from "../tours/draftTour.js";
 
 export default class DraftModal extends Modal {
     constructor() {

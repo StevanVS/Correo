@@ -86,8 +86,8 @@ export default class View {
             handleNavClose(e);
         }
 
-        hotkeys('alt+e', (e, h) => this.createDraft());
-        hotkeys('alt+c', (e, h) => this.calendar.createEvent())
+        hotkeys('alt+shift+c', (e, h) => this.createDraft());
+        hotkeys('alt+shift+e', (e, h) => this.calendar.createEvent())
     }
 
 
@@ -288,13 +288,13 @@ export default class View {
     }
 
     #setEmailContentEventListeners() {
-        this.emailContent.onReply(async draft => {
+        this.emailContent.onReply(async values => {
             this.showLoader();
             const drafts = await this.controller.getUserEmails(['DRAFT']);
             const repitedDraft = drafts.find(d =>
-                draft.to_user === d.to_user &&
-                draft.subject === d.subject &&
-                draft.message === d.message
+                values.to_user === d.to_user &&
+                values.subject === d.subject &&
+                values.message === d.message
             );
 
             if (repitedDraft) {
@@ -303,9 +303,9 @@ export default class View {
             } else {
                 this.controller.createDraft()
                 const id = await this.createDraft();
-                this.draftModal.setValues({ id, ...draft });
+                this.draftModal.setValues({ id, ...values });
             }
-            
+
             this.hideLoader();
         });
 

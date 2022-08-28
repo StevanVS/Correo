@@ -7,9 +7,24 @@ export default class AsistantModal extends Modal {
             document.querySelector('[data-asistant-modal]'),
             [document.querySelector('[data-close-asistant-modal-btn]')]
         );
+
+        this.title = document.querySelector('[data-asistant-modal-title]')
+        this.mainList = document.querySelector('[data-main-asistant-list]')
+        this.shortcutsList = document.querySelector('[data-shortcuts-list]')
+
+        this.shortcutsBtn = document.querySelector('[data-shortcuts-help-btn]');
+        this.shortcutsBtn.onclick = () => {
+            this.title.textContent = 'Atajos de teclado';
+            this.mainList.style.display = 'none';
+            this.shortcutsList.style.display = 'block';
+        }
     }
 
     show() {
+        this.title.textContent = '¿En qué puedo ayudarte?';
+        this.mainList.style.display = 'block';
+        this.shortcutsList.style.display = 'none';
+
         super.showModal();
         this.modal.style.margin = 0;
 
@@ -37,7 +52,7 @@ export default class AsistantModal extends Modal {
             this.modal.style.width = aLeft - 20 + 'px'
             this.modal.style.left = 0;
         }
-        
+
 
         this.modal.style.top = aTop + (aHeight / 2) - mHeight + 'px';
         if (this.modal.style.top < '0px') {
@@ -51,6 +66,6 @@ export default class AsistantModal extends Modal {
             this.modal.style.top = window.innerHeight - mHeight + 'px';
         }
 
-        console.log(this.modal.getBoundingClientRect());
+        // console.log(this.modal.getBoundingClientRect());
     }
 }

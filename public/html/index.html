@@ -384,11 +384,17 @@
                 </div>
             </div>
             <div class="dialog-content">
-                <h4>¿En qué puedo ayudarte?</h4>
-                <ul class="asistant-list">
+                <h4 data-asistant-modal-title>¿En qué puedo ayudarte?</h4>
+                <ul class="asistant-list help-list" data-main-asistant-list>
                     <li data-repeat-tour-btn>Repetir Tour</li>
                     <li data-send-email-help-btn>¿Cómo enviar un correo?</li>
-                    <li data-shortcuts-btn>Atajos de teclado</li>
+                    <li data-create-event-help-btn>¿Cómo agendar un evento?</li>
+                    <li data-shortcuts-help-btn>Atajos de teclado</li>
+                </ul>
+                <ul class="asistant-list shortcuts" data-shortcuts-list>
+                    <li><strong>alt+shift+c: </strong>Enviar un correo.</li>
+                    <li><strong>alt+shift+e: </strong>Crear un evento en el calendario.</li>
+                    <li><strong>alt+shift+r: </strong>Responder un correo recibido.</li>
                 </ul>
             </div>
         </dialog>

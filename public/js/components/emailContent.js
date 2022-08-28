@@ -47,6 +47,11 @@ export default class EmailContent {
         this.dDateCancelBtn.onclick = () => {
             this.dDateContainer.style.display = 'none';
         }
+
+
+        hotkeys('alt+shift+r', (e, h) => {
+            if (this.isOpen && this.email.label.id !== 'SENT') this.replyEmailBtn.click();
+        });
     }
 
     setValues(email) {
@@ -197,7 +202,7 @@ export default class EmailContent {
 
     handleDDateInfo(dates) {
         [this.eStart, this.eEnd] = dates;
-        
+
         if (dates.length > 0) {
             const locatedDates = dates.map(d => {
                 const options = {

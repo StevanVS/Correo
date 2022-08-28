@@ -1075,16 +1075,20 @@ input[type="datetime-local"] {
 .asistant-list {
   padding-left: 1.3em;
 }
+.asistant-list strong {
+  font-weight: 500;
+}
 
 .asistant-list li {
-  cursor: pointer;
   list-style-type: square;
   margin-bottom: 0.3rem;
 }
 
-.asistant-list li:hover {
+.asistant-list.help-list li:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
+
 
 /* ---- MEDIA QUERYS -------- */
 
