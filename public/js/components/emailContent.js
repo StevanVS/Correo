@@ -1,4 +1,4 @@
-import { formatTimestamp, formatDate, getDateFromDatetimeStr } from "../utils/dateFormater.js";
+import { formatTimestamp, fromStringDateToDateObj, getDateFromDatetimeStr } from "../utils/dateFormater.js";
 import ConfirmModal from "./modals/confirmModal.js";
 import Alert from './alert.js';
 
@@ -28,6 +28,25 @@ export default class EmailContent {
         this.container.querySelector('[data-new-calendar-event-btn]').onclick = e => {
             this.createEventCallBack({ title: this.email.subject });
         }
+
+        this.dDateContainer = document.querySelector('[data-d-date-container]');
+        this.dDateText = document.querySelector('[data-d-date-text]');
+        this.dDateConfirmBtn = document.querySelector('[data-d-date-confirm]');
+        this.dDateCancelBtn = document.querySelector('[data-d-date-cancel]');
+
+        this.eStart = null;
+        this.eEnd = null;
+
+        this.dDateConfirmBtn.onclick = () => {
+            this.createEventCallBack({
+                title: this.email.subject,
+                start: this.eStart,
+                end: this.eEnd,
+            });
+        }
+        this.dDateCancelBtn.onclick = () => {
+            this.dDateContainer.style.display = 'none';
+        }
     }
 
     setValues(email) {
@@ -36,7 +55,7 @@ export default class EmailContent {
         this.fromUserInfo.textContent = `De: ${email.from_user.name} <${email.from_user.email_address}>`;
         this.toUserInfo.textContent = `Para: ${email.to_user.email_address}`;
         this.subject.textContent = !email.subject ? '(Sin Asunto)' : email.subject;
-        this.message.textContent = !email.message ? '(Sin Mensaje)' : email.message;
+        this.message.innerHTML = !email.message ? '(Sin Mensaje)' : email.message;
         this.date.textContent = formatTimestamp(email.date);
 
         this.#manageBtnsDisplay();
@@ -122,11 +141,35 @@ export default class EmailContent {
             new ConfirmModal('Se detectó una fecha en el correo, desea agendarla en el calendario?', () => this.createEventCallBack(values));
     }
 
+    detectStringDates() {
+        const regExp = /(\d{1,2})\s+de\s+(\w+)(?:\s+del?\s+(\d{4}))?(?:\s+a\s+las?\s+(\d{1,2})(?:[h:](\d{2}))?)?\s*([ap]m)?/gim;
+
+        if (this.message.innerHTML == null) return;
+
+        const match = this.message.innerHTML.matchAll(regExp);
+
+        let datetimeObjs = [];
+
+        let value;
+        while ((value = match.next().value) != null) {
+            // this.message.innerHTML = this.message.innerHTML.replace(value[0], `<span class="detected-date">${value[0]}</span>`);
+            datetimeObjs.push(fromStringDateToDateObj(value));
+        }
+
+        datetimeObjs = datetimeObjs.map(datetime => {
+            return !isNaN(datetime.getTime()) ? datetime : null;
+        })
+
+        return datetimeObjs;
+    }
+
     openEmail(email) {
         this.isOpen = true;
         this.setValues(email);
         this.container.classList.add('open');
-        this.findDates();
+        // this.findDates();
+        const dates = this.detectStringDates();
+        this.handleDDateInfo(dates);
     }
 
     closeEmail() {
@@ -150,5 +193,28 @@ export default class EmailContent {
             document.querySelector('[data-untrash-email-btn]').style.display = 'block';
             this.deleteEmailBtn.style.display = 'block';
         }
+    }
+
+    handleDDateInfo(dates) {
+        [this.eStart, this.eEnd] = dates;
+        
+        if (dates.length > 0) {
+            const locatedDates = dates.map(d => {
+                const options = {
+                    dateStyle: 'full',
+                    timeStyle: 'short',
+                }
+                if (d.getHours() === 0) delete options.timeStyle;
+                return d.toLocaleString('es', options);
+            })
+
+            let text = `Desea agendar este correo para el día <span style="font-weight:500;">${locatedDates[0]}</span>`;
+            text += dates[1] != null ? ` hasta el día <span style="font-weight:500;">${locatedDates[1]}</span>` : '';
+
+            this.dDateText.innerHTML = text + '?';
+            this.dDateContainer.style.display = 'flex';
+        } else {
+            this.dDateContainer.style.display = 'none'
+        };
     }
 }

@@ -1,4 +1,5 @@
 import Modal from "./modal.js";
+import DraftTour from "../tours/draftTour.js";
 
 export default class DraftModal extends Modal {
     constructor() {
@@ -6,6 +7,8 @@ export default class DraftModal extends Modal {
             document.querySelector("[data-draft-modal]"),
             [document.querySelector('[data-close-draft-modal-btn]')]
         );
+
+        // this.draftTour = new DraftTour(document.querySelector("[data-draft-modal]"));
 
         this.form = document.querySelector('[data-draft-form]');
         this.toUserInput = document.querySelector('[data-draft-to-user-input]');
@@ -31,6 +34,7 @@ export default class DraftModal extends Modal {
     }
 
     emptyValues() {
+        this.draftId = null;
         this.toUserInput.value = null;
         this.subjectInput.value = null;
         this.messageInput.value = null;
@@ -44,6 +48,12 @@ export default class DraftModal extends Modal {
                 subject: this.subjectInput.value,
                 message: this.messageInput.value,
             })
+        })
+
+        this.modal.onclose = () => callback(this.draftId, {
+            to_user: this.toUserInput.value,
+            subject: this.subjectInput.value,
+            message: this.messageInput.value,
         })
     }
 
@@ -74,6 +84,7 @@ export default class DraftModal extends Modal {
     showModal() {
         super.showModal();
         this.modal.style.margin = 'auto';
+        // this.draftTour.start();
     }
     close() {
         this.modal.style.margin = 0;

@@ -38,11 +38,27 @@ export default class View {
 
         this.draftModal = new DraftModal();
 
-        this.draftModal.onEdit(async (draftId, values) => this.editDraft(draftId, values));
-        this.draftModal.onSubmit(async (draftId, values) => this.sendEmail(draftId, values));
-        this.draftModal.onDelete(async (draftId) => this.deleteDraft(draftId));
+        this.draftModal.onEdit(async (draftId, values) => {
+            this.showLoader();
+            await this.editDraft(draftId, values)
+            this.hideLoader();
+        });
+        this.draftModal.onSubmit(async (draftId, values) => {
+            this.showLoader();
+            await this.sendEmail(draftId, values)
+            this.hideLoader();
+        });
+        this.draftModal.onDelete(async (draftId) => {
+            this.showLoader();
+            await this.deleteDraft(draftId)
+            this.hideLoader();
+        });
 
-        document.querySelector('[data-new-draft-btn]').onclick = () => this.createDraft();
+        document.querySelector('[data-new-draft-btn]').onclick = async () => {
+            this.showLoader();
+            await this.createDraft();
+            this.hideLoader();
+        }
 
         document.querySelectorAll('[data-label]').forEach(labelEl => {
             labelEl.onclick = e => {
@@ -76,6 +92,7 @@ export default class View {
 
 
     async initView() {
+        this.showLoader();
         this.currentUser = await this.controller.getCurrentUser();
 
         document.querySelectorAll('[data-username]').forEach(item => {
@@ -103,7 +120,7 @@ export default class View {
                 this.tour.exit();
             }
         }
-
+        this.hideLoader()
         this.render();
     }
 
@@ -272,8 +289,24 @@ export default class View {
 
     #setEmailContentEventListeners() {
         this.emailContent.onReply(async draft => {
-            const id = await this.createDraft();
-            this.draftModal.setValues({ id, ...draft });
+            this.showLoader();
+            const drafts = await this.controller.getUserEmails(['DRAFT']);
+            const repitedDraft = drafts.find(d =>
+                draft.to_user === d.to_user &&
+                draft.subject === d.subject &&
+                draft.message === d.message
+            );
+
+            if (repitedDraft) {
+                this.draftModal.setValues(repitedDraft);
+                this.draftModal.showModal();
+            } else {
+                this.controller.createDraft()
+                const id = await this.createDraft();
+                this.draftModal.setValues({ id, ...draft });
+            }
+            
+            this.hideLoader();
         });
 
         this.emailContent.onChangeLabel((values, newLabelId) => {
@@ -294,7 +327,10 @@ export default class View {
 
     #setCalendarEventListeners() {
         this.calendar.onEventChange(async (id, values) => {
-            return await this.controller.editEvent(id, values);
+            this.showLoader();
+            const result = await this.controller.editEvent(id, values);
+            this.hideLoader();
+            return result;
         });
 
         this.calendar.onCreateEvent(values => {
@@ -346,4 +382,10 @@ export default class View {
         window.dispatchEvent(new Event('resize'))
     }
 
+    showLoader() {
+        document.querySelector('[data-general-loader]').style.display = 'block'
+    }
+    hideLoader() {
+        document.querySelector('[data-general-loader]').style.display = 'none'
+    }
 }

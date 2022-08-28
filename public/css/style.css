@@ -15,7 +15,7 @@
   --transition: all 0.3s ease;
   --border-radius: 0.5rem;
   --header-height: 3.5em;
-  --calendar-btn-color: rgb(255, 188, 63);
+  --calendar-btn-color: rgb(255, 202, 104);
   --calendar-btn-color-alt: rgb(255, 170, 13);
 }
 
@@ -140,6 +140,7 @@ textarea {
 
 .btn-group {
   display: flex;
+  align-items: center;
   margin-left: 0.5em;
 }
 
@@ -740,136 +741,47 @@ textarea {
   justify-content: space-between;
 }
 
+.detected-date-container {
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 2px solid #888;
+  display: none;
+}
+
+.detected-date-container .detected-date-info {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  background-color: hsl(216, 100%, 95%);
+  border: 3px solid hsl(216, 100%, 80%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detected-date-info > span {
+  text-align: justify;
+  margin-left: 0.3rem;
+}
+
+.detected-date-info .btn-group {
+  font-size: 1.5rem;
+}
+
 .email-body {
   margin-top: 1em;
 }
-
-/*------------------*/
-.email.active {
-  display: flex;
-  background-color: #2b28286c;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
+.email-body p {
+  white-space: pre-wrap;
+  text-align: justify;
 }
 
-.email {
-  display: none;
-  z-index: 50;
-}
-
-.email__modal {
-  background-color: #fff;
-  width: 75%;
-  border-radius: 8px;
-  height: 85%;
-}
-
-.email__modal-encabezado {
-  background-color: #000000b6;
-  height: 3em;
-  color: #fff;
-  padding: 10px 1em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 8px 8px 0 0;
-}
-
-.encabezado__titulo {
-  font-size: 1em;
-  font-weight: 400;
-}
-
-.encabezado__icons {
-  font-size: 0.8em;
-  display: flex;
-}
-
-.content__icon-form {
-  padding: 1px 5px;
+.email-body p .detected-date {
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-}
-
-.content__icon-form:hover {
-  background-color: var(--color_gray);
-}
-
-.encabezado__icon {
-  padding: 2px;
-  margin: 3px;
-}
-
-.email__form {
-  display: flex;
-  flex-direction: column;
-}
-
-.form__input {
-  border: 0;
-  padding: 0 1em;
-  outline: none;
-}
-
-.email__for,
-.email__affair {
-  width: 100%;
-  height: 2.3em;
-  border-bottom: 1px var(--color_gray) solid;
-}
-
-.email__messege {
-  height: 21em;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  resize: none;
-}
-
-.email__btn-enviar {
-  cursor: pointer;
-  width: 6.5em;
-  height: 2.5em;
-  border-radius: 5px;
-  border: none;
-  background-color: var(--color_second);
-  color: #fff;
-  margin: 1em;
-}
-
-.email__btn-enviar:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.email.minimize {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0);
-  top: auto;
-  left: auto;
-  bottom: 0;
-  right: 2em;
-  width: 20em;
-  height: 3em;
-}
-
-.email__modal.minimize {
-  height: 3em;
-  width: 20em;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.email__form.minimize {
-  display: none;
+  padding: 0 0.3rem;
+  border-radius: var(--border-radius);
+  background-color: var(--calendar-btn-color);
 }
 
 /* --------- EVENT DIALOG ---------- */
@@ -1019,6 +931,12 @@ input[type="datetime-local"] {
   margin-top: 0.5rem;
 }
 
+/* DRAFT MODAL */
+
+.draft-modal .btn-group {
+  gap: 1rem;
+}
+
 /* ---- EMAIL LOADER ------ */
 .lds-dual-ring {
   position: absolute;
@@ -1029,14 +947,16 @@ input[type="datetime-local"] {
   justify-content: center;
 }
 .lds-dual-ring:after {
+  --size: 64px;
+  --border-width: 6px;
   --loader-color: hsl(300, 100%, 85%);
   content: " ";
   display: block;
-  width: 64px;
-  height: 64px;
+  width: var(--size);
+  height: var(--size);
   margin: 8px;
   border-radius: 50%;
-  border: 6px solid var(--loader-color);
+  border: var(--border-width) solid var(--loader-color);
   border-color: var(--loader-color) transparent var(--loader-color) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
@@ -1047,6 +967,16 @@ input[type="datetime-local"] {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.lds-dual-ring.general-loader {
+  width: auto;
+  position: relative;
+  display: none;
+}
+.lds-dual-ring.general-loader::after {
+  --size: 1.8rem;
+  --border-width: 4px;
 }
 
 /* ------ ALERT EMAIL ------ */
@@ -1207,6 +1137,12 @@ input[type="datetime-local"] {
   }
   .email-content {
     padding: 0.5rem;
+  }
+
+  .detected-date-info .btn-group {
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-left: 0.5rem;
   }
 
   .calendar-container .calendar-handle,

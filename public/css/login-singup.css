@@ -154,21 +154,28 @@ main {
 .input-group .msg {
   font-size: 0.9rem;
   display: none;
-  /* visibility: hidden; */
   margin-left: 0.5rem;
 }
-
 .input-group .msg::before {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
-  content: "\f06a";
   margin-right: .2rem;
 }
 
 .input-group.error .msg {
   display: block;
-  /* visibility: visible; */
   color: rgb(240, 19, 19);
+}
+.input-group.error .msg::before {
+  content: "\f06a";
+}
+
+.input-group.info .msg {
+  display: block;
+  color: rgba(0, 128, 255);;
+}
+.input-group.info .msg::before {
+  content: "\f059";
 }
 
 .contenedor__login-register form button {

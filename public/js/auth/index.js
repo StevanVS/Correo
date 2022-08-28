@@ -64,7 +64,6 @@ singupForm.onsubmit = (e) => {
         error = true;
     } else {
         setSuccessFor(emailSingupInput)
-        console.log('asdf');
     }
 
 
@@ -110,6 +109,23 @@ singupForm.onsubmit = (e) => {
     req.send(JSON.stringify(data));
 }
 
+emailSingupInput.onfocus = () => {
+    if (emailSingupInput.value.trim().length === 0) {
+        setInfoFor(emailSingupInput, 'Ejemplo de correo: juan23@imail.com')
+    } else {
+        removeClassFor(emailSingupInput, 'info');
+    }
+}
+passwordSingupInput.onfocus = () => {
+    if (passwordSingupInput.value.trim().length === 0) {
+        setInfoFor(passwordSingupInput, 'Ingrese una contraseña con más de 8 caracteres')
+    } else {
+        removeClassFor(passwordSingupInput, 'info');
+    }
+}
+
+
+
 function setErrorFor(input, msg) {
     const form = input.parentElement;
     const span = form.querySelector('span');
@@ -117,10 +133,26 @@ function setErrorFor(input, msg) {
     span.textContent = msg;
 
     form.classList.add('error');
-    form.classList.remove('success');
+    form.classList.remove('info');
 }
 
 function setSuccessFor(input) {
     const form = input.parentElement;
     form.classList.remove('error');
+    form.classList.remove('info');
+}
+
+function setInfoFor(input, msg) {
+    const form = input.parentElement;
+    const span = form.querySelector('span');
+
+    span.textContent = msg;
+
+    form.classList.add('info');
+    form.classList.remove('error');
+}
+
+function removeClassFor(input, className){
+    const form = input.parentElement;
+    form.classList.remove(className)
 }

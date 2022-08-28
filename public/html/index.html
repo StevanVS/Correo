@@ -41,16 +41,8 @@
             <span class="nav-text label-title" data-label-title></span>
         </div>
         <div class="header__right">
-            <!-- btn derecha -->
-            <!-- <i class="fa-solid fa-gear header__config btn" title="Configuración"></i>
-            <span class="username" data-username></span>
-            <i class="fa-solid fa-circle-user header__user btn" title="Información de Usuario"></i> -->
-
-            <!-- <li class="header__li">
-                <i class="fa-solid fa-gear header__config btn"></i>
-
-            </li> -->
             <li class="data__user header__li">
+                <div class="general-loader lds-dual-ring" data-general-loader></div>
                 <span class="nav-text username" data-username></span>
                 <div class="user-img-container" data-submenu-btn>
                     <!-- <i class="fa-solid fa-circle-user"></i> -->
@@ -239,6 +231,19 @@
                         <div class="to-user-info" data-email-to-user-info>
                             Para: juan@imail.com
                         </div>
+                        <div class="detected-date-container" data-d-date-container>
+                            <div class="detected-date-info">
+                                <span data-d-date-text></span>
+                                <div class="btn-group">
+                                    <button class="btn-icon" data-d-date-confirm>
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                    <button class="btn-icon" data-d-date-cancel>
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="email-body">
                         <p data-email-message>Cuerpo del mensaje</p>
@@ -248,7 +253,7 @@
         </section>
 
         <!-- MODAL DE BORRADOR -->
-        <dialog class="big-modal" data-draft-modal>
+        <dialog class="big-modal draft-modal" data-draft-modal>
             <div class="dialog-content">
                 <div class="dialog-header">
                     <span>Mensaje nuevo</span>
@@ -262,7 +267,7 @@
                     </div>
                 </div>
                 <form class="dialog-form" method="dialog" data-draft-form>
-                    <input class="dialog-input" type="text" placeholder="Correo electronico del destinatario" required
+                    <input class="dialog-input" name="email" type="email" placeholder="Correo electronico del destinatario" required autocomplete="email"
                         autofocus data-draft-to-user-input>
                     <input class="dialog-input" type="text" placeholder="Agregar asunto" data-draft-subject-input>
                     <textarea class="dialog-input" placeholder="Mensaje" data-draft-message-input></textarea>

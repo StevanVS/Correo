@@ -10,20 +10,18 @@ async function getUserEvents(req, res) {
         const sql = 'select * from calendar_events where user_id = ?';
         const results = await query(sql, userId);
 
-        const events = [];
-
-        results.forEach(result => {
-            const event = {
+        const events = results.map(result => {
+            return {
                 id: result.id,
                 title: result.title,
                 start: result.start,
                 end: result.end,
+                allDay: !!result.all_day,
                 extendedProps: {
                     description: result.description
                 },
             }
-            events.push(event);
-        })
+        });
 
         res.send(events);
     } catch (err) {

@@ -18,12 +18,14 @@ export default class EventDialog extends Modal {
     onSubmit(callback) {
         this.eventForm.onsubmit = e => {
             const values = {
-                id: !this.event ? `event-${Date.now()}` : this.event.id,
+                id: !this.event || !this.event.id ? `event-${Date.now()}` : this.event.id,
                 title: this.titleInput.value,
                 start: this.startInput.value,
                 end: this.endInput.value || null,
+                all_day: new Date(this.startInput.value).getHours() === 0 ? true : false,
                 description: this.descriptionInput.value || null,
             }
+            
             callback(values);
             this.emptyValues();
         }

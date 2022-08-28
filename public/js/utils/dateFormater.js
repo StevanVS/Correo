@@ -1,3 +1,18 @@
+const months = [
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+    'julio',
+    'agosto',
+    'septiembre',
+    'octubre',
+    'noviembre',
+    'diciembre',
+];
+
 export function formatTimestamp(timestamp) {
     const emailDate = new Date(timestamp);
 
@@ -93,4 +108,43 @@ function formatTimeStr(timeStr) {
     } catch (error) {
         return [];
     }
+}
+
+export function fromStringDateToDateObj(value) {
+    let d = value[1];
+
+    let m = months.indexOf(value[2]);
+    if (m === -1) {
+        console.log('vales caca');
+        return;
+    }
+
+    let y;
+    if (value[3] == null) y = new Date().getFullYear();
+    else y = value[3];
+
+    let h = 0;
+    let min = 0;
+    if (value[4] != null) {
+        h = value[4];
+
+        if (value[5] != null) min = value[5];
+    }
+
+
+    let isTwelveDigits = (h <= 12);
+    let isPM;
+    if (value[6] != null) {
+        if (value[6].toUpperCase() === 'PM') isPM = true;
+        else isPM = false;
+    }
+
+    if (isTwelveDigits && isPM != null) {
+        if (h == 12 && !isPM) h = parseInt(h) - 12;
+        if (isPM && h != 12) h = parseInt(h) + 12;
+    }
+
+    // console.log({ y, m, d, h, min });
+    const date = new Date(y, m, d, h, min);
+    return date;
 }
