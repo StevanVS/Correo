@@ -90,6 +90,7 @@ dialog {
   /* margin: 25vh auto; */
   max-width: 40ch;
 }
+
 .medium-modal::backdrop {
   background-color: hsla(0, 4%, 16%, 0.1);
 }
@@ -176,7 +177,7 @@ textarea {
   align-items: center;
 }
 
-.header__li > i {
+.header__li>i {
   display: flex;
   align-items: center;
 }
@@ -330,6 +331,7 @@ textarea {
 .header__config.active {
   transition: var(--transition);
 }
+
 .header__config.active {
   color: #0074c7;
   /* transform: rotate(115deg); */
@@ -395,7 +397,8 @@ textarea {
 }
 
 .btn__redactar:hover {
-  box-shadow: 0px 1px 7px 0px rgb(0 0 0 / 52%); /*-11px*/
+  box-shadow: 0px 1px 7px 0px rgb(0 0 0 / 52%);
+  /*-11px*/
 }
 
 /*----------------------*/
@@ -412,6 +415,7 @@ textarea {
 .nav__item.active {
   padding: 0 0.5em 0 1rem;
 }
+
 /*----------------------*/
 
 .icon__redactar {
@@ -506,26 +510,22 @@ textarea {
 /* ------ CONTENEDOR DE EMAILS -------- */
 
 .email-row {
+  cursor: pointer;
   position: relative;
   background-color: #00c44e09;
   background-color: var(--color_second-light);
-  padding: 0.5em 0.8em;
+  padding: 0.5rem 0.8rem;
   border-bottom: 1px solid #0002;
 
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 0.5em;
+  gap: .1rem 0.5rem;
 }
 
 .emails-rows {
   position: relative;
   height: 100%;
   overflow: auto;
-}
-
-.email-row:hover {
-  cursor: pointer;
-  /* box-shadow: 0 0 5px 0px grey; */
 }
 
 .email-row .draft-indicator {
@@ -548,13 +548,7 @@ textarea {
   display: block;
 }
 
-.field-group {
-  display: grid;
-  gap: 0.1em;
-  align-items: center;
-}
-
-.email-row .field-group * {
+.email-row *.text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -562,26 +556,31 @@ textarea {
 }
 
 .user-icon-field {
-  margin-left: 0.2em;
-  font-size: 2em;
+  margin-left: 0.2rem;
+  font-size: 2rem;
   height: min-content;
+
+  grid-row: 1 / 4;
 }
 
-/* .user-field {
-} */
+.user-field {
+  grid-area: 1 / 2 / span 1 / 2;
+}
 
-/* .subject-field {
-} */
+.subject-field {
+  grid-area: 2 / 2 / span 1 / 2;
+}
 
-/* .message-field {
-} */
+.message-field {
+  grid-area: 3 / 2 / span 1 / 2;
+}
 
 .date-field {
   text-align: right;
   white-space: nowrap;
 
-  display: flex;
-  align-items: center;
+  grid-row: -1 / 4;
+  align-self: center;
 }
 
 /* ------------ CALENDARIO ----------------------------- */
@@ -665,6 +664,7 @@ textarea {
 .calendar-container.close .close-calendar {
   display: none;
 }
+
 .calendar-container .close-calendar,
 .calendar-container.close .open-calendar {
   display: inline;
@@ -760,7 +760,7 @@ textarea {
   gap: 0.5rem;
 }
 
-.detected-date-info > span {
+.detected-date-info>span {
   text-align: justify;
   margin-left: 0.3rem;
 }
@@ -772,6 +772,7 @@ textarea {
 .email-body {
   margin-top: 1em;
 }
+
 .email-body p {
   white-space: pre-wrap;
   text-align: justify;
@@ -848,6 +849,7 @@ label.dialog-input {
   align-items: center;
   gap: 0.5rem;
 }
+
 input[type="datetime-local"] {
   flex: 1;
   border: none;
@@ -863,6 +865,7 @@ input[type="datetime-local"] {
   color: #fff;
   margin: 1em;
 }
+
 .dialog-btn.confirm {
   background-color: var(--color_second);
 }
@@ -946,6 +949,7 @@ input[type="datetime-local"] {
   align-items: center;
   justify-content: center;
 }
+
 .lds-dual-ring:after {
   --size: 64px;
   --border-width: 6px;
@@ -960,10 +964,12 @@ input[type="datetime-local"] {
   border-color: var(--loader-color) transparent var(--loader-color) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -974,6 +980,7 @@ input[type="datetime-local"] {
   position: relative;
   display: none;
 }
+
 .lds-dual-ring.general-loader::after {
   --size: 1.8rem;
   --border-width: 4px;
@@ -1075,6 +1082,7 @@ input[type="datetime-local"] {
 .asistant-list {
   padding-left: 1.3em;
 }
+
 .asistant-list strong {
   font-weight: 500;
 }
@@ -1089,17 +1097,22 @@ input[type="datetime-local"] {
   text-decoration: underline;
 }
 
-
 /* ---- MEDIA QUERYS -------- */
 
 @media screen and (min-width: 1024px) {
-  .email-row .user-icon-field {
-    font-size: 1.2em;
+  .email-row {
+    grid-template-columns: auto 30% 20% 1fr auto;
   }
-  .email-row .field-group {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.5em;
+
+  .user-icon-field {
+    font-size: 1.2rem;
+    grid-area: auto;
   }
+
+  .user-field, .subject-field, .message-field, .date-field {
+    grid-area: auto;
+  }
+
 }
 
 @media only screen and (max-width: 992px) {
@@ -1107,9 +1120,11 @@ input[type="datetime-local"] {
     width: calc(100vw - 4.5em);
     margin-left: 4.5em;
   }
+
   .nav.active {
     box-shadow: none;
   }
+
   .nav {
     box-shadow: 5px 1px 5px 0px #0005;
   }
@@ -1119,26 +1134,33 @@ input[type="datetime-local"] {
   .big-modal {
     width: 90vw;
   }
+
   .username {
     display: none;
   }
+
   .header_index {
     display: none;
   }
+
   .label-title {
     display: block;
   }
+
   .emails.active {
     width: 100vw;
     margin-left: 0;
   }
+
   .emails {
     width: 100vw;
     margin-left: 0;
   }
+
   .nav.active {
     transform: translateX(-100%);
   }
+
   .email-content {
     padding: 0.5rem;
   }
@@ -1153,10 +1175,12 @@ input[type="datetime-local"] {
   .calendar-container.close .calendar-handle {
     display: none;
   }
+
   .calendar-container .calendar-btn,
   .calendar-container.close .calendar-btn {
     display: flex;
   }
+
   .calendar-container.close .calendar-btn {
     transform: translateY(-250%);
   }

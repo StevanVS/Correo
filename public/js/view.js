@@ -43,7 +43,7 @@ export default class View {
 
         this.draftModal = new DraftModal();
         this.#setDraftEventListeners();
-        
+
         document.querySelector("[data-new-draft-btn]").onclick = async () => {
             this.showLoader();
             await this.createDraft();
@@ -64,7 +64,6 @@ export default class View {
                 this.render();
             };
         });
-
 
         this.calendar = new Calendar();
         this.#setCalendarEventListeners();
@@ -210,20 +209,16 @@ export default class View {
             <div class="user-icon-field">
                 <i class="fa-solid fa-circle-user"></i>
             </div>
-            <div class="field-group">
-                <div class="user-field">
-                    <span class="draft-indicator">[Borrador]</span>
-                </div>
-                <div class="subject-field"></div>
-                <div class="message-field"></div>
+            <div class="user-field text">
+                <span class="draft-indicator">[Borrador]</span>
             </div>
+            <div class="subject-field text"></div>
+            <div class="message-field text"></div>
             <div class="date-field"></div>
         `;
 
-        const fieldGroup = row.children[2];
-
         // Campo del usuario
-        const userField = fieldGroup.children[0];
+        const userField = row.children[2];
 
         if (email.label.id !== "DRAFT") userField.innerHTML = "";
 
@@ -240,19 +235,19 @@ export default class View {
         else userField.innerHTML += "(Sin Destinatario)";
 
         // Campo del asunto
-        const subjectField = fieldGroup.children[1];
+        const subjectField = row.children[3];
         subjectField.textContent = !email.subject
             ? "(Sin Asunto)"
             : email.subject;
 
         // Campo del mensaje
-        const messageField = fieldGroup.children[2];
+        const messageField = row.children[4];
         messageField.textContent = !email.message
             ? "(Sin Mensaje)"
             : email.message;
 
         // Campo de la fecha
-        const dateField = row.children[3];
+        const dateField = row.children[5];
         dateField.textContent = formatTimestamp(email.date);
 
         row.onclick = (e) => {
