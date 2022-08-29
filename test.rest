@@ -88,6 +88,15 @@ Content-Type: application/json
     "message": "sdfaf sadf safdr sfa"
 }
 
+###
+POST http://localhost:8080/api/users/2/emails
+Content-Type: application/json
+
+{
+    "toUsers": [3, 4],
+    "subject": "Hf   sxfa",
+    "message": "sdfaf sadf safdr sfa"
+}
 
 ###
 GET http://localhost:8080/api/emails/to/4 HTTP/1.1

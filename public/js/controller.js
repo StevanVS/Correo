@@ -83,6 +83,11 @@ export default class Controller {
         request.send(JSON.stringify(values));
     }
 
+    async sendEmails(data) {
+        console.log({data});
+        await this.#fetch('POST', '/api/users/me/emails', data);
+    }
+
     changeEmailLabel(data) {
         this.sendJsonRequest('PATCH', '/api/users/me/emails', data);
     }
