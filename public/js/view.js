@@ -11,8 +11,8 @@ import {
 } from "./main.js";
 import Alert from "./components/alert.js";
 import Controller from "./controller.js";
-import Tour from "./components/tour.js";
 import Asistant from "./components/asistant.js";
+import GeneralTour from "./components/tours/generalTour.js";
 
 export default class View {
     constructor() {
@@ -23,8 +23,8 @@ export default class View {
         this.historyId = null;
         this.emails = [];
 
-        this.asistant = new Asistant();
-        this.tour = new Tour(this.asistant);
+        this.asistant = new Asistant(); //* Inicialar el asistente
+        this.generalTour = new GeneralTour(Asistant);
 
         this.labelMessage = new LabelMessage();
         this.currentLabel = {
@@ -398,10 +398,10 @@ export default class View {
         } else {
             Asistant.isActive = true;
             if (this.currentUser.newuser) {
-                this.tour.start();
+                this.generalTour.start();
                 this.controller.editUser({ newuser: false });
             } else {
-                this.tour.exit();
+                this.generalTour.exit();
             }
         }
     }

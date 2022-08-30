@@ -31,6 +31,13 @@ export default class EventDialog extends Modal {
         }
     }
 
+    show() {
+        super.show();
+        this.modal.style.top = "auto";
+        this.modal.style.margin = "auto";
+    }
+    
+
     showModal() {
         super.showModal();
     }

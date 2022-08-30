@@ -6,9 +6,8 @@ export default class Asistant {
 
     static isActive = false;
 
-    positionOne = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_uno'>`;
-    positionTwo = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_dos'>`;
-
+    static positionOne = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_uno'>`;
+    static positionTwo = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_dos'>`;
 
     constructor() {
         this.toggleAsistantBtn = document.querySelector('[data-toggle-asistant]');

@@ -80,10 +80,23 @@ dialog {
 .big-modal {
   width: 75vw;
   height: 85vh;
+  z-index: 2;
 }
 
 .big-modal::backdrop {
   background-color: hsla(0, 4%, 16%, 0.424);
+}
+
+.big-modal.no-modal {
+  box-shadow: 0 0 0 max(100vw, 100vh) hsla(0, 4%, 16%, 0.424);;
+}
+.big-modal.no-modal::before {
+  content: ' ';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 .medium-modal {

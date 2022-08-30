@@ -84,10 +84,15 @@ export default class DraftModal extends Modal {
             callback(this.draftId);
         };
     }
+    
+    show() {
+        super.show();
+        this.modal.style.top = "auto";
+        this.modal.style.margin = "auto";
+    }
 
     showModal() {
         super.showModal();
-        this.modal.style.margin = "auto";
     }
 
     close() {
