@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            :root {
+                font-size: 1.1rem;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            table {
+                margin: auto;
+                border-collapse: collapse;
+                border: 1px solid black;
+            }
+            thead {
+                background-color: #e7def7;
+                background-color: #97dffb;
+                border-bottom: 2px solid black;
+            }
+            tr:nth-child(even) {
+                background-color: aliceblue;
+            }
+            td, th {
+                padding: .2rem .5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://unpkg.com/vue@3"></script>
+
+        <div id="app">
+            <table>
+                <thead>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users" :key="user.id">
+                        <td>{{user.name}}</td>
+                        <td>{{user.lastname}}</td>
+                        <td>{{user.email_address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            const { createApp } = Vue;
+
+            createApp({
+                async created() {
+                    this.users = await this.getUsers();
+                    setTimeout(() => {
+                        this.setUsers();
+                    }, 5000);
+                },
+                data() {
+                    return {
+                        users: null,
+                    };
+                },
+                methods: {
+                    async setUsers() {
+                        const response = await fetch("/api/users").then((r) =>
+                            r.json()
+                        );
+                        this.users = response;
+                    },
+                    async getUsers() {
+                        const response = await fetch("/api/users").then((r) =>
+                            r.json()
+                        );
+                        return response;
+                    },
+                },
+            }).mount("#app");
+        </script>
+    </body>
+</html>
