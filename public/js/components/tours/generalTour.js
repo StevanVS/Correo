@@ -40,7 +40,9 @@ export default class GeneralTour extends Tour {
                 {
                     element: document.querySelector("[data-submenu-btn]"),
                     title: "Menú de Usuario y Configuración",
-                    intro: "Aquí podrás ver la información de tu cuenta, como tu nombre, correo o foto. Así como varias opciones para configurar el entorno <img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_left'>",
+                    intro:
+                        "Aquí podrás ver la información de tu cuenta, como tu nombre, correo o foto. Así como varias opciones para configurar el entorno." +
+                        asistant.positionLeft,
                 },
                 {
                     element: document.querySelector(".nav"),

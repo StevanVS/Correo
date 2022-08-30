@@ -450,7 +450,7 @@ textarea {
   padding: 0 0.5em 0 2rem;
   cursor: pointer;
   transition: var(--transition);
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .icon {

@@ -1,7 +1,10 @@
 import Asistant from "../asistant.js";
+import Calendar from "../calendar.js";
 import DraftTour from "../tours/draftTour.js";
+import EventTour from "../tours/eventTour.js";
 import GeneralTour from "../tours/generalTour.js";
 import DraftModal from "./draftModal.js";
+import EventDialog from "./eventDialog.js";
 import Modal from "./modal.js";
 
 export default class AsistantModal extends Modal {
@@ -15,22 +18,26 @@ export default class AsistantModal extends Modal {
         this.shortcutsList = document.querySelector("[data-shortcuts-list]");
 
         document.querySelector("[data-repeat-tour-btn]").onclick = () => {
-            Asistant.hide();
-            this.close();
+            this.hideAll();
             new GeneralTour(Asistant).start();
         };
 
-        this.sendEmailHelpBtn = document.querySelector(
-            "[data-send-email-help-btn]"
-        );
-        this.sendEmailHelpBtn.onclick = () => {
+        document.querySelector("[data-send-email-help-btn]").onclick = () => {
             const draftModal = new DraftModal();
             draftModal.emptyValues();
-            
-            Asistant.hide();
-            this.close();
+
+            this.hideAll();
 
             new DraftTour(draftModal).start();
+        };
+
+        
+        document.querySelector("[data-create-event-help-btn]").onclick = () => {
+            new Calendar().open();
+            const eventModal = new EventDialog();
+            eventModal.emptyValues();
+            this.hideAll();
+            new EventTour(eventModal).start()
         };
 
         this.shortcutsBtn = document.querySelector("[data-shortcuts-help-btn]");
@@ -86,5 +93,10 @@ export default class AsistantModal extends Modal {
         }
 
         // console.log(this.modal.getBoundingClientRect());
+    }
+
+    hideAll() {
+        Asistant.hide();
+        this.close();
     }
 }

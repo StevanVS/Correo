@@ -1,29 +1,38 @@
 import { formatDate } from "../utils/dateFormater.js";
 import EventDialog from "./modals/eventDialog.js";
 import PreviewEventModal from "./modals/previewEventModal.js";
-
+import breakPoints from "../utils/breakPoints.js";
 export default class Calendar {
     constructor() {
         this.eventDialog = new EventDialog();
         this.previewEventModal = new PreviewEventModal();
 
-        this.container = document.querySelector('.calendar-container');
-        this.calendarEl = document.getElementById('calendar');
+        this.container = document.querySelector(".calendar-container");
+        this.calendarEl = document.getElementById("calendar");
 
         this.calendar = new FullCalendar.Calendar(this.calendarEl, {
-            initialView: 'dayGridWeek',
-            duration: null,
-            locale: 'es',
-            height: '30vh',
+            initialView: "dayGridWeek",
+            // duration: null,
+            locale: "es",
+            height: "30vh",
             headerToolbar: false,
-            events: { url: '/api/users/me/events' },
+            events: { url: "/api/users/me/events" },
             eventTimeFormat: {
-                hour: '2-digit',
-                minute: '2-digit',
+                hour: "2-digit",
+                minute: "2-digit",
             },
             editable: true,
             displayEventEnd: true,
         });
+
+        const width = window.innerWidth;
+        if (width > breakPoints.large) {
+            this.resetNumberOfDays();
+        } else if (width > breakPoints.medium) {
+            this.changeNumberOfDays(4);
+        } else {
+            this.changeNumberOfDays(3);
+        }
 
         this.createEventCallback = null;
 
@@ -33,18 +42,16 @@ export default class Calendar {
     }
 
     onEventChange(callback) {
-        this.calendar.setOption('eventChange', async (changeInfo) => {
+        this.calendar.setOption("eventChange", async (changeInfo) => {
             const e = changeInfo.event;
             const values = {
                 title: e.title,
                 start: formatDate(e.start),
                 end: e.end ? formatDate(e.end) : null,
                 description: e.extendedProps.description,
-            }
-            //todo show loader
-            const result = await callback(e.id, values);
-            // todo hide loader
-        })
+            };
+            callback(e.id, values);
+        });
     }
 
     onCreateEvent(callback) {
@@ -60,18 +67,19 @@ export default class Calendar {
     }
 
     refreshTitle() {
-        document.querySelector('[data-calendar-title]').textContent = this.calendar.currentData.viewTitle;
+        document.querySelector("[data-calendar-title]").textContent =
+            this.calendar.currentData.viewTitle;
     }
 
     changeNumberOfDays(number) {
-        this.calendar.changeView('dayGrid');
-        this.setProperty('duration', { days: number });
+        this.calendar.changeView("dayGrid");
+        this.setProperty("duration", { days: number });
         this.refreshTitle();
     }
 
     resetNumberOfDays() {
-        this.calendar.changeView('dayGridWeek')
-        this.setProperty('duration', null)
+        this.calendar.changeView("dayGridWeek");
+        this.setProperty("duration", null);
         this.refreshTitle();
     }
 
@@ -85,46 +93,49 @@ export default class Calendar {
 
     createEvent() {
         this.eventDialog.emptyValues();
-        this.eventDialog.setTitle('Evento Nuevo');
+        this.eventDialog.setTitle("Evento Nuevo");
         this.eventDialog.onSubmit(this.createEventCallback);
         this.eventDialog.showModal();
     }
 
     #setEventListeners() {
-        this.container.parentElement.ontransitionend = e => {
+        this.container.parentElement.ontransitionend = (e) => {
             if (e.propertyName === "width") {
                 this.calendar.updateSize();
-            };
+            }
         };
 
-        document.querySelectorAll('[data-calendar-handle]').forEach(btn => {
-            btn.onclick = e => {
-                this.container.classList.toggle('close');
-            }
+        document.querySelectorAll("[data-calendar-handle]").forEach((btn) => {
+            btn.onclick = (e) => {
+                this.container.classList.toggle("close");
+            };
         });
 
-        document.querySelector('[data-calendar-today-btn]').onclick = e => {
+        document.querySelector("[data-calendar-today-btn]").onclick = (e) => {
             this.calendar.today();
             this.refreshTitle();
         };
 
-        document.querySelector('[data-calendar-prev-btn]').onclick = e => {
+        document.querySelector("[data-calendar-prev-btn]").onclick = (e) => {
             this.calendar.prev();
             this.refreshTitle();
         };
 
-        document.querySelector('[data-calendar-next-btn]').onclick = e => {
+        document.querySelector("[data-calendar-next-btn]").onclick = (e) => {
             this.calendar.next();
             this.refreshTitle();
         };
 
-        this.container.querySelector('[data-new-calendar-event-btn]').onclick = e => {
-            this.createEvent();
-        };
+        this.container.querySelector("[data-new-calendar-event-btn]").onclick =
+            (e) => {
+                this.createEvent();
+            };
 
-        this.calendar.setOption('eventClick', (eventClickInfo) => {
-            this.previewEventModal.setValues(eventClickInfo.event)
-            this.previewEventModal.showModal(eventClickInfo.el.getBoundingClientRect());
+        this.calendar.setOption("eventClick", (eventClickInfo) => {
+            this.previewEventModal.setValues(eventClickInfo.event);
+            this.previewEventModal.showModal(
+                eventClickInfo.el.getBoundingClientRect()
+            );
         });
     }
 
@@ -136,9 +147,9 @@ export default class Calendar {
         this.calendar.refetchEvents();
     }
     close() {
-        this.container.classList.add('close');
+        this.container.classList.add("close");
     }
     open() {
-        this.container.classList.remove('close');
+        this.container.classList.remove("close");
     }
 }

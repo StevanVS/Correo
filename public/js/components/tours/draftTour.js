@@ -3,13 +3,13 @@ import Tour from "./tour.js";
 
 export default class DraftTour extends Tour {
     constructor(draftModal) {
-        super();
+        super(draftModal);
         this.intro.setOptions({
             steps: [
                 {
-                    title: "Hola de nuevo",
+                    title: "Como enviar un correo",
                     intro:
-                        "Esta vez, te voy a enseñar como escribir y enviar correos." +
+                        "Hola de nuevo, esta vez te voy a enseñar como escribir y enviar correos." +
                         Asistant.positionOne,
                 },
                 {
@@ -22,9 +22,7 @@ export default class DraftTour extends Tour {
                 {
                     element: "[data-draft-modal]",
                     title: "Ventana de borrador",
-                    intro:
-                        "Se abrirá esta ventana." +
-                        Asistant.positionOne,
+                    intro: "Se abrirá esta ventana." + Asistant.positionOne,
                 },
                 {
                     element: "[data-draft-to-user-input]",
@@ -69,19 +67,6 @@ export default class DraftTour extends Tour {
                         Asistant.positionTwo,
                 },
             ],
-        });
-
-        this.intro.onchange((el) => {
-            if (draftModal.modal.contains(el)) {
-                if (!draftModal.modal.open) draftModal.show();
-            } else {
-                draftModal.close();
-            }
-        });
-
-        this.onCompleteAndExit(() => {
-            Asistant.show();
-            draftModal.close();
         });
     }
 }

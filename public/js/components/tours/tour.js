@@ -1,7 +1,7 @@
 import Asistant from "../asistant.js";
 
 export default class Tour {
-    constructor() {
+    constructor(modal) {
         this.intro = introJs();
         this.onCompleteAndExit(() => Asistant.show());
 
@@ -11,6 +11,21 @@ export default class Tour {
             prevLabel: "Atras",
             doneLabel: "Finalizar",
         });
+
+        if (modal) {
+            this.intro.onchange((el) => {
+                if (modal.modal.contains(el)) {
+                    if (!modal.modal.open) modal.show();
+                } else {
+                    modal.close();
+                }
+            });
+    
+            this.onCompleteAndExit(() => {
+                Asistant.show();
+                modal.close();
+            });
+        }
     }
 
     start() {
