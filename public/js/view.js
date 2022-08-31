@@ -13,6 +13,7 @@ import Alert from "./components/alert.js";
 import Controller from "./controller.js";
 import Asistant from "./components/asistant.js";
 import GeneralTour from "./components/tours/generalTour.js";
+import SupportModal from "./components/modals/support.js";
 
 export default class View {
     constructor() {
@@ -43,6 +44,8 @@ export default class View {
 
         this.draftModal = new DraftModal();
         this.#setDraftEventListeners();
+
+        this.supportModal = new SupportModal();
 
         document.querySelector("[data-new-draft-btn]").onclick = async () => {
             this.showLoader();

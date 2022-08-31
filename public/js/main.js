@@ -58,9 +58,13 @@ export function handleConfigMenuClose(e) {
         !submenu_content.contains(e.target) && 
         !submenuBtn.contains(e.target)
     ) {
-        submenu_content.classList.remove("active");
+        closeSubMenu();
         submenuBtn.classList.remove("active");
     }
+}
+
+export function closeSubMenu() {
+    submenu_content.classList.remove("active");
 }
 
 export function handleNavClose(e) {

@@ -8,6 +8,9 @@ export default class Modal {
             };
         });
 
+        const closeBtn = this.modal.querySelector("[data-close-modal-btn]");
+        if (closeBtn) closeBtn.onclick = () => this.close();
+
         this.modal.onmousedown = (e) => {
             if (e.target.tagName === "DIALOG") {
                 this.close();
