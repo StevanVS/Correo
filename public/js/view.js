@@ -137,10 +137,20 @@ export default class View {
 
     async sendEmails(draftId, { toUserAddresses, subject, message }) {
         let toUserIds = [];
-        for (const toUserAddress of toUserAddresses) {
-            const user = await this.controller.getUserByEmail(toUserAddress);
-            if (user == null) toUserIds.push(undefined);
-            else toUserIds.push(user.id);
+        if (toUserAddresses.every((v) => v === "all")) {
+            const users = await this.controller.getUsers();
+            for (const user of users) {
+                if (user.id === this.currentUser.id) continue;
+                toUserIds.push(user.id);
+            }
+        } else {
+            for (const toUserAddress of toUserAddresses) {
+                const user = await this.controller.getUserByEmail(
+                    toUserAddress
+                );
+                if (user == null) toUserIds.push(undefined);
+                else toUserIds.push(user.id);
+            }
         }
 
         const invalidAddressIndex = toUserIds.indexOf(undefined);
