@@ -8,12 +8,16 @@
         <link rel="stylesheet" href="../libs/fullcalendar/main.min.css" />
         <script src="../libs/fullcalendar/main.min.js"></script>
         <!-- Toastify alertas -->
-        <!-- <link rel="stylesheet" href="../libs/toastify/toastify.min.css"> -->
-        <link
+        <link rel="stylesheet" href="../libs/toastify/toastify.min.css" />
+        <!-- <link
             rel="stylesheet"
             type="text/css"
             href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-        />
+        /> -->
+        <!-- FontAwasome -->
+        <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
+        <!-- Intro CSS -->
+        <link rel="stylesheet" href="../libs/intro/introjs.min.css" />
         <!-- Styles Css -->
         <link rel="stylesheet" href="../css/style.css" />
         <link rel="stylesheet" href="../css/normalize.css" />
@@ -23,10 +27,6 @@
             href="../img/favicon.ico"
             type="image/x-icon"
         />
-        <!-- FontAwasome -->
-        <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
-        <!-- Intro CSS -->
-        <link rel="stylesheet" href="../libs/intro/introjs.min.css" />
 
         <title>Imail</title>
     </head>
@@ -63,7 +63,7 @@
                     ></div>
                     <span class="nav-text username" data-username></span>
                     <div class="user-img-container" data-submenu-btn>
-                        <!-- <i class="fa-solid fa-circle-user"></i> -->
+                        <i class="fa-solid fa-circle-user user-img"></i>
                         <!-- <img class="user-img" src="../img/userImage.jpg" alt="Foto de perfil"> -->
                     </div>
                     <ul class="submenu">
@@ -99,13 +99,16 @@
                             <!-- <li>
                             <div class="config__element">Cambiar de tema</div>
                         </li> -->
-                            <li data-asistant-config-li>
-                                <div
-                                    class="config__element"
-                                    data-toggle-asistant
-                                >
+                            <li data-toggle-asistant>
+                                <div class="config__element">
                                     <i class="fa-solid fa-robot"></i>
                                     <span>Desactivar Asistente</span>
+                                </div>
+                            </li>
+                            <li class="bdark" data-toggle-dark-theme-btn>
+                                <div class="config__element">
+                                    <i class="fa-solid fa-moon"></i>
+                                    <span>Modo oscuro</span>
                                 </div>
                             </li>
                         </div>
@@ -605,7 +608,7 @@
                 </div>
             </dialog>
         </main>
-        <!-- Loader Controller -->
+        <!-- Loader Controller-->
         <script>
             window.onload = () => {
                 const loader = document.querySelector(".loader-wrapper");
@@ -624,11 +627,11 @@
             };
         </script>
 
-        <!-- <script src="../libs/toastify/toastify-js.js"></script> -->
-        <script
+        <script src="../libs/toastify/toastify-js.js"></script>
+        <!-- <script
             type="text/javascript"
             src="https://cdn.jsdelivr.net/npm/toastify-js"
-        ></script>
+        ></script> -->
         <script src="../libs/intro/intro.min.js"></script>
         <script src="../libs/hotkeys/hotkeys.min.js"></script>
 

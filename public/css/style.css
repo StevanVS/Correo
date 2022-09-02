@@ -1,22 +1,73 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 
 :root {
-  --font_main: "Roboto", sans-serif;
-  --font_color: #202124;
-  --color-bright: #4900c2;
-  --color_primary: #3ca5d5;
-  --color_second: hsl(218, 53%, 40%);
-  --color_second-dark: hsl(218, 53%, 30%);
-  --color_gray: #6e6e6e;
+  --pri-font-clr: #202124;
+  --sec-font-clr: #fff;
+  --back-clr: #fff;
+
+  --primary-clr: hsl(218, 53%, 40%);
+  --primary-clr-dark: hsl(218, 53%, 30%);
+
+  --secondary-clr: #f0f6ff;
+  --secondary-clr-light: rgb(246, 254, 255);
+  --secondary-clr-dark: hsl(216, 100%, 95%);
+
+  --ter-clr: #4900c2;
+  --ter-clr-lighter: rgb(236 224 255);
+
+  --info-clr: hsl(216, 100%, 95%);
+  --info-clr-dark: hsl(216, 100%, 80%);
+
+  --red-clr: #e00;
+
+  --border-clr: #aaa;
+  --placeholder-clr: #5f5f5f;
+  --btn-icon-hover-clr: hsla(0, 0%, 0%, 0.08);
+  --loader-color: hsl(300, 100%, 85%);
+
+  --font-weight-bold: bold;
+
+  --wall-filters: blur(10px);
+
+  --logo-url: url(../img/logoEmail.png);
+
   --color-danger: hsl(0, 67%, 50%);
-  --color_second-light: #f0f6ff;
   --font_shadow-black: #1b1b1d0e;
   --box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.6);
-  --transition: all 0.3s ease;
+  --transition: 0.3s ease;
   --border-radius: 0.5rem;
   --header-height: 3.5em;
-  --calendar-btn-color: rgb(255, 202, 104);
-  --calendar-btn-color-alt: rgb(255, 170, 13);
+}
+
+.darkmode {
+  --back-clr: #353535;
+  --pri-font-clr: rgb(230, 230, 230);
+  --sec-font-clr: #202124;
+
+  --primary-clr: #5879b1;
+  --primary-clr-dark: #4570b4;
+
+  --secondary-clr: #313538;
+  --secondary-clr-light: #202124;
+  --secondary-clr-dark: #36373d;
+
+  --ter-clr-lighter: #332647;
+
+  --info-clr: hsl(214, 25%, 37%);
+  --info-clr-dark: hsl(214, 24%, 19%);
+  
+  --red-clr: #ff3c3c;
+
+  --border-clr: #787878;
+  --placeholder-clr: #cecece;
+  --btn-icon-hover-clr: hsla(0, 0%, 100%, 0.078);
+  --loader-color: hsl(300, 63%, 69%);
+
+
+  --logo-url: url(../img/logoEmailDark.png);
+
+  --font-weight-bold: 500;
+  --wall-filters: brightness(.13);
 }
 
 html {
@@ -25,10 +76,9 @@ html {
 
 body {
   position: relative;
-  font-family: var(--font_main);
-  color: var(--font_color);
-  background-color: #fff;
-  /* height: calc(100vh - var(--header-height)); */
+  font-family: "Roboto", sans-serif;
+  color: var(--pri-font-clr);
+  background-color: var(--back-clr);
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
@@ -39,7 +89,7 @@ body {
   height: 100vh;
   width: 100vw;
   z-index: 50;
-  background-color: var(--color_second-light);
+  background-color: var(--secondary-clr);
 
   display: flex;
   align-items: center;
@@ -47,8 +97,13 @@ body {
 }
 
 .loader-icon {
+  content: var(--logo-url);
   width: 75vw;
   max-width: 600px;
+}
+
+::placeholder {
+  color: var(--placeholder-clr)
 }
 
 .wallpaper {
@@ -59,15 +114,20 @@ body {
   /* width: 100vw; */
   height: 100vh;
   opacity: 0.7;
-  filter: blur(10px);
+  filter: var(--wall-filters);
+}
+
+h4 {
+  font-weight: var(--font-weight-bold);
 }
 
 dialog {
   /* margin: auto; */
+  color: var(--pri-font-clr);
+  background-color: var(--back-clr);
   max-width: 800px;
   padding: 0;
   border: none;
-  background-color: #fff;
   border-radius: 8px;
   transition: var(--transition);
   top: 100vh;
@@ -88,8 +148,10 @@ dialog {
 }
 
 .big-modal.no-modal {
-  box-shadow: 0 0 0 max(100vw, 100vh) hsla(0, 4%, 16%, 0.424);;
+  box-shadow: 0 0 0 max(100vw, 100vh) hsla(0, 4%, 16%, 0.424);
+  ;
 }
+
 .big-modal.no-modal::before {
   content: ' ';
   position: fixed;
@@ -118,11 +180,10 @@ dialog {
 }
 
 .mini-modal::backdrop {
-  background-color: #0000;
+  background-color: transparent;
 }
 
 a {
-  color: var(--font_color);
   text-decoration: none;
 }
 
@@ -150,6 +211,7 @@ textarea {
 
 .btn-icon:hover {
   background-color: hsla(0, 0%, 0%, 0.08);
+  background-color: var(--btn-icon-hover-clr);
 }
 
 .btn-group {
@@ -161,17 +223,16 @@ textarea {
 /*--- Barra Superior ---*/
 
 .header {
-  background-color: var(--color_primary);
   width: 100%;
   height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background-color: var(--color_second-light);
   background-color: rgb(246, 254, 255);
+  background-color: var(--secondary-clr-light);
   border-bottom: 1px solid #aaa;
-  color: #3d3d3d;
+  /* color: #3d3d3d; */
 }
 
 .header__left,
@@ -201,7 +262,7 @@ textarea {
   display: flex;
   flex-direction: column;
   position: absolute;
-  background-color: #fff;
+  background-color: var(--back-clr);
   top: calc(var(--header-height) - 20px);
   top: -10px;
   right: 4rem;
@@ -236,7 +297,7 @@ textarea {
 
 .config-group {
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--color_gray);
+  border-bottom: 1px solid var(--border-clr);
 }
 
 .config-text {
@@ -246,13 +307,14 @@ textarea {
 .config-text.user {
   text-align: left;
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
 }
 
 .config__element {
   cursor: pointer;
   display: block;
-  color: var(--font_color);
+  color: var(--pri-font-clr);
   padding: 6px;
   padding-left: 14px;
   margin-top: 0.3rem;
@@ -290,13 +352,14 @@ textarea {
 }
 
 .header_index {
-  width: auto;
+  /* width: auto; */
   margin: 0 10px;
   display: flex;
   align-items: center;
 }
 
 .header__Logo {
+  content: var(--logo-url);
   height: 2.7rem;
   padding: 0;
 }
@@ -316,21 +379,28 @@ textarea {
 }
 
 .user-img-container {
+  --size: 2.3rem;
   cursor: pointer;
   position: relative;
-  height: 2.3rem;
-  width: 2.3rem;
+  height: var(--size);
+  width: var(--size);
   margin-left: 0.8rem;
   margin-right: 1rem;
   overflow: hidden;
   border-radius: 50%;
-  border: 1px solid var(--font_color);
+  /* border: 1px solid var(--pry-font-clr); */
 
-  background-color: gray;
-  background-image: url(../img/defaultProfilePic.svg);
+  /* background-image: url(../img/defaultProfilePic.svg); */
+  /* background-image: var(--default-user-pic-url); */
   background-position: center;
   background-size: cover;
 }
+
+.user-img-container .user-img {
+  font-size: var(--size);
+}
+
+
 
 /* .user-img-container .user-img{
   transform: translateX(-9%);
@@ -353,13 +423,14 @@ textarea {
 
 .nav-text {
   padding-left: 0.5em;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: 1.2rem;
   /* width: min-content; */
 }
 
 .username {
   text-align: right;
+  text-transform: uppercase;
 }
 
 .label-title {
@@ -395,13 +466,14 @@ textarea {
 }
 
 .btn__redactar {
+  color: inherit;
   width: 13.6em;
   height: 3em;
   border-radius: 12px;
   display: flex;
   align-items: center;
-  background-color: var(--color_second-light);
-  border: 1px var(--color_second) solid;
+  background-color: var(--secondary-clr);
+  border: 1px var(--primary-clr) solid;
   font-size: 1em;
   font-weight: 500;
   padding: 0;
@@ -443,6 +515,7 @@ textarea {
 }
 
 .nav__item {
+  color: var(--pri-font-clr);
   width: 100%;
   min-width: 15em;
   height: 2.3em;
@@ -468,8 +541,8 @@ textarea {
 
 .nav__item:hover,
 .nav__item.selected {
-  background-color: var(--color_second-light);
-  color: var(--color_second);
+  background-color: var(--secondary-clr);
+  color: var(--primary-clr);
 }
 
 /*--- Email Container---*/
@@ -506,20 +579,6 @@ textarea {
   background-repeat: no-repeat;
 }
 
-.background-text {
-  user-select: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* color: #6e6e6e; */
-  font-weight: bold;
-  font-size: 2rem;
-
-  display: none;
-}
 
 /* ------ CONTENEDOR DE EMAILS -------- */
 
@@ -527,9 +586,10 @@ textarea {
   cursor: pointer;
   position: relative;
   background-color: #00c44e09;
-  background-color: var(--color_second-light);
+  background-color: var(--secondary-clr);
   padding: 0.5rem 0.8rem;
   border-bottom: 1px solid #0002;
+  border-bottom: 1px solid var(--border-clr);
 
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -543,7 +603,7 @@ textarea {
 }
 
 .email-row .draft-indicator {
-  color: #e00;
+  color: var(--red-clr);
 }
 
 .email-row.unread {
@@ -554,12 +614,16 @@ textarea {
   position: absolute;
   height: 100%;
   width: 6px;
-  background-color: var(--color-bright);
+  background-color: var(--ter-clr);
   display: none;
 }
 
 .email-row.unread .block {
   display: block;
+}
+
+.email-row * {
+  align-self: center;
 }
 
 .email-row *.text {
@@ -594,34 +658,46 @@ textarea {
   white-space: nowrap;
 
   grid-row: -1 / 4;
-  align-self: center;
 }
 
 /* ------------ CALENDARIO ----------------------------- */
 .calendar-container {
   --fc-today-bg-color: rgba(73, 0, 194, 0.13);
+  --fc-today-bg-color: var(--ter-clr-lighter);
+  --fc-border-color: var(--border-clr);
 
+  position: relative;
+  color: inherit;
   z-index: 0;
   border-top: 2px solid #373434;
   transition: var(--transition);
 }
 
+.fc-daygrid-dot-event .fc-event-title {
+  font-weight: var(--font-weight-bold);
+}
+
+.calendar-container th {
+  font-weight: var(--font-weight-bold);
+}
+
 .calendar-btn {
   position: absolute;
   right: 0;
-  transform: translateY(-120%);
   font-size: 1.8rem;
-  margin: 0 0.5rem;
+  margin: 0 1rem;
 
-  background-color: rgb(255, 188, 63);
-  background-color: var(--color_second-light);
-  border: 2px solid var(--font_color);
+  background-color: var(--secondary-clr);
+  background-color: var(--secondary-clr-light);
+  border: 2px solid var(--pri-font-clr);
 
   display: flex;
   align-items: center;
   gap: 0.5rem;
 
   display: none;
+  transition: background-color var(--transition);
+  top: -3.2rem;
 }
 
 .calendar-btn .arrow {
@@ -629,20 +705,22 @@ textarea {
 }
 
 .calendar-btn:hover {
-  background-color: var(--calendar-btn-color-alt);
   background-color: hsl(216, 100%, 95%);
+  background-color: var(--secondary-clr-dark);
 }
 
 .calendar-handle {
-  background-color: var(--color_second-light);
+  background-color: var(--secondary-clr);
+  background-color: var(--secondary-clr-light);
   cursor: pointer;
   text-align: center;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: 1.2rem;
 
   padding: 0.2rem;
 
   box-shadow: 0 1px 3px 0 #0005;
+  transition: var(--transition);
 }
 
 .calendar-handle .calendar-handle-text {
@@ -651,6 +729,7 @@ textarea {
 
 .calendar-handle:hover {
   background-color: hsl(216, 100%, 95%);
+  background-color: var(--secondary-clr-dark);
 }
 
 .calendar-header {
@@ -658,7 +737,7 @@ textarea {
   justify-content: space-between;
 
   font-size: 1.6em;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 
   padding: 0 1rem;
   margin: 0.4rem 0;
@@ -689,7 +768,7 @@ textarea {
 .email-content {
   overflow: hidden;
   font-size: 1.1rem;
-  background-color: #fff;
+  background-color: var(--back-clr);
   position: absolute;
   top: 0;
   left: 0;
@@ -733,7 +812,7 @@ textarea {
 }
 
 .email-header .subject {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: 1.7rem;
   margin: 0.5rem 0;
 }
@@ -766,8 +845,8 @@ textarea {
   width: 100%;
   padding: 0.5rem;
   border-radius: var(--border-radius);
-  background-color: hsl(216, 100%, 95%);
-  border: 3px solid hsl(216, 100%, 80%);
+  background-color: var(--info-clr);
+  border: 3px solid var(--info-clr-dark);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -792,12 +871,6 @@ textarea {
   text-align: justify;
 }
 
-.email-body p .detected-date {
-  cursor: pointer;
-  padding: 0 0.3rem;
-  border-radius: var(--border-radius);
-  background-color: var(--calendar-btn-color);
-}
 
 /* --------- EVENT DIALOG ---------- */
 
@@ -807,6 +880,7 @@ textarea {
   width: 100%;
 
   background-color: #fff;
+  background-color: var(--back-clr);
   border-radius: var(--border-radius);
 
   display: flex;
@@ -815,6 +889,7 @@ textarea {
 
 .dialog-header {
   position: relative;
+  font-weight: var(--font-weight-bold);
   background-color: #494949;
   color: #fff;
   padding: 10px 1em;
@@ -837,7 +912,7 @@ textarea {
 }
 
 .dialog-header .btn-icon:hover {
-  background-color: var(--color_gray);
+  background-color: var(--border-clr);
 }
 
 .dialog-form {
@@ -847,12 +922,13 @@ textarea {
 }
 
 .dialog-input {
+  color: var(--pri-font-clr);
   width: 100%;
-  background-color: #0000;
+  background-color: transparent;
   border: 0;
   padding: 0.5rem 1rem;
   outline: none;
-  border-bottom: 1px var(--color_gray) solid;
+  border-bottom: 1px var(--border-clr) solid;
 }
 
 /* .dialog-input {
@@ -872,27 +948,36 @@ label.dialog-input {
 }
 
 input[type="datetime-local"] {
+  color: var(--pri-font-clr);
+  background-color: var(--back-clr);
   flex: 1;
   border: none;
   outline: none;
 }
 
+::-webkit-calendar-picker-indicator {
+  background-color: var(--pri-font-clr);
+  border-radius: 4px
+}
+
 .dialog-btn {
   cursor: pointer;
+  font-weight: var(--font-weight-bold);
   width: 6.5em;
   height: 2.5em;
   border-radius: 5px;
   border: none;
   color: #fff;
+  color: var(--pri-font-clr);
   margin: 1em;
 }
 
 .dialog-btn.confirm {
-  background-color: var(--color_second);
+  background-color: var(--primary-clr);
 }
 
 .dialog-btn.confirm:hover {
-  background-color: var(--color_second-dark);
+  background-color: var(--primary-clr-dark);
 }
 
 .dialog-btn.cancel {
@@ -928,6 +1013,7 @@ input[type="datetime-local"] {
   width: fit-content;
   height: fit-content;
 }
+
 .support-modal .dialog-body {
   font-size: 1.2rem;
 
@@ -997,7 +1083,6 @@ input[type="datetime-local"] {
 .lds-dual-ring:after {
   --size: 64px;
   --border-width: 6px;
-  --loader-color: hsl(300, 100%, 85%);
   content: " ";
   display: block;
   width: var(--size);
@@ -1034,6 +1119,7 @@ input[type="datetime-local"] {
 
 .email-alert-container {
   color: #222;
+  color: inherit;
   position: absolute;
   width: 100%;
   transform: translateY(-110%);
@@ -1054,7 +1140,7 @@ input[type="datetime-local"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid var(--color_gray);
+  border-bottom: 1px solid var(--border-clr);
 }
 
 .info {
@@ -1107,6 +1193,7 @@ input[type="datetime-local"] {
 .asistant-modal::before {
   content: " ";
   background-color: #fff;
+  background-color: var(--back-clr);
   width: 25px;
   height: 25px;
 
@@ -1141,6 +1228,34 @@ input[type="datetime-local"] {
   text-decoration: underline;
 }
 
+/* ------ INTRO JS ------ */
+.introjs-tooltip {
+  background-color: var(--back-clr);
+}
+
+/* .introjs-button {
+  color: var(--sec-font-clr);
+  font-weight: 400;
+  text-shadow: none;
+  background-color: var(--primary-clr);
+  border-color: var(--primary-clr-dark);
+} */
+.introjs-arrow.top {
+  border-bottom-color: var(--back-clr);
+}
+
+.introjs-arrow.left {
+  border-right-color: var(--back-clr)
+}
+
+.introjs-arrow.bottom {
+  border-top-color: var(--back-clr);
+}
+
+.introjs-arrow.right {
+  border-left-color: var(--back-clr)
+}
+
 /* ---- MEDIA QUERYS -------- */
 
 @media screen and (min-width: 1024px) {
@@ -1153,7 +1268,10 @@ input[type="datetime-local"] {
     grid-area: auto;
   }
 
-  .user-field, .subject-field, .message-field, .date-field {
+  .user-field,
+  .subject-field,
+  .message-field,
+  .date-field {
     grid-area: auto;
   }
 
@@ -1226,6 +1344,6 @@ input[type="datetime-local"] {
   }
 
   .calendar-container.close .calendar-btn {
-    transform: translateY(-250%);
+    top: -7rem
   }
 }

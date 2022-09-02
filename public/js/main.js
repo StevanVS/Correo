@@ -1,10 +1,5 @@
+import breakPoints from "./utils/breakPoints.js";
 
-const btn_redactar = document.querySelector(".btn__redactar");
-const modal = document.querySelector(".email");
-const modal_box = document.querySelector(".email__modal");
-const exit_redactar = document.querySelector(".exit");
-const btn_minimize = document.querySelector(".btn_minimize");
-const form_minimize = document.querySelector(".email__form");
 const menubtn = document.querySelector(".header__menu");
 const nav = document.querySelector(".nav");
 const btn__redactar = document.querySelector(".btn__redactar");
@@ -15,14 +10,6 @@ const navItems = document.querySelectorAll('.nav__item');
 const submenuBtn = document.querySelector("[data-submenu-btn]");
 const submenu_content = document.querySelector(".submenu");
 
-
-// btn_minimize.addEventListener("click", () => {
-//     alterElementClass([
-//         modal,
-//         modal_box,
-//         form_minimize
-//     ], 'toggle', 'minimize');
-// });
 
 menubtn.addEventListener("click", () => {
     menuBtnEvent('toggle');
@@ -51,6 +38,22 @@ export function expandNav() {
 
 export function reduceNav() {
     menuBtnEvent('add');
+}
+
+
+let isNavExpanded = true;
+
+export function updateNavSize() {
+    const width = window.innerWidth;
+    if (width > breakPoints.large) {
+        if (!isNavExpanded) {
+            expandNav();
+            isNavExpanded = !isNavExpanded;
+        }
+    } else if (isNavExpanded) {
+        reduceNav();
+        isNavExpanded = !isNavExpanded;
+    }
 }
 
 export function handleConfigMenuClose(e) {

@@ -25,14 +25,7 @@ export default class Calendar {
             displayEventEnd: true,
         });
 
-        const width = window.innerWidth;
-        if (width > breakPoints.large) {
-            this.resetNumberOfDays();
-        } else if (width > breakPoints.medium) {
-            this.changeNumberOfDays(4);
-        } else {
-            this.changeNumberOfDays(3);
-        }
+        this.updateSize();
 
         this.createEventCallback = null;
 
@@ -98,6 +91,17 @@ export default class Calendar {
         this.eventDialog.showModal();
     }
 
+    updateSize() {
+        const width = window.innerWidth;
+        if (width > breakPoints.large) {
+            this.resetNumberOfDays();
+        } else if (width > breakPoints.medium) {
+            this.changeNumberOfDays(4);
+        } else {
+            this.changeNumberOfDays(3);
+        }
+    }
+
     #setEventListeners() {
         this.container.parentElement.ontransitionend = (e) => {
             if (e.propertyName === "width") {
@@ -108,6 +112,7 @@ export default class Calendar {
         document.querySelectorAll("[data-calendar-handle]").forEach((btn) => {
             btn.onclick = (e) => {
                 this.container.classList.toggle("close");
+                this.calendar.updateSize();
             };
         });
 

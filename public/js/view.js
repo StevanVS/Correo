@@ -8,12 +8,15 @@ import {
     handleConfigMenuClose,
     handleNavClose,
     reduceNav,
+    updateNavSize,
 } from "./main.js";
 import Alert from "./components/alert.js";
 import Controller from "./controller.js";
 import Asistant from "./components/asistant.js";
 import GeneralTour from "./components/tours/generalTour.js";
 import SupportModal from "./components/modals/support.js";
+import breakPoints from "./utils/breakPoints.js";
+import ThemeHandler from "./components/themeHandler.js";
 
 export default class View {
     constructor() {
@@ -26,6 +29,7 @@ export default class View {
 
         this.asistant = new Asistant(); //* Inicialar el asistente
         this.generalTour = new GeneralTour(Asistant);
+        this.themeHandler = new ThemeHandler();
 
         this.labelMessage = new LabelMessage();
         this.currentLabel = {
@@ -99,7 +103,7 @@ export default class View {
 
         this.render();
 
-        this.maybeInitAsistant();
+        this.maybeInitTour();
         this.hideLoader();
     }
 
@@ -372,44 +376,20 @@ export default class View {
     handleWindowResize() {
         let isNavExpanded = true;
         window.onresize = () => {
-            const breakPoints = {
-                short: 425,
-                medium: 768,
-                large: 1024,
-            };
-
-            const width = window.innerWidth;
-            if (width > breakPoints.large) {
-                if (!isNavExpanded) {
-                    expandNav();
-                    isNavExpanded = !isNavExpanded;
-                }
-
-                this.calendar.resetNumberOfDays();
-            } else {
-                if (isNavExpanded) {
-                    reduceNav();
-                    isNavExpanded = !isNavExpanded;
-                }
-                if (width > breakPoints.medium) {
-                    this.calendar.changeNumberOfDays(4);
-                } else {
-                    this.calendar.changeNumberOfDays(3);
-                }
-            }
+            this.calendar.updateSize();
+            updateNavSize();
         };
         window.dispatchEvent(new Event("resize"));
     }
 
-    maybeInitAsistant() {
+    maybeInitTour() {
         // if (window.innerWidth > 425) {this.tour.start();}
-        if (window.innerWidth < 425) {
+
+        if (window.innerWidth < breakPoints.short) {
             this.calendar.close();
-            document.querySelector("[data-asistant-config-li]").style.display =
-                "none";
-            Asistant.hide();
+            this.asistant.toggleAsistantBtn.style.display = "none";
         } else {
-            Asistant.isActive = true;
+            // Asistant.setActive(true)
             if (this.currentUser.newuser) {
                 this.generalTour.start();
                 this.controller.editUser({ newuser: false });

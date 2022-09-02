@@ -1,28 +1,43 @@
+import breakPoints from "../utils/breakPoints.js";
 import AsistantModal from "./modals/asistantModal.js";
 
 export default class Asistant {
+    static #LOCAL_STORAGE_ASISTANT_KEY = "imail.asistant";
+
     static asistant = document.querySelector(".asistente");
     asistantModal = new AsistantModal();
-
-    static isActive = false;
 
     static positionOne = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_uno'>`;
     static positionTwo = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_dos'>`;
     static positionLeft = `<img src='../img/Robot_Final(Saludo).gif' class='asistente_intro position_left'>`;
 
     constructor() {
+        if (window.innerWidth < breakPoints.short) {
+            Asistant.setActive(false);
+            Asistant.hide();
+        }
+
         this.toggleAsistantBtn = document.querySelector(
             "[data-toggle-asistant]"
         );
         this.btnText = this.toggleAsistantBtn.querySelector("span");
+
+        if (Asistant.getActive()) {
+            this.btnText.textContent = "Desactivar Asistente";
+            Asistant.show();
+        } else {
+            this.btnText.textContent = "Activar Asistente";
+            Asistant.hide();
+        }
+
         this.toggleAsistantBtn.onclick = () => {
-            if (Asistant.isActive) {
+            if (Asistant.getActive()) {
                 this.btnText.textContent = "Activar Asistente";
                 Asistant.hide();
-                Asistant.isActive = !Asistant.isActive;
+                Asistant.setActive(false);
             } else {
                 this.btnText.textContent = "Desactivar Asistente";
-                Asistant.isActive = !Asistant.isActive;
+                Asistant.setActive(true);
                 Asistant.show();
             }
         };
@@ -31,22 +46,22 @@ export default class Asistant {
     }
 
     static asistantEl() {
+        if (!Asistant.getActive()) returndocument.createElement("div");
+
         const img = document.createElement("img");
         img.src = "../img/Robot_Final(Saludo).gif";
         img.classList.add("asistente_intro");
         img.style.right = "-150px";
         img.style.bottom = 0;
-        if (Asistant.isActive) return img;
-        else return document.createElement("div");
+        return img;
     }
 
     static show() {
-        if (!Asistant.isActive) return;
+        if (!Asistant.getActive()) return;
         Asistant.asistant.style.display = "block";
     }
 
     static hide() {
-        // if (!this.isActive) return;
         Asistant.asistant.style.display = "none";
     }
 
@@ -99,5 +114,19 @@ export default class Asistant {
 
     static getRect() {
         return this.asistant.getBoundingClientRect();
+    }
+
+    static getActive() {
+        const item = localStorage.getItem(Asistant.#LOCAL_STORAGE_ASISTANT_KEY);
+        // console.log(JSON.parse(item));
+        if (item) return JSON.parse(item).isActive;
+        else return true;
+    }
+
+    static setActive(bool) {
+        localStorage.setItem(
+            Asistant.#LOCAL_STORAGE_ASISTANT_KEY,
+            JSON.stringify({ isActive: bool })
+        );
     }
 }

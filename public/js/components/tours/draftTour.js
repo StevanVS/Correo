@@ -22,7 +22,7 @@ export default class DraftTour extends Tour {
                 {
                     element: "[data-draft-modal]",
                     title: "Ventana de borrador",
-                    intro: "Se abrirá esta ventana." + Asistant.positionOne,
+                    intro: "Se abrirá esta ventana." + Asistant.positionLeft,
                 },
                 {
                     element: "[data-draft-to-user-input]",
