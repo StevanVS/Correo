@@ -4,11 +4,11 @@ import DraftModal from "./components/modals/draftModal.js";
 import EmailContent from "./components/emailContent.js";
 import LabelMessage from "./components/labelMessage.js";
 import {
-    expandNav,
-    handleConfigMenuClose,
-    handleNavClose,
-    reduceNav,
-    updateNavSize,
+  expandNav,
+  handleConfigMenuClose,
+  handleNavClose,
+  reduceNav,
+  updateNavSize,
 } from "./main.js";
 import Alert from "./components/alert.js";
 import Controller from "./controller.js";
@@ -17,211 +17,215 @@ import GeneralTour from "./components/tours/generalTour.js";
 import SupportModal from "./components/modals/support.js";
 import breakPoints from "./utils/breakPoints.js";
 import ThemeHandler from "./components/themeHandler.js";
+import UserProfileModal from "./components/modals/userProfileModal.js";
 
 export default class View {
-    constructor() {
-        this.controller = new Controller();
+  constructor() {
+    this.controller = new Controller();
 
-        this.currentUser = null;
+    this.currentUser = null;
 
-        this.historyId = null;
-        this.emails = [];
+    this.historyId = null;
+    this.emails = [];
 
-        this.asistant = new Asistant(); //* Inicialar el asistente
-        this.generalTour = new GeneralTour(Asistant);
-        this.themeHandler = new ThemeHandler();
+    this.asistant = new Asistant(); //* Inicializar el asistente
+    this.generalTour = new GeneralTour(Asistant);
+    this.themeHandler = new ThemeHandler();
 
-        this.labelMessage = new LabelMessage();
-        this.currentLabel = {
-            id: "INBOX",
-            name: "Bandeja de Entrada",
-        };
+    this.labelMessage = new LabelMessage();
+    this.currentLabel = {
+      id: "INBOX",
+      name: "Bandeja de Entrada",
+    };
 
-        this.emailsContainer = document.querySelector("[data-emails-rows]");
+    this.emailsContainer = document.querySelector("[data-emails-rows]");
 
-        // document.querySelector('[data-edit-user-profile-btn]').onclick = () => {
-        //     this.userProfileModal.showModal();
-        // }
+    // document.querySelector('[data-edit-user-profile-btn]').onclick = () => {
+    //     this.userProfileModal.showModal();
+    // }
 
-        this.emailContent = new EmailContent();
-        this.#setEmailContentEventListeners();
+    this.emailContent = new EmailContent();
+    this.#setEmailContentEventListeners();
 
-        this.draftModal = new DraftModal();
-        this.#setDraftEventListeners();
+    this.draftModal = new DraftModal();
+    this.#setDraftEventListeners();
 
-        this.supportModal = new SupportModal();
+    this.userProfileModal = new UserProfileModal();
+    this.#setUserProfileEventListeners();
 
-        document.querySelector("[data-new-draft-btn]").onclick = async () => {
-            this.showLoader();
-            await this.createDraft();
-            this.hideLoader();
-        };
+    this.supportModal = new SupportModal();
 
-        document.querySelectorAll("[data-label]").forEach((labelEl) => {
-            labelEl.onclick = (e) => {
-                this.emailContent.closeEmail();
-                if (window.innerWidth < 992) reduceNav();
+    document.querySelector("[data-new-draft-btn]").onclick = async () => {
+      this.showLoader();
+      await this.createDraft();
+      this.hideLoader();
+    };
 
-                const labelId = labelEl.getAttribute("label-id");
-                if (labelId === this.currentLabel.id) return;
+    document.querySelectorAll("[data-label]").forEach((labelEl) => {
+      labelEl.onclick = (e) => {
+        this.emailContent.closeEmail();
+        if (window.innerWidth < 992) reduceNav();
 
-                this.currentLabel.id = labelId;
-                this.currentLabel.name = labelEl.textContent;
+        const labelId = labelEl.getAttribute("label-id");
+        if (labelId === this.currentLabel.id) return;
 
-                this.render();
-            };
-        });
-
-        this.calendar = new Calendar();
-        this.#setCalendarEventListeners();
-        this.handleWindowResize();
-
-        document.onmouseup = (e) => {
-            handleConfigMenuClose(e);
-            this.calendar.previewEventModal.handleModalClose(e);
-            handleNavClose(e);
-        };
-
-        hotkeys("alt+shift+c", (e, h) => this.createDraft());
-        hotkeys("alt+shift+e", (e, h) => this.calendar.createEvent());
-    }
-
-    async initView() {
-        this.showLoader();
-        this.currentUser = await this.controller.getCurrentUser();
-
-        document.querySelectorAll("[data-username]").forEach((item) => {
-            item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
-        });
-        document
-            .querySelectorAll("[data-user-email-address]")
-            .forEach((item) => {
-                item.textContent = this.currentUser.email_address;
-            });
-
-        this.historyId = await this.controller.getHistoryId();
+        this.currentLabel.id = labelId;
+        this.currentLabel.name = labelEl.textContent;
 
         this.render();
+      };
+    });
 
-        this.maybeInitTour();
-        this.hideLoader();
+    this.calendar = new Calendar();
+    this.#setCalendarEventListeners();
+    this.handleWindowResize();
+
+    document.onmouseup = (e) => {
+      handleConfigMenuClose(e);
+      this.calendar.previewEventModal.handleModalClose(e);
+      handleNavClose(e);
+    };
+
+    hotkeys("alt+shift+c", (e, h) => this.createDraft());
+    hotkeys("alt+shift+e", (e, h) => this.calendar.createEvent());
+  }
+
+  async initView() {
+    this.showLoader();
+    this.currentUser = await this.controller.getCurrentUser();
+
+    document.querySelectorAll("[data-username]").forEach((item) => {
+      item.textContent = `${this.currentUser.name} ${this.currentUser.lastname}`;
+    });
+    document.querySelectorAll("[data-user-email-address]").forEach((item) => {
+      item.textContent = this.currentUser.email_address;
+    });
+
+    document.querySelectorAll(".user-img").forEach((item) => {
+      item.style.content = `url(${this.currentUser.image_profile})`;
+    });
+
+    this.historyId = await this.controller.getHistoryId();
+
+    this.render();
+
+    this.maybeInitTour();
+    this.hideLoader();
+  }
+
+  async createDraft() {
+    const drafts = await this.controller.getUserEmails(["DRAFT"]);
+    const emptyDraft = drafts.find(
+      (draft) => !draft.subject && !draft.message && !draft.to_user
+    );
+
+    let draftId;
+    if (!emptyDraft) {
+      this.draftModal.emptyValues();
+      draftId = await this.controller.createDraft();
+      this.draftModal.setDraftId(draftId);
+    } else {
+      draftId = emptyDraft.id;
+      this.draftModal.setValues(emptyDraft);
     }
 
-    async createDraft() {
-        const drafts = await this.controller.getUserEmails(["DRAFT"]);
-        const emptyDraft = drafts.find(
-            (draft) => !draft.subject && !draft.message && !draft.to_user
-        );
+    this.draftModal.showModal();
 
-        let draftId;
-        if (!emptyDraft) {
-            this.draftModal.emptyValues();
-            draftId = await this.controller.createDraft();
-            this.draftModal.setDraftId(draftId);
-        } else {
-            draftId = emptyDraft.id;
-            this.draftModal.setValues(emptyDraft);
-        }
+    this.render();
+    return draftId;
+  }
 
-        this.draftModal.showModal();
+  async editDraft(draftId, values) {
+    await this.controller.editDraft(draftId, values);
+    if (this.currentLabel.id === "DRAFT") this.render();
+  }
 
-        this.render();
-        return draftId;
+  async deleteDraft(draftId) {
+    await this.controller.deleteDraft(draftId);
+    if (this.currentLabel.id === "DRAFT") this.render();
+  }
+
+  async sendEmails(draftId, { toUserAddresses, subject, message }) {
+    let toUserIds = [];
+    if (toUserAddresses.every((v) => v === "all")) {
+      const users = await this.controller.getUsers();
+      for (const user of users) {
+        if (user.id === this.currentUser.id) continue;
+        toUserIds.push(user.id);
+      }
+    } else {
+      for (const toUserAddress of toUserAddresses) {
+        const user = await this.controller.getUserByEmail(toUserAddress);
+        if (user == null) toUserIds.push(undefined);
+        else toUserIds.push(user.id);
+      }
     }
 
-    async editDraft(draftId, values) {
-        await this.controller.editDraft(draftId, values);
-        if (this.currentLabel.id === "DRAFT") this.render();
+    const invalidAddressIndex = toUserIds.indexOf(undefined);
+    if (invalidAddressIndex !== -1) {
+      new Alert(
+        `No existe usuario con el correo: ${toUserAddresses[invalidAddressIndex]}`,
+        "error",
+        this.draftModal.modal
+      );
+      return false;
     }
 
-    async deleteDraft(draftId) {
-        await this.controller.deleteDraft(draftId);
-        if (this.currentLabel.id === "DRAFT") this.render();
+    await this.controller.sendEmails({ toUserIds, subject, message });
+    await this.controller.deleteDraft(draftId);
+
+    new Alert(`Correo Enviado a ${toUserAddresses.toString()}`, "info");
+    this.render();
+    return true;
+  }
+
+  async handleRefresh() {
+    const newHistoryId = await this.controller.getHistoryId();
+    if (newHistoryId !== this.historyId) {
+      this.historyId = newHistoryId;
+      this.render();
     }
+  }
 
-    async sendEmails(draftId, { toUserAddresses, subject, message }) {
-        let toUserIds = [];
-        if (toUserAddresses.every((v) => v === "all")) {
-            const users = await this.controller.getUsers();
-            for (const user of users) {
-                if (user.id === this.currentUser.id) continue;
-                toUserIds.push(user.id);
-            }
-        } else {
-            for (const toUserAddress of toUserAddresses) {
-                const user = await this.controller.getUserByEmail(
-                    toUserAddress
-                );
-                if (user == null) toUserIds.push(undefined);
-                else toUserIds.push(user.id);
-            }
-        }
+  async render() {
+    document.querySelector("[data-label-title]").textContent =
+      this.currentLabel.name;
 
-        const invalidAddressIndex = toUserIds.indexOf(undefined);
-        if (invalidAddressIndex !== -1) {
-            new Alert(
-                `No existe usuario con el correo: ${toUserAddresses[invalidAddressIndex]}`,
-                "error",
-                this.draftModal.modal
-            );
-            return false;
-        }
+    document
+      .querySelectorAll("[data-label]")
+      .forEach((item) => item.classList.remove("selected"));
+    document
+      .querySelector(`[label-id="${this.currentLabel.id}"]`)
+      .classList.add("selected");
 
-        await this.controller.sendEmails({ toUserIds, subject, message });
-        await this.controller.deleteDraft(draftId);
+    this.handleEmails();
+  }
 
-        new Alert(`Correo Enviado a ${toUserAddresses.toString()}`, "info");
-        this.render();
-        return true;
-    }
+  async handleEmails() {
+    //Empezar animacion email-loader
+    this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
+    this.labelMessage.hide();
 
-    async handleRefresh() {
-        const newHistoryId = await this.controller.getHistoryId();
-        if (newHistoryId !== this.historyId) {
-            this.historyId = newHistoryId;
-            this.render();
-        }
-    }
+    this.emails = await this.controller.getUserEmails(this.currentLabel.id);
 
-    async render() {
-        document.querySelector("[data-label-title]").textContent =
-            this.currentLabel.name;
+    this.labelMessageControl();
 
-        document
-            .querySelectorAll("[data-label]")
-            .forEach((item) => item.classList.remove("selected"));
-        document
-            .querySelector(`[label-id="${this.currentLabel.id}"]`)
-            .classList.add("selected");
+    //Terminar animacion loader
+    this.emailsContainer.innerHTML = "";
 
-        this.handleEmails();
-    }
+    this.emails.forEach((email) => {
+      this.emailsContainer.prepend(this.createEmailRow(email));
+    });
+  }
 
-    async handleEmails() {
-        //Empezar animacion email-loader
-        this.emailsContainer.innerHTML = '<div class="lds-dual-ring"></div>';
-        this.labelMessage.hide();
+  createEmailRow(email) {
+    const row = document.createElement("div");
+    row.classList.add("email-row");
 
-        this.emails = await this.controller.getUserEmails(this.currentLabel.id);
+    if (email.unread && this.currentLabel.id !== "SENT")
+      row.classList.add("unread");
 
-        this.labelMessageControl();
-
-        //Terminar animacion loader
-        this.emailsContainer.innerHTML = "";
-
-        this.emails.forEach((email) => {
-            this.emailsContainer.prepend(this.createEmailRow(email));
-        });
-    }
-
-    createEmailRow(email) {
-        const row = document.createElement("div");
-        row.classList.add("email-row");
-
-        if (email.unread && this.currentLabel.id !== "SENT")
-            row.classList.add("unread");
-
-        row.innerHTML = `
+    row.innerHTML = `
             <div class="block"></div>
             <div class="user-icon-field">
                 <i class="fa-solid fa-circle-user"></i>
@@ -234,175 +238,178 @@ export default class View {
             <div class="date-field"></div>
         `;
 
-        // Campo del usuario
-        const userField = row.children[2];
+    // Campo del usuario
+    const userField = row.children[2];
 
-        if (email.label.id !== "DRAFT") userField.innerHTML = "";
+    if (email.label.id !== "DRAFT") userField.innerHTML = "";
 
-        const user =
-            this.currentLabel.id === "SENT" || this.currentLabel.id === "DRAFT"
-                ? email.to_user
-                : email.from_user;
+    const user =
+      this.currentLabel.id === "SENT" || this.currentLabel.id === "DRAFT"
+        ? email.to_user
+        : email.from_user;
 
-        if (user)
-            userField.innerHTML +=
-                email.label.id !== "DRAFT"
-                    ? `${user.name} ${user.lastname}`
-                    : user;
-        else userField.innerHTML += "(Sin Destinatario)";
+    if (user)
+      userField.innerHTML +=
+        email.label.id !== "DRAFT" ? `${user.name} ${user.lastname}` : user;
+    else userField.innerHTML += "(Sin Destinatario)";
 
-        // Campo del asunto
-        const subjectField = row.children[3];
-        subjectField.textContent = !email.subject
-            ? "(Sin Asunto)"
-            : email.subject;
+    // Campo del asunto
+    const subjectField = row.children[3];
+    subjectField.textContent = !email.subject ? "(Sin Asunto)" : email.subject;
 
-        // Campo del mensaje
-        const messageField = row.children[4];
-        messageField.textContent = !email.message
-            ? "(Sin Mensaje)"
-            : email.message;
+    // Campo del mensaje
+    const messageField = row.children[4];
+    messageField.textContent = !email.message ? "(Sin Mensaje)" : email.message;
 
-        // Campo de la fecha
-        const dateField = row.children[5];
-        dateField.textContent = formatTimestamp(email.date);
+    // Campo de la fecha
+    const dateField = row.children[5];
+    dateField.textContent = formatTimestamp(email.date);
 
-        row.onclick = (e) => {
-            if (email.label.id === "DRAFT") {
-                this.draftModal.setValues(email);
-                this.draftModal.showModal();
-            } else {
-                this.emailContent.openEmail(email);
-                this.controller.editEmail(email.id, { unread: false });
-                this.render();
-            }
-        };
+    row.onclick = (e) => {
+      if (email.label.id === "DRAFT") {
+        this.draftModal.setValues(email);
+        this.draftModal.showModal();
+      } else {
+        this.emailContent.openEmail(email);
+        this.controller.editEmail(email.id, { unread: false });
+        this.render();
+      }
+    };
 
-        return row;
+    return row;
+  }
+
+  labelMessageControl() {
+    if (this.emails.length === 0) {
+      this.labelMessage.show(`No hay nada en ${this.currentLabel.name}`);
     }
-
-    labelMessageControl() {
-        if (this.emails.length === 0) {
-            this.labelMessage.show(`No hay nada en ${this.currentLabel.name}`);
-        }
-        if (this.currentLabel.id === "DELETED") {
-            this.labelMessage.showTrashLabelMessage();
-        }
+    if (this.currentLabel.id === "DELETED") {
+      this.labelMessage.showTrashLabelMessage();
     }
+  }
 
-    #setEmailContentEventListeners() {
-        this.emailContent.onReply(async (values) => {
-            this.showLoader();
-            const drafts = await this.controller.getUserEmails(["DRAFT"]);
-            const repitedDraft = drafts.find(
-                (d) =>
-                    values.to_user === d.to_user &&
-                    values.subject === d.subject &&
-                    values.message === d.message
-            );
+  #setEmailContentEventListeners() {
+    this.emailContent.onReply(async (values) => {
+      this.showLoader();
+      const drafts = await this.controller.getUserEmails(["DRAFT"]);
+      const repitedDraft = drafts.find(
+        (d) =>
+          values.to_user === d.to_user &&
+          values.subject === d.subject &&
+          values.message === d.message
+      );
 
-            if (repitedDraft) {
-                this.draftModal.setValues(repitedDraft);
-                this.draftModal.showModal();
-            } else {
-                this.controller.createDraft();
-                const id = await this.createDraft();
-                this.draftModal.setValues({ id, ...values });
-            }
+      if (repitedDraft) {
+        this.draftModal.setValues(repitedDraft);
+        this.draftModal.showModal();
+      } else {
+        this.controller.createDraft();
+        const id = await this.createDraft();
+        this.draftModal.setValues({ id, ...values });
+      }
 
-            this.hideLoader();
-        });
+      this.hideLoader();
+    });
 
-        this.emailContent.onChangeLabel((values, newLabelId) => {
-            this.controller.changeEmailLabel({ values, newLabelId });
-            this.render();
-        }, this.controller.getUserLabels());
+    this.emailContent.onChangeLabel((values, newLabelId) => {
+      this.controller.changeEmailLabel({ values, newLabelId });
+      this.render();
+    }, this.controller.getUserLabels());
 
-        this.emailContent.onDelete((emailId) => {
-            this.controller.deleteEmail(emailId);
-            this.render();
-        });
+    this.emailContent.onDelete((emailId) => {
+      this.controller.deleteEmail(emailId);
+      this.render();
+    });
 
-        this.emailContent.createEventCallBack = (values) => {
-            this.calendar.createEvent();
-            this.calendar.eventDialog.setValues(values);
-        };
+    this.emailContent.createEventCallBack = (values) => {
+      this.calendar.createEvent();
+      this.calendar.eventDialog.setValues(values);
+    };
+  }
+
+  #setDraftEventListeners() {
+    this.draftModal.onEdit(async (draftId, values) => {
+      this.showLoader();
+      await this.editDraft(draftId, values);
+      this.hideLoader();
+    });
+    this.draftModal.onSubmit(async (draftId, values) => {
+      this.showLoader();
+      const wasEmailSent = await this.sendEmails(draftId, values);
+      this.hideLoader();
+      return wasEmailSent;
+    });
+    this.draftModal.onDelete(async (draftId) => {
+      this.showLoader();
+      await this.deleteDraft(draftId);
+      this.hideLoader();
+    });
+  }
+
+  #setCalendarEventListeners() {
+    this.calendar.onEventChange(async (id, values) => {
+      this.showLoader();
+      const result = await this.controller.editEvent(id, values);
+      this.hideLoader();
+      return result;
+    });
+
+    this.calendar.onCreateEvent((values) => {
+      this.controller.createEvent(values);
+      this.calendar.refresh();
+    });
+
+    this.calendar.onEditEvent((event) => {
+      const { id, ...values } = event;
+      this.controller.editEvent(id, values);
+      this.calendar.refresh();
+    });
+
+    this.calendar.onDeleteEvent((id) => {
+      this.controller.deleteEvent(id);
+      this.calendar.refresh();
+    });
+  }
+
+  #setUserProfileEventListeners() {
+    this.userProfileModal.onChangeImage((imgData) => {
+      this.controller.editUser({ image_profile: imgData });
+      document.querySelectorAll(".user-img").forEach((item) => {
+        item.style.content = `url(${imgData})`;
+      });
+    });
+  }
+
+  handleWindowResize() {
+    let isNavExpanded = true;
+    window.onresize = () => {
+      this.calendar.updateSize();
+      updateNavSize();
+    };
+    window.dispatchEvent(new Event("resize"));
+  }
+
+  maybeInitTour() {
+    // if (window.innerWidth > 425) {this.tour.start();}
+
+    if (window.innerWidth < breakPoints.short) {
+      this.calendar.close();
+      this.asistant.toggleAsistantBtn.style.display = "none";
+    } else {
+      // Asistant.setActive(true)
+      if (this.currentUser.newuser) {
+        this.generalTour.start();
+        this.controller.editUser({ newuser: false });
+      } else {
+        this.generalTour.exit();
+      }
     }
+  }
 
-    #setDraftEventListeners() {
-        this.draftModal.onEdit(async (draftId, values) => {
-            this.showLoader();
-            await this.editDraft(draftId, values);
-            this.hideLoader();
-        });
-        this.draftModal.onSubmit(async (draftId, values) => {
-            this.showLoader();
-            const wasEmailSent = await this.sendEmails(draftId, values);
-            this.hideLoader();
-            return wasEmailSent;
-        });
-        this.draftModal.onDelete(async (draftId) => {
-            this.showLoader();
-            await this.deleteDraft(draftId);
-            this.hideLoader();
-        });
-    }
-
-    #setCalendarEventListeners() {
-        this.calendar.onEventChange(async (id, values) => {
-            this.showLoader();
-            const result = await this.controller.editEvent(id, values);
-            this.hideLoader();
-            return result;
-        });
-
-        this.calendar.onCreateEvent((values) => {
-            this.controller.createEvent(values);
-            this.calendar.refresh();
-        });
-
-        this.calendar.onEditEvent((event) => {
-            const { id, ...values } = event;
-            this.controller.editEvent(id, values);
-            this.calendar.refresh();
-        });
-
-        this.calendar.onDeleteEvent((id) => {
-            this.controller.deleteEvent(id);
-            this.calendar.refresh();
-        });
-    }
-
-    handleWindowResize() {
-        let isNavExpanded = true;
-        window.onresize = () => {
-            this.calendar.updateSize();
-            updateNavSize();
-        };
-        window.dispatchEvent(new Event("resize"));
-    }
-
-    maybeInitTour() {
-        // if (window.innerWidth > 425) {this.tour.start();}
-
-        if (window.innerWidth < breakPoints.short) {
-            this.calendar.close();
-            this.asistant.toggleAsistantBtn.style.display = "none";
-        } else {
-            // Asistant.setActive(true)
-            if (this.currentUser.newuser) {
-                this.generalTour.start();
-                this.controller.editUser({ newuser: false });
-            } else {
-                this.generalTour.exit();
-            }
-        }
-    }
-
-    showLoader() {
-        document.querySelector("[data-general-loader]").style.display = "block";
-    }
-    hideLoader() {
-        document.querySelector("[data-general-loader]").style.display = "none";
-    }
+  showLoader() {
+    document.querySelector("[data-general-loader]").style.display = "block";
+  }
+  hideLoader() {
+    document.querySelector("[data-general-loader]").style.display = "none";
+  }
 }

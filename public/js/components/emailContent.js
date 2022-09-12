@@ -49,6 +49,9 @@ export default class EmailContent {
                 title: this.email.subject,
                 start: this.eStart,
                 end: this.eEnd,
+                extendedProps: {
+                    description: this.email.message,
+                },
             });
         };
         this.dDateCancelBtn.onclick = () => {

@@ -78,12 +78,14 @@ main {
   background: #fff;
   color: #46a2fd;
 }
+
 .logo_container {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .Formulario {
   width: 200px;
 }
@@ -92,6 +94,7 @@ main {
   width: 175px;
   margin: 10px;
 }
+
 /*Formularios*/
 
 .contenedor__login-register {
@@ -126,6 +129,7 @@ main {
 .contenedor__login-register form .input-group {
   margin-top: 18px;
 }
+
 .contenedor__login-register form .input-group.error {
   margin-top: 10px;
 }
@@ -141,12 +145,18 @@ main {
   border-radius: 8px;
 }
 
+.input-group {
+  position: relative;
+}
+
 .input-group input:focus {
   box-shadow: 0 0 0 2px rgba(0, 128, 255);
 }
+
 .input-group.success input {
   box-shadow: 0 0 0 2px rgb(81, 204, 81);
 }
+
 .input-group.error input {
   box-shadow: 0 0 0 2px rgb(240, 19, 19);
 }
@@ -156,6 +166,7 @@ main {
   display: none;
   margin-left: 0.5rem;
 }
+
 .input-group .msg::before {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
@@ -166,16 +177,27 @@ main {
   display: block;
   color: rgb(240, 19, 19);
 }
+
 .input-group.error .msg::before {
   content: "\f06a";
 }
 
 .input-group.info .msg {
   display: block;
-  color: rgba(0, 128, 255);;
+  color: rgba(0, 128, 255);
+  ;
 }
+
 .input-group.info .msg::before {
   content: "\f059";
+}
+
+.password-icon {
+  position: absolute;
+  cursor: pointer;
+  float: right;
+  top: 15px;
+  right: 10px;
 }
 
 .contenedor__login-register form button {
@@ -209,6 +231,7 @@ main {
   display: block;
   padding: 80px 20px;
 }
+
 .formulario__register {
   display: none;
   padding: 40px 20px;

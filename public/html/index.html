@@ -1,643 +1,586 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- FullCalendar -->
-        <link rel="stylesheet" href="../libs/fullcalendar/main.min.css" />
-        <script src="../libs/fullcalendar/main.min.js"></script>
-        <!-- Toastify alertas -->
-        <link rel="stylesheet" href="../libs/toastify/toastify.min.css" />
-        <!-- <link
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- FullCalendar -->
+    <link rel="stylesheet" href="../libs/fullcalendar/main.min.css" />
+    <script src="../libs/fullcalendar/main.min.js"></script>
+    <!-- Toastify alertas -->
+    <link rel="stylesheet" href="../libs/toastify/toastify.min.css" />
+    <!-- <link
             rel="stylesheet"
             type="text/css"
             href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
         /> -->
-        <!-- FontAwasome -->
-        <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
-        <!-- Intro CSS -->
-        <link rel="stylesheet" href="../libs/intro/introjs.min.css" />
-        <!-- Styles Css -->
-        <link rel="stylesheet" href="../css/style.css" />
-        <link rel="stylesheet" href="../css/normalize.css" />
-        <!--Favicon-->
-        <link
-            rel="shortcut icon"
-            href="../img/favicon.ico"
-            type="image/x-icon"
-        />
+    <!-- FontAwasome -->
+    <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
+    <!-- Intro CSS -->
+    <link rel="stylesheet" href="../libs/intro/introjs.min.css" />
+    <!-- Styles Css -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <!--Favicon-->
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
 
-        <title>Imail</title>
-    </head>
+    <title>Imail</title>
+  </head>
 
-    <body>
-        <div class="loader-wrapper">
-            <img src="/img/Logo.png" alt="" class="loader-icon" />
-        </div>
-        <header class="header">
-            <!-- Barra superior -->
-            <div class="header__left">
-                <!-- btn izquierda -->
-                <button
-                    class="btn-icon header__menu"
-                    title="Expandir la barra lateral"
-                >
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <a href="/" class="header_index" draggable="false">
-                    <img
-                        src="/img/Logo.png"
-                        alt="Logo Principal"
-                        class="header__Logo"
-                        draggable="false"
-                    />
-                </a>
-                <span class="nav-text label-title" data-label-title></span>
-            </div>
-            <div class="header__right">
-                <li class="data__user header__li">
-                    <div
-                        class="general-loader lds-dual-ring"
-                        data-general-loader
-                    ></div>
-                    <span class="nav-text username" data-username></span>
-                    <div class="user-img-container" data-submenu-btn>
-                        <i class="fa-solid fa-circle-user user-img"></i>
-                        <!-- <img class="user-img" src="../img/userImage.jpg" alt="Foto de perfil"> -->
-                    </div>
-                    <ul class="submenu">
-                        <div class="config-group">
-                            <li class="config-text user" data-username></li>
-                            <li
-                                class="config-text"
-                                data-user-email-address
-                            ></li>
-                        </div>
-                        <div class="config-group">
-                            <!-- <li>
-                            <div class="config__element" data-edit-user-profile-btn>
-                                <i class="fa-solid fa-user-gear"></i>
-                                Editar perfil
-                            </div>
-                        </li> -->
-                            <li>
-                                <a href="/logout">
-                                    <div
-                                        class="config__element"
-                                        data-logout-btn
-                                    >
-                                        <i
-                                            class="fa-solid fa-arrow-right-from-bracket"
-                                        ></i>
-                                        <span>Cerrar Sesión</span>
-                                    </div>
-                                </a>
-                            </li>
-                        </div>
-                        <div class="config-group">
-                            <!-- <li>
-                            <div class="config__element">Cambiar de tema</div>
-                        </li> -->
-                            <li data-toggle-asistant>
-                                <div class="config__element">
-                                    <i class="fa-solid fa-robot"></i>
-                                    <span>Desactivar Asistente</span>
-                                </div>
-                            </li>
-                            <li class="bdark" data-toggle-dark-theme-btn>
-                                <div class="config__element">
-                                    <i class="fa-solid fa-moon"></i>
-                                    <span>Modo oscuro</span>
-                                </div>
-                            </li>
-                        </div>
-                        <li>
-                            <a href="../html/doc.html">
-                                <div class="config__element">
-                                    <i class="fa-solid fa-circle-info"></i>
-                                    <span>Documentación</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="config__element" data-support-btn>
-                                <i class="fa-solid fa-circle-question"></i>
-                                <span>Soporte</span>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </div>
-        </header>
-        <main class="main">
-            <nav class="nav">
-                <img class="wallpaper" draggable="false" src="../img/bg3.jpg" />
+  <body>
+    <div class="loader-wrapper">
+      <img src="/img/Logo.png" alt="" class="loader-icon" />
+    </div>
+    <header class="header">
+      <!-- Barra superior -->
+      <div class="header__left">
+        <!-- btn izquierda -->
+        <button class="btn-icon header__menu" title="Expandir la barra lateral">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="/" class="header_index" draggable="false">
+          <img
+            src="/img/Logo.png"
+            alt="Logo Principal"
+            class="header__Logo"
+            draggable="false"
+          />
+        </a>
+        <span class="nav-text label-title" data-label-title></span>
+      </div>
+      <div class="header__right">
+        <li class="data__user header__li">
+          <div class="general-loader lds-dual-ring" data-general-loader></div>
+          <span class="nav-text username" data-username></span>
+          <div class="user-img-container header" data-submenu-btn>
+            <!-- <i class="fa-solid fa-circle-user user-img"></i> -->
+            <img
+              class="user-img"
+              src="../img/userImg.svg"
+              draggable="false"
+              alt="Foto de perfil"
+              data-user-img
+            />
+          </div>
+          <ul class="submenu">
+            <li class="config-text user" data-username></li>
+            <li class="config-text" data-user-email-address></li>
+            <hr />
+            <li>
+              <div class="config__element" data-user-profile>
+                <i class="fa-solid fa-user"></i>
+                <span>Perfil de Usuario</span>
+              </div>
+            </li>
+            <li>
+              <a href="/logout">
+                <div class="config__element" data-logout-btn>
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <span>Cerrar Sesión</span>
+                </div>
+              </a>
+            </li>
+            <hr />
+            <li>
+              <div class="config__element" data-toggle-asistant>
+                <i class="fa-solid fa-robot"></i>
+                <span>Desactivar Asistente</span>
+              </div>
+            </li>
+            <li class="bdark">
+              <div class="config__element" data-toggle-dark-theme-btn>
+                <i class="fa-solid fa-moon"></i>
+                <span>Modo oscuro</span>
+              </div>
+            </li>
+            <hr />
+            <li>
+              <a href="../html/doc.html">
+                <div class="config__element">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span>Documentación</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <div class="config__element" data-support-btn>
+                <i class="fa-solid fa-circle-question"></i>
+                <span>Soporte</span>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </header>
+    <main class="main">
+      <nav class="nav">
+        <img class="wallpaper" draggable="false" src="../img/bg3.jpg" />
 
-                <!-- Menu lateral -->
-                <button
-                    class="btn__redactar"
-                    id="open"
-                    title="Redactar Nuevo Correo"
-                    data-new-draft-btn
-                >
-                    <i class="fa-solid fa-pen icon__redactar"></i>
-                    <span>Escribir</span>
-                </button>
-                <ul class="nav__content">
-                    <li class="nav__item" data-label label-id="INBOX">
-                        <i class="fa-solid fa-inbox icon"></i>
-                        <span class="nav_list">Bandeja de Entrada</span>
-                    </li>
-                    <li class="nav__item" data-label label-id="SENT">
-                        <i class="fa-solid fa-paper-plane icon"></i>
-                        <span class="nav_list">Enviados</span>
-                    </li>
-                    <!-- <li class="nav__item FAVORITE" id="nav__content3">
+        <!-- Menu lateral -->
+        <button
+          class="btn__redactar"
+          id="open"
+          title="Redactar Nuevo Correo"
+          data-new-draft-btn
+        >
+          <i class="fa-solid fa-pen icon__redactar"></i>
+          <span>Escribir</span>
+        </button>
+        <ul class="nav__content">
+          <li class="nav__item" data-label label-id="INBOX">
+            <i class="fa-solid fa-inbox icon"></i>
+            <span class="nav_list">Bandeja de Entrada</span>
+          </li>
+          <li class="nav__item" data-label label-id="SENT">
+            <i class="fa-solid fa-paper-plane icon"></i>
+            <span class="nav_list">Enviados</span>
+          </li>
+          <!-- <li class="nav__item FAVORITE" id="nav__content3">
                     <i class="fa-solid fa-star icon"></i>
                     <span class="nav_list">Favoritos</span>
                 </li> -->
-                    <li class="nav__item" data-label label-id="DRAFT">
-                        <i class="fa-solid fa-file icon"></i>
-                        <span class="nav_list">Borradores</span>
-                    </li>
-                    <li class="nav__item" data-label label-id="ARCHIVE">
-                        <i class="fa-solid fa-archive icon"></i>
-                        <span class="nav_list">Archivados</span>
-                    </li>
-                    <li class="nav__item" data-label label-id="DELETED">
-                        <i class="fa-solid fa-trash-alt icon"></i>
-                        <span class="nav_list">Papelera</span>
-                    </li>
-                </ul>
-            </nav>
+          <li class="nav__item" data-label label-id="DRAFT">
+            <i class="fa-solid fa-file icon"></i>
+            <span class="nav_list">Borradores</span>
+          </li>
+          <li class="nav__item" data-label label-id="ARCHIVE">
+            <i class="fa-solid fa-archive icon"></i>
+            <span class="nav_list">Archivados</span>
+          </li>
+          <li class="nav__item" data-label label-id="DELETED">
+            <i class="fa-solid fa-trash-alt icon"></i>
+            <span class="nav_list">Papelera</span>
+          </li>
+        </ul>
+      </nav>
 
-            <section class="emails">
-                <!-- CUADRO DE ALERTA -->
-                <div class="email-alert-container" data-email-alert-container>
-                    <div class="email-alert-content" data-email-alert-content>
-                        <span data-email-alert-text>alerta</span>
-                    </div>
+      <section class="emails">
+        <!-- CUADRO DE ALERTA -->
+        <div class="email-alert-container" data-email-alert-container>
+          <div class="email-alert-content" data-email-alert-content>
+            <span data-email-alert-text>alerta</span>
+          </div>
+        </div>
+
+        <!-- FILA DE CORREOS -->
+        <div class="emails-rows" data-emails-rows></div>
+
+        <!-- CALENDARIO -->
+        <div class="calendar-container">
+          <div
+            class="calendar-btn btn-icon"
+            title="Mostrar y Esconder calendrio"
+            data-calendar-handle
+          >
+            <i class="fa-solid fa-angle-up open-calendar arrow"></i>
+            <i class="fa-solid fa-angle-down close-calendar arrow"></i>
+            <i class="fa-solid fa-calendar"></i>
+          </div>
+          <div
+            class="calendar-handle"
+            title="Mostrar y Esconder calendrio"
+            data-calendar-handle
+          >
+            <i class="fa-solid fa-angle-up open-calendar"></i>
+            <i class="fa-solid fa-angle-down close-calendar"></i>
+            <span class="calendar-handle-text">Calendario</span>
+          </div>
+
+          <div class="calendar-content">
+            <div class="calendar-header">
+              <div class="chunk">
+                <span data-calendar-title></span>
+              </div>
+              <div class="chunk"></div>
+              <div class="chunk">
+                <button
+                  class="btn-icon"
+                  title="Añadir nuevo Evento"
+                  data-new-calendar-event-btn
+                >
+                  <i class="fa-solid fa-calendar-plus"></i>
+                </button>
+                <button
+                  class="btn-icon"
+                  title="Mostrar la semana actual"
+                  data-calendar-today-btn
+                >
+                  <i class="fa-solid fa-calendar-day"></i>
+                </button>
+                <div class="btn-group">
+                  <button
+                    class="btn-icon"
+                    title="Mostrar la semana anterior"
+                    data-calendar-prev-btn
+                  >
+                    <i class="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <button
+                    class="btn-icon"
+                    title="Mostrar la semana siguiente"
+                    data-calendar-next-btn
+                  >
+                    <i class="fa-solid fa-chevron-right"></i>
+                  </button>
                 </div>
-
-                <!-- FILA DE CORREOS -->
-                <div class="emails-rows" data-emails-rows></div>
-
-                <!-- CALENDARIO -->
-                <div class="calendar-container">
-                    <div
-                        class="calendar-btn btn-icon"
-                        title="Mostrar y Esconder calendrio"
-                        data-calendar-handle
-                    >
-                        <i class="fa-solid fa-angle-up open-calendar arrow"></i>
-                        <i
-                            class="fa-solid fa-angle-down close-calendar arrow"
-                        ></i>
-                        <i class="fa-solid fa-calendar"></i>
-                    </div>
-                    <div
-                        class="calendar-handle"
-                        title="Mostrar y Esconder calendrio"
-                        data-calendar-handle
-                    >
-                        <i class="fa-solid fa-angle-up open-calendar"></i>
-                        <i class="fa-solid fa-angle-down close-calendar"></i>
-                        <span class="calendar-handle-text">Calendario</span>
-                    </div>
-
-                    <div class="calendar-content">
-                        <div class="calendar-header">
-                            <div class="chunk">
-                                <span data-calendar-title></span>
-                            </div>
-                            <div class="chunk"></div>
-                            <div class="chunk">
-                                <button
-                                    class="btn-icon"
-                                    title="Añadir nuevo Evento"
-                                    data-new-calendar-event-btn
-                                >
-                                    <i class="fa-solid fa-calendar-plus"></i>
-                                </button>
-                                <button
-                                    class="btn-icon"
-                                    title="Mostrar la semana actual"
-                                    data-calendar-today-btn
-                                >
-                                    <i class="fa-solid fa-calendar-day"></i>
-                                </button>
-                                <div class="btn-group">
-                                    <button
-                                        class="btn-icon"
-                                        title="Mostrar la semana anterior"
-                                        data-calendar-prev-btn
-                                    >
-                                        <i class="fa-solid fa-chevron-left"></i>
-                                    </button>
-                                    <button
-                                        class="btn-icon"
-                                        title="Mostrar la semana siguiente"
-                                        data-calendar-next-btn
-                                    >
-                                        <i
-                                            class="fa-solid fa-chevron-right"
-                                        ></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="calendar" class="calendar"></div>
-                    </div>
-                </div>
-
-                <!-- CONTENIDO DEL EMAIL -->
-                <div class="email-content" data-email-content>
-                    <div class="buttons">
-                        <div class="btn-group">
-                            <button
-                                class="btn-icon close-email"
-                                title="Cerrar Correo"
-                                data-close-email-btn
-                            >
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </button>
-                            <button
-                                class="btn-icon"
-                                title="Añadir nuevo Evento"
-                                data-new-calendar-event-btn
-                            >
-                                <i class="fa-solid fa-calendar-plus"></i>
-                            </button>
-                        </div>
-                        <div class="btn-group">
-                            <button
-                                class="btn-icon"
-                                title="Responder Correo"
-                                data-reply-email-btn
-                            >
-                                <i class="fa-solid fa-reply"></i>
-                            </button>
-                            <button
-                                class="btn-icon"
-                                title="Archivar Correo"
-                                for-label="ARCHIVE"
-                            >
-                                <i class="fa-solid fa-archive"></i>
-                            </button>
-                            <button
-                                class="btn-icon"
-                                title="Sacar de la Papelera"
-                                for-label="INBOX"
-                                data-untrash-email-btn
-                            >
-                                <i class="fa-solid fa-trash-arrow-up"></i>
-                            </button>
-                            <button
-                                class="btn-icon"
-                                title="Enviar a la Papelera"
-                                for-label="DELETED"
-                                data-trash-email-btn
-                            >
-                                <i class="fa-solid fa-trash-alt"></i>
-                            </button>
-                            <button
-                                class="btn-icon"
-                                title="Eliminar Correo Permanentemente"
-                                data-delete-email-btn
-                            >
-                                <i class="fa-solid fa-square-xmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="email-payload">
-                        <div class="email-header">
-                            <div class="subject" data-email-subject></div>
-                            <div class="from-user-info">
-                                <i class="fa-solid fa-circle-user"></i>
-                                <div class="address-date">
-                                    <span data-email-from-user-info></span>
-                                    <span data-email-date></span>
-                                </div>
-                            </div>
-                            <div
-                                class="to-user-info"
-                                data-email-to-user-info
-                            ></div>
-                            <div
-                                class="detected-date-container"
-                                data-d-date-container
-                            >
-                                <div class="detected-date-info">
-                                    <span data-d-date-text></span>
-                                    <div class="btn-group">
-                                        <button
-                                            class="btn-icon"
-                                            data-d-date-confirm
-                                        >
-                                            <i class="fa-solid fa-check"></i>
-                                        </button>
-                                        <button
-                                            class="btn-icon"
-                                            data-d-date-cancel
-                                        >
-                                            <i class="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="email-body">
-                            <p data-email-message></p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- MODAL DE BORRADOR -->
-            <dialog class="big-modal draft-modal" data-draft-modal>
-                <div class="dialog-content">
-                    <div class="dialog-header">
-                        <span>Mensaje nuevo</span>
-                        <div class="btn-group">
-                            <button
-                                class="btn-icon"
-                                title="Eliminar Borrador"
-                                data-delete-draft-btn
-                            >
-                                <i class="fa-solid fa-trash-alt"></i>
-                            </button>
-                            <button class="btn-icon" data-close-draft-modal-btn>
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <form class="dialog-form" method="dialog" data-draft-form>
-                        <input
-                            class="dialog-input"
-                            name="email"
-                            type="text"
-                            placeholder="Correo electronico del destinatario"
-                            required
-                            autofocus
-                            data-draft-to-user-input
-                        />
-                        <input
-                            class="dialog-input"
-                            type="text"
-                            placeholder="Agregar asunto"
-                            data-draft-subject-input
-                        />
-                        <textarea
-                            class="dialog-input"
-                            placeholder="Mensaje"
-                            data-draft-message-input
-                        ></textarea>
-                        <button
-                            type="submit"
-                            class="dialog-btn confirm"
-                            data-send-email-btn
-                        >
-                            Enviar
-                        </button>
-                    </form>
-                </div>
-            </dialog>
-
-            <!-- MODAL DE EVENTOS DE CALENDARIO -->
-            <dialog class="big-modal" data-event-dialog>
-                <div class="dialog-content">
-                    <div class="dialog-header">
-                        <span data-event-dialog-title>Evento Nuevo</span>
-                        <button class="btn-icon" data-close-event-dialog-btn>
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                    <form class="dialog-form" method="dialog" data-event-form>
-                        <input
-                            class="dialog-input"
-                            type="text"
-                            placeholder="Titulo"
-                            required
-                            autofocus
-                            data-event-title-input
-                        />
-                        <label class="dialog-input">
-                            Fecha de Inicio:
-                            <input
-                                type="datetime-local"
-                                placeholder="Fecha de Inicio"
-                                required
-                                data-event-start-input
-                            />
-                        </label>
-                        <label class="dialog-input">
-                            Fecha de Fin:
-                            <input
-                                type="datetime-local"
-                                placeholder="Fecha de Fin"
-                                data-event-end-input
-                            />
-                        </label>
-                        <textarea
-                            class="dialog-input"
-                            placeholder="Descripción"
-                            data-event-description-input
-                        ></textarea>
-                        <button
-                            type="submit"
-                            class="dialog-btn confirm"
-                            data-save-event-btn
-                        >
-                            Guardar
-                        </button>
-                    </form>
-                </div>
-            </dialog>
-
-            <!-- MODAL PARA VER DESCRIPCION DE EVENTOS -->
-            <dialog class="mini-modal" data-preview-event-modal>
-                <div class="dialog-header">
-                    <span>Evento</span>
-                    <div class="btn-group">
-                        <button
-                            class="btn-icon"
-                            title="Editar Evento"
-                            data-edit-event-btn
-                        >
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button
-                            class="btn-icon"
-                            title="Eliminar Evento"
-                            data-delete-event-btn
-                        >
-                            <i class="fa-solid fa-trash-alt"></i>
-                        </button>
-                        <button
-                            class="btn-icon"
-                            data-close-preview-event-modal-btn
-                        >
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="dialog-content">
-                    <div class="dialog-field event-title">
-                        <span data-event-title-field></span>
-                    </div>
-                    <div class="dialog-field">
-                        <strong>Inicio:</strong>
-                        <span data-event-start-field></span>
-                    </div>
-                    <div class="dialog-field">
-                        <strong>Fin:</strong>
-                        <span data-event-end-field></span>
-                    </div>
-                    <div class="dialog-field event-description">
-                        <span data-event-description-field></span>
-                    </div>
-                </div>
-            </dialog>
-
-            <!-- MODAL DE CONFIRMACION -->
-            <dialog class="medium-modal" data-confirm-modal>
-                <div class="dialog-content">
-                    <div class="dialog-header">
-                        <span>Cuadro de Confirmación</span>
-                        <button class="btn-icon" data-close-confirm-modal-btn>
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                    <form class="dialog-form" method="dialog" data-modal-from>
-                        <div class="dialog-text" data-dialog-text>
-                            Esta seguro ?
-                        </div>
-                        <div class="btn-group">
-                            <button
-                                type="submit"
-                                class="dialog-btn confirm"
-                                data-confirm-btn
-                            >
-                                Confirmar
-                            </button>
-                            <button
-                                type="submit"
-                                class="dialog-btn cancel"
-                                data-cancel-btn
-                            >
-                                Cancelar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </dialog>
-
-            <!-- MODAL DE PERFIL DE USUARIO -->
-            <!-- <dialog class="big-modal" data-user-profile-modal>
-            <div class="dialog-content">
-                <div class="dialog-header">
-                    <span>Perfil de Usuario</span>
-                    <button class="btn-icon" data-close-user-profile-modal-btn>
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <form class="dialog-form" method="dialog" data-modal-form>
-                    <label>Imagen
-                        <input id="file" type="file" accept="image/*" name="a">
-                    </label>
-                    <div class="btn-group">
-                        <button type="submit" class="dialog-btn confirm" data-confirm-btn>Confirmar</button>
-                        <button type="submit" class="dialog-btn cancel" data-cancel-btn>Cancelar</button>
-                    </div>
-                </form>
+              </div>
             </div>
-        </dialog> -->
-            <dialog class="big-modal support-modal" data-support-modal>
-                <div class="dialog-content">
-                    <div class="dialog-header">
-                        <span>Soporte</span>
-                        <button class="btn-icon" data-close-modal-btn>
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                    <div class="dialog-body">
-                        <h3>Grupo #6</h3>
-                        <ul class="support-list">
-                            <li>Ibarra Zambrano Steven Alberto</li>
-                            <li>Vélez Solórzano Stevan Leonardo</li>
-                            <li>Velez Celorio Samuel</li>
-                            <li>Vivas Castro Carlos Willian</li>
-                        </ul>
-                    </div>
-                </div>
-            </dialog>
+            <div id="calendar" class="calendar"></div>
+          </div>
+        </div>
 
-            <img src="../img/Robot_Final(Saludo).gif" class="asistente" />
-
-            <dialog class="mini-modal asistant-modal" data-asistant-modal>
-                <div class="dialog-header">
-                    <span>Asistente Jarvis</span>
-                    <div class="btn-group">
-                        <button class="btn-icon" data-close-asistant-modal-btn>
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
+        <!-- CONTENIDO DEL EMAIL -->
+        <div class="email-content" data-email-content>
+          <div class="buttons">
+            <div class="btn-group">
+              <button
+                class="btn-icon close-email"
+                title="Cerrar Correo"
+                data-close-email-btn
+              >
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+              <button
+                class="btn-icon"
+                title="Añadir nuevo Evento"
+                data-new-calendar-event-btn
+              >
+                <i class="fa-solid fa-calendar-plus"></i>
+              </button>
+            </div>
+            <div class="btn-group">
+              <button
+                class="btn-icon"
+                title="Responder Correo"
+                data-reply-email-btn
+              >
+                <i class="fa-solid fa-reply"></i>
+              </button>
+              <button
+                class="btn-icon"
+                title="Archivar Correo"
+                for-label="ARCHIVE"
+              >
+                <i class="fa-solid fa-archive"></i>
+              </button>
+              <button
+                class="btn-icon"
+                title="Sacar de la Papelera"
+                for-label="INBOX"
+                data-untrash-email-btn
+              >
+                <i class="fa-solid fa-trash-arrow-up"></i>
+              </button>
+              <button
+                class="btn-icon"
+                title="Enviar a la Papelera"
+                for-label="DELETED"
+                data-trash-email-btn
+              >
+                <i class="fa-solid fa-trash-alt"></i>
+              </button>
+              <button
+                class="btn-icon"
+                title="Eliminar Correo Permanentemente"
+                data-delete-email-btn
+              >
+                <i class="fa-solid fa-square-xmark"></i>
+              </button>
+            </div>
+          </div>
+          <div class="email-payload">
+            <div class="email-header">
+              <div class="subject" data-email-subject></div>
+              <div class="from-user-info">
+                <i class="fa-solid fa-circle-user"></i>
+                <div class="address-date">
+                  <span data-email-from-user-info></span>
+                  <span data-email-date></span>
                 </div>
-                <div class="dialog-content">
-                    <h4 data-asistant-modal-title>¿En qué puedo ayudarte?</h4>
-                    <ul class="asistant-list help-list" data-main-asistant-list>
-                        <li data-repeat-tour-btn>Repetir Tour</li>
-                        <li data-send-email-help-btn>
-                            ¿Cómo enviar un correo?
-                        </li>
-                        <li data-create-event-help-btn>
-                            ¿Cómo agendar un evento?
-                        </li>
-                        <li data-shortcuts-help-btn>Atajos de teclado</li>
-                    </ul>
-                    <ul class="asistant-list shortcuts" data-shortcuts-list>
-                        <li><strong>alt+shift+c: </strong>Enviar un correo.</li>
-                        <li>
-                            <strong>alt+shift+e: </strong>Crear un evento en el
-                            calendario.
-                        </li>
-                        <li>
-                            <strong>alt+shift+r: </strong>Responder un correo
-                            recibido.
-                        </li>
-                    </ul>
+              </div>
+              <div class="to-user-info" data-email-to-user-info></div>
+              <div class="detected-date-container" data-d-date-container>
+                <div class="detected-date-info">
+                  <span data-d-date-text></span>
+                  <div class="btn-group">
+                    <button class="btn-icon" data-d-date-confirm>
+                      <i class="fa-solid fa-check"></i>
+                    </button>
+                    <button class="btn-icon" data-d-date-cancel>
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
                 </div>
-            </dialog>
-        </main>
-        <!-- Loader Controller-->
-        <script>
-            window.onload = () => {
-                const loader = document.querySelector(".loader-wrapper");
-                // loader.style.opacity = 0;
-                const fadeEffect = setInterval(() => {
-                    if (!loader.style.opacity) {
-                        loader.style.opacity = 1;
-                    }
-                    if (loader.style.opacity > 0) {
-                        loader.style.opacity -= 0.1;
-                    } else {
-                        clearInterval(fadeEffect);
-                        loader.style.display = "none";
-                    }
-                }, 10);
-            };
-        </script>
+              </div>
+            </div>
+            <div class="email-body">
+              <p data-email-message></p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <script src="../libs/toastify/toastify-js.js"></script>
-        <!-- <script
+      <!-- MODAL DE BORRADOR -->
+      <dialog class="big-modal draft-modal" data-draft-modal>
+        <div class="dialog-content">
+          <div class="dialog-header">
+            <span>Mensaje nuevo</span>
+            <div class="btn-group">
+              <button
+                class="btn-icon"
+                title="Eliminar Borrador"
+                data-delete-draft-btn
+              >
+                <i class="fa-solid fa-trash-alt"></i>
+              </button>
+              <button class="btn-icon" data-close-draft-modal-btn>
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+          <form class="dialog-form" method="dialog" data-draft-form>
+            <input
+              class="dialog-input"
+              name="email"
+              type="text"
+              placeholder="Correo electronico del destinatario"
+              required
+              autofocus
+              data-draft-to-user-input
+            />
+            <input
+              class="dialog-input"
+              type="text"
+              placeholder="Agregar asunto"
+              data-draft-subject-input
+            />
+            <textarea
+              class="dialog-input"
+              placeholder="Mensaje"
+              data-draft-message-input
+            ></textarea>
+            <button
+              type="submit"
+              class="dialog-btn confirm"
+              data-send-email-btn
+            >
+              Enviar
+            </button>
+          </form>
+        </div>
+      </dialog>
+
+      <!-- MODAL DE EVENTOS DE CALENDARIO -->
+      <dialog class="big-modal" data-event-dialog>
+        <div class="dialog-content">
+          <div class="dialog-header">
+            <span data-event-dialog-title>Evento Nuevo</span>
+            <button class="btn-icon" data-close-event-dialog-btn>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <form class="dialog-form" method="dialog" data-event-form>
+            <input
+              class="dialog-input"
+              type="text"
+              placeholder="Titulo"
+              required
+              autofocus
+              data-event-title-input
+            />
+            <label class="dialog-input">
+              Fecha de Inicio:
+              <input
+                type="datetime-local"
+                placeholder="Fecha de Inicio"
+                required
+                data-event-start-input
+              />
+            </label>
+            <label class="dialog-input">
+              Fecha de Fin:
+              <input
+                type="datetime-local"
+                placeholder="Fecha de Fin"
+                data-event-end-input
+              />
+            </label>
+            <textarea
+              class="dialog-input"
+              placeholder="Descripción"
+              data-event-description-input
+            ></textarea>
+            <button
+              type="submit"
+              class="dialog-btn confirm"
+              data-save-event-btn
+            >
+              Guardar
+            </button>
+          </form>
+        </div>
+      </dialog>
+
+      <!-- MODAL PARA VER DESCRIPCION DE EVENTOS -->
+      <dialog class="mini-modal" data-preview-event-modal>
+        <div class="dialog-header">
+          <span>Evento</span>
+          <div class="btn-group">
+            <button class="btn-icon" title="Editar Evento" data-edit-event-btn>
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button
+              class="btn-icon"
+              title="Eliminar Evento"
+              data-delete-event-btn
+            >
+              <i class="fa-solid fa-trash-alt"></i>
+            </button>
+            <button class="btn-icon" data-close-preview-event-modal-btn>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+        <div class="dialog-content">
+          <div class="dialog-field event-title">
+            <span data-event-title-field></span>
+          </div>
+          <div class="dialog-field">
+            <strong>Inicio:</strong>
+            <span data-event-start-field></span>
+          </div>
+          <div class="dialog-field">
+            <strong>Fin:</strong>
+            <span data-event-end-field></span>
+          </div>
+          <div class="dialog-field event-description">
+            <span data-event-description-field></span>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- MODAL DE CONFIRMACION -->
+      <dialog class="medium-modal" data-confirm-modal>
+        <div class="dialog-content">
+          <div class="dialog-header">
+            <span>Cuadro de Confirmación</span>
+            <button class="btn-icon" data-close-confirm-modal-btn>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <form class="dialog-form" method="dialog" data-modal-from>
+            <div class="dialog-text" data-dialog-text>Esta seguro ?</div>
+            <div class="btn-group">
+              <button type="submit" class="dialog-btn confirm" data-confirm-btn>
+                Confirmar
+              </button>
+              <button type="submit" class="dialog-btn cancel" data-cancel-btn>
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+
+      <!-- MODAL DE PERFIL DE USUARIO -->
+      <dialog class="big-modal user-profile-modal" data-user-profile-modal>
+        <div class="dialog-content">
+          <div class="dialog-header">
+            <span>Perfil de Usuario</span>
+            <button class="btn-icon" data-close-modal-btn>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <form class="dialog-form" method="dialog" data-modal-form>
+            <label class="user-img-container input">
+              <img
+                class="user-img"
+                src="../img/userImg.svg"
+                alt="Imagen de Usuario"
+              />
+              <input name="userImg" type="file" accept="image/*" />
+            </label>
+          </form>
+        </div>
+      </dialog>
+
+      <dialog class="big-modal support-modal" data-support-modal>
+        <div class="dialog-content">
+          <div class="dialog-header">
+            <span>Soporte</span>
+            <button class="btn-icon" data-close-modal-btn>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="dialog-body">
+            <h3>Grupo #6</h3>
+            <ul class="support-list">
+              <li>Ibarra Zambrano Steven Alberto</li>
+              <li>Vélez Solórzano Stevan Leonardo</li>
+              <li>Velez Celorio Samuel</li>
+              <li>Vivas Castro Carlos Willian</li>
+            </ul>
+          </div>
+        </div>
+      </dialog>
+
+      <img src="../img/Robot_Final(Saludo).gif" class="asistente" />
+
+      <dialog class="mini-modal asistant-modal" data-asistant-modal>
+        <div class="dialog-header">
+          <span>Asistente Jarvis</span>
+          <div class="btn-group">
+            <button class="btn-icon" data-close-asistant-modal-btn>
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+        <div class="dialog-content">
+          <h4 data-asistant-modal-title>¿En qué puedo ayudarte?</h4>
+          <ul class="asistant-list help-list" data-main-asistant-list>
+            <li data-repeat-tour-btn>Repetir Tour</li>
+            <li data-send-email-help-btn>¿Cómo enviar un correo?</li>
+            <li data-create-event-help-btn>¿Cómo agendar un evento?</li>
+            <li data-shortcuts-help-btn>Atajos de teclado</li>
+          </ul>
+          <ul class="asistant-list shortcuts" data-shortcuts-list>
+            <li><strong>alt+shift+c: </strong>Enviar un correo.</li>
+            <li>
+              <strong>alt+shift+e: </strong>Crear un evento en el calendario.
+            </li>
+            <li><strong>alt+shift+r: </strong>Responder un correo recibido.</li>
+          </ul>
+        </div>
+      </dialog>
+    </main>
+    <!-- Loader Controller-->
+    <script>
+      window.onload = () => {
+        const loader = document.querySelector(".loader-wrapper");
+        // loader.style.opacity = 0;
+        const fadeEffect = setInterval(() => {
+          if (!loader.style.opacity) {
+            loader.style.opacity = 1;
+          }
+          if (loader.style.opacity > 0) {
+            loader.style.opacity -= 0.1;
+          } else {
+            clearInterval(fadeEffect);
+            loader.style.display = "none";
+          }
+        }, 10);
+      };
+    </script>
+
+    <script src="../libs/toastify/toastify-js.js"></script>
+    <!-- <script
             type="text/javascript"
             src="https://cdn.jsdelivr.net/npm/toastify-js"
         ></script> -->
-        <script src="../libs/intro/intro.min.js"></script>
-        <script src="../libs/hotkeys/hotkeys.min.js"></script>
+    <script src="../libs/intro/intro.min.js"></script>
+    <script src="../libs/hotkeys/hotkeys.min.js"></script>
 
-        <script src="../js/main.js" type="module" defer></script>
-        <script src="../js/index.js" type="module" defer></script>
-    </body>
+    <script src="../js/main.js" type="module" defer></script>
+    <script src="../js/index.js" type="module" defer></script>
+  </body>
 </html>

@@ -14,6 +14,15 @@ const passwordSingupInput = document.querySelector(
     "[data-password-singup-input]"
 );
 
+const togglePassword = document.querySelector("[data-toggle-password]");
+togglePassword.onclick = () => {
+    const type =
+        passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    // toggle the eye slash icon
+    togglePassword.classList.toggle("fa-eye-slash");
+};
+
 loginForm.onsubmit = (e) => {
     e.preventDefault();
 
@@ -50,8 +59,27 @@ singupForm.onsubmit = (e) => {
 
     let error = false;
 
+    const name = nameSingupInput.value.trim();
+    const lastname = lastnameSingupInput.value.trim();
     const email = emailSingupInput.value.trim();
     const pass = passwordSingupInput.value.trim();
+
+    if (/\d/g.test(name)) {
+        setErrorFor(nameSingupInput, "No se aceptan números en el nombre");
+        error = true;
+    } else {
+        setSuccessFor(nameSingupInput);
+    }
+
+    if (/\d/g.test(lastname)) {
+        setErrorFor(
+            lastnameSingupInput,
+            "No se aceptan números en el apellido"
+        );
+        error = true;
+    } else {
+        setSuccessFor(lastnameSingupInput);
+    }
 
     // if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)) {
     if (!/@imail\./g.test(email)) {
@@ -92,8 +120,8 @@ singupForm.onsubmit = (e) => {
 
     const data = {
         type: "singup",
-        name: nameSingupInput.value.trim(),
-        lastname: lastnameSingupInput.value.trim(),
+        name: name,
+        lastname: lastname,
         email_address: email,
         password: pass,
     };
@@ -179,7 +207,7 @@ function generateEmail() {
 
     const name = nameSingupInput.value.toLowerCase();
     const lastname = lastnameSingupInput.value.toLowerCase();
-    const number = new Date().getTime().toString().slice(-3, -1)
+    const number = new Date().getTime().toString().slice(-3, -1);
 
     return `${name.slice(0, 4)}${lastname.slice(0, 2)}${number}@imail.com`;
 }
