@@ -52,26 +52,26 @@
         <li class="data__user header__li">
           <div class="general-loader lds-dual-ring" data-general-loader></div>
           <span class="nav-text username" data-username></span>
-          <div class="user-img-container header" data-submenu-btn>
+          <div class="user-img-container" data-submenu-btn>
             <!-- <i class="fa-solid fa-circle-user user-img"></i> -->
             <img
               class="user-img"
               src="../img/userImg.svg"
               draggable="false"
               alt="Foto de perfil"
-              data-user-img
+              data-current-user-img
             />
           </div>
           <ul class="submenu">
             <li class="config-text user" data-username></li>
             <li class="config-text" data-user-email-address></li>
             <hr />
-            <li>
+            <!-- <li>
               <div class="config__element" data-user-profile>
                 <i class="fa-solid fa-user"></i>
                 <span>Perfil de Usuario</span>
               </div>
-            </li>
+            </li> -->
             <li>
               <a href="/logout">
                 <div class="config__element" data-logout-btn>
@@ -292,7 +292,13 @@
             <div class="email-header">
               <div class="subject" data-email-subject></div>
               <div class="from-user-info">
-                <i class="fa-solid fa-circle-user"></i>
+                <div class="user-img-container">
+                  <img
+                    src="../img/userImg.svg"
+                    class="user-img"
+                    data-email-user-img
+                  />
+                </div>
                 <div class="address-date">
                   <span data-email-from-user-info></span>
                   <span data-email-date></span>
@@ -497,6 +503,7 @@
                 class="user-img"
                 src="../img/userImg.svg"
                 alt="Imagen de Usuario"
+                data-current-user-img
               />
               <input name="userImg" type="file" accept="image/*" />
             </label>

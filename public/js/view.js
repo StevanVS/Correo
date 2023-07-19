@@ -40,18 +40,14 @@ export default class View {
 
     this.emailsContainer = document.querySelector("[data-emails-rows]");
 
-    // document.querySelector('[data-edit-user-profile-btn]').onclick = () => {
-    //     this.userProfileModal.showModal();
-    // }
-
     this.emailContent = new EmailContent();
     this.#setEmailContentEventListeners();
 
     this.draftModal = new DraftModal();
     this.#setDraftEventListeners();
 
-    this.userProfileModal = new UserProfileModal();
-    this.#setUserProfileEventListeners();
+    // this.userProfileModal = new UserProfileModal();
+    // this.#setUserProfileEventListeners();
 
     this.supportModal = new SupportModal();
 
@@ -101,8 +97,9 @@ export default class View {
       item.textContent = this.currentUser.email_address;
     });
 
-    document.querySelectorAll(".user-img").forEach((item) => {
-      item.style.content = `url(${this.currentUser.image_profile})`;
+    document.querySelectorAll("[data-current-user-img]").forEach((item) => {
+      if (this.currentUser.image_profile != null)
+        item.style.content = `url(${this.currentUser.image_profile})`;
     });
 
     this.historyId = await this.controller.getHistoryId();
@@ -227,8 +224,7 @@ export default class View {
 
     row.innerHTML = `
             <div class="block"></div>
-            <div class="user-icon-field">
-                <i class="fa-solid fa-circle-user"></i>
+            <div class="user-icon-field user-img-container">
             </div>
             <div class="user-field text">
                 <span class="draft-indicator">[Borrador]</span>
@@ -237,6 +233,12 @@ export default class View {
             <div class="message-field text"></div>
             <div class="date-field"></div>
         `;
+
+    // Imagen de usuario
+    const iconField = row.children[1];
+    const img = document.createElement("img");
+    img.className = "user-img";
+    iconField.appendChild(img);
 
     // Campo del usuario
     const userField = row.children[2];
@@ -248,10 +250,14 @@ export default class View {
         ? email.to_user
         : email.from_user;
 
-    if (user)
+    if (user) {
       userField.innerHTML +=
         email.label.id !== "DRAFT" ? `${user.name} ${user.lastname}` : user;
-    else userField.innerHTML += "(Sin Destinatario)";
+      if (user.image_profile != null)
+        img.style.content = `url(${user.image_profile})`;
+    } else {
+      userField.innerHTML += "(Sin Destinatario)";
+    }
 
     // Campo del asunto
     const subjectField = row.children[3];

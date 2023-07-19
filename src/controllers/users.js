@@ -1,7 +1,6 @@
 const { query } = require("../connection");
 const { httpError } = require("../helpers/handleError");
 const { getUserId } = require("../helpers/getUserId");
-const { toBase64 } = require("../helpers/bufferDecoder");
 
 function getUsers(req, res) {
   query("SELECT * FROM users", (err, rows) => {
@@ -17,7 +16,8 @@ async function getUser(req, res) {
       req.params.userId
     );
     const user = await result[0];
-    user.image_profile = toBase64(user.image_profile);
+    if (Buffer.isBuffer(user.image_profile))
+      user.image_profile = user.image_profile.toString("binary");
   } catch (err) {
     httpError(res, err);
   }
@@ -66,8 +66,8 @@ async function getCurrentUser(req, res) {
       req.session.userId
     );
     const user = await result[0];
-
-    user.image_profile = toBase64(user.image_profile);
+    if (Buffer.isBuffer(user.image_profile))
+      user.image_profile = user.image_profile.toString("binary");
 
     res.send(user);
   } catch (err) {
@@ -81,7 +81,8 @@ async function getUserByEmail(req, res) {
     const sql = "SELECT * FROM users WHERE email_address = ?";
     const result = await query(sql, req.params.email);
     const user = await result[0];
-    user.image_profile = toBase64(user.image_profile);
+    if (Buffer.isBuffer(user.image_profile))
+      user.image_profile = user.image_profile.toString("binary");
 
     res.send(user);
   } catch (err) {

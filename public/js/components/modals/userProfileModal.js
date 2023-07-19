@@ -1,5 +1,5 @@
 import { closeSubMenu } from "../../main.js";
-import Modal from "./Modal.js";
+import Modal from "./modal.js";
 
 export default class UserProfileModal extends Modal {
   constructor() {
@@ -13,6 +13,7 @@ export default class UserProfileModal extends Modal {
       closeSubMenu();
       this.showModal();
     };
+    // this.showModal();
   }
 
   onChangeImage(callback) {

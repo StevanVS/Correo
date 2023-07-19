@@ -365,24 +365,27 @@ hr {
 }
 
 .user-img-container {
-  --size: 2.3rem;
+  --size: 1rem;
   cursor: pointer;
   position: relative;
   height: var(--size);
-  width: var(--size);
+  min-width: var(--size);
   overflow: hidden;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
 }
 
 img.user-img {
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
 
   content: var(--user-img-url);
   background-color: var(--border-clr);
 }
 
-.user-img-container.header {
+.header .user-img-container {
+  --size: 2.3rem;
   margin-left: 0.8rem;
   margin-right: 1rem;
 }
@@ -603,7 +606,6 @@ img.user-img {
 .user-icon-field {
   margin-left: 0.2rem;
   font-size: 2rem;
-  height: min-content;
 
   grid-row: 1 / 4;
 }
@@ -625,6 +627,12 @@ img.user-img {
   white-space: nowrap;
 
   grid-row: -1 / 4;
+}
+
+
+.user-img-container.user-icon-field {
+  --size: 2rem;
+  width: var(--size);
 }
 
 /* ------------ CALENDARIO ----------------------------- */
@@ -790,8 +798,8 @@ img.user-img {
   margin-bottom: 0.7rem;
 }
 
-.email-header .from-user-info i {
-  font-size: 2.6rem;
+.email-header .from-user-info .user-img-container {
+  --size: 2.6rem;
   margin-right: 0.7rem;
 }
 
@@ -1167,6 +1175,28 @@ input[type="datetime-local"] {
   margin: 0 auto;
 }
 
+.user-img-container.input::after {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 1.8rem;
+  content: '\f304';
+  color: #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  background-color: #0005;
+  display: none;
+}
+
+.user-img-container.input:hover::after {
+  display: grid;
+}
+
 .user-img-container.input input[type="file"] {
   width: 0.1px;
   height: 0.1px;
@@ -1262,6 +1292,10 @@ input[type="datetime-local"] {
   .user-icon-field {
     font-size: 1.2rem;
     grid-area: auto;
+  }
+
+  .user-img-container.user-icon-field {
+    --size: 1.2rem;
   }
 
   .user-field,
