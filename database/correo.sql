@@ -1,7 +1,3 @@
-drop database if exists correo;
-create database correo;
-use correo;
-
 SET SQL_SAFE_UPDATES = 0;
 
 CREATE TABLE users (

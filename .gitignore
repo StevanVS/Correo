@@ -5,3 +5,5 @@ node_modules
 .prettierrc
 
 view copy.js
+
+test.rest

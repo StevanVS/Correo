@@ -1,20 +1,14 @@
 # Correo
 
-## Local Setup
+## Local Setup with Docker
 
 ```bash
-npm init
-npm install
-npm run dev
+docker compose up -d
 ```
-
-## MySQL Database
-
-Copiar SQL de **/database/correo.sql**
 
 ## Environment Variables
 
-Crear un archivo con nombre **.env** en el directorio principal 
+Crear un archivo con nombre **.env** en el directorio principal
 
 Copiar todo el contenido de **.env.example** dentro de **.env**
 
