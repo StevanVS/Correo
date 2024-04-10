@@ -1,6 +1,6 @@
 # Correo
 
-## Local Setup with Docker
+## Local Setup with Docker Compose
 
 ```bash
 docker compose up -d
