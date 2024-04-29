@@ -21,7 +21,7 @@ services:
       - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
       - MYSQL_DATABASE=$DB_NAME
     ports:
-      - "3306:3306"
+      - "8083:3306"
     volumes:
       - /opt/correo-data:/var/lib/mysql
       - ./database/correo.sql:/docker-entrypoint-initdb.d/correo.sql
